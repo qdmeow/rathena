@@ -1,0 +1,24 @@
+prontera,163,164,4	script	Ranking MvP	857,{
+
+	if (getgmlevel() > 20) {
+		if ( select( "Ranking", "Reset" ) -1 ) {
+			query_sql "DELETE FROM `global_reg_value` WHERE `str` = 'MVPRank'";
+			dispbottom "MVP Ranking has been reset.";
+			end;
+		}
+	}
+	query_sql "SELECT `global_reg_value`.`value`, `char`.`name` FROM `global_reg_value` left join `char` on `global_reg_value`.`char_id` = `char`.`char_id` "+
+				"WHERE `global_reg_value`.`str`= 'MVPRank' ORDER BY ABS(value) DESC LIMIT 10", .@pontos_mvp, .@char_name$;
+	dispbottom "Position.  Player:  MVPs Dead: ";
+	dispbottom " ";
+	if( !getarraysize( .@char_name$ ) )
+		dispbottom "*Empty List*";
+	else
+		for( set .@i,0; .@i < getarraysize( .@char_name$ ) ; set .@i, .@i +1 )
+			dispbottom "["+ ( .@i +1 ) +"] Nome: ["+ .@char_name$[.@i] +"] [MVPs: "+ .@pontos_mvp[.@i]+"]";
+	end;
+
+OnInit:
+	waitingroom "[ Ranking MVP ]",0;
+	end;
+}
