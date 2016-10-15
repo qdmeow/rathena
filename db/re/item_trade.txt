@@ -263,7 +263,7 @@
 2674,507,100	// Honor_Ring
 2676,507,100	// Hunter_Earring
 2681,507,100	// Republic_Ring
-2686,507,100	// Elven_Ears_C
+2686,475,100	// Elven_Ears_C
 2686,475,100	// Elven_Ears_C
 2687,507,100	// Steel_Flower_C
 2688,507,100	// Critical_Ring_C

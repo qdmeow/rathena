@@ -61,3 +61,6 @@
 //==================================================================
 //2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,63,0,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
 //7170,Tuxedo,Tuxedo,4,43000,,10,,0,,0,0xFFFFFFFE,63,1,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
+40000,andromeda_wings,Andro Wing,4,1000,,100,,10,,,0xFFFFFFFF,63,2,1,,,1,1483,{ bonus bStr,15; bonus bAgi,5; bonus bVit,15; bonus bInt,5; bonus bDex,15; bonus bLuk,5; },{},{}
+40001,happyfwing,Happy Wing,4,1000,,10,,10,,,0xFFFFFFFF,63,2,1,,,1,1484,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
+40002,ice_wings,Blue Wing,4,1000,,10,,10,,,0xFFFFFFFF,63,2,1,,,1,1485,{ bonus bStr,5; bonus bAgi,15; bonus bVit,5; bonus bInt,15; bonus bDex,5; bonus bLuk,15; },{},{}
