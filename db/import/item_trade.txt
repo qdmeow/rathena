@@ -20,6 +20,3 @@
 //	Balmung cannot be dropped, traded, or placed in Guild Storage (1+2+64).
 //	Only groups of group-level 50 and up can override this setting.
 
-40000,1,100	// andromeda_wings
-40001,1,100	// happyfwing
-40002,1,100	// ice_wings
