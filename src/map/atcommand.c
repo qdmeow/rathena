@@ -1865,7 +1865,7 @@ ACMD_FUNC(go)
 		char map[MAP_NAME_LENGTH];
 		int x, y;
 	} data[] = {
-		{ MAP_PRONTERA,    156, 191 }, //  0=Prontera
+		{ MAP_DEWATA,     200, 180 }, //  0=Prontera
 		{ MAP_MORROC,      156,  93 }, //  1=Morroc
 		{ MAP_GEFFEN,      119,  59 }, //  2=Geffen
 		{ MAP_PAYON,       162, 233 }, //  3=Payon
@@ -1905,7 +1905,7 @@ ACMD_FUNC(go)
 		{ MAP_BRASILIS,    182, 239 }, // 29=Brasilis
 		{ MAP_DICASTES,    198, 187 }, // 30=El Dicastes
 		{ MAP_MORA,         44, 151 }, // 31=Mora
-		{ MAP_DEWATA,      200, 180 }, // 32=Dewata
+		{ MAP_PRONTERA,    156, 191 }, // 32=Dewata
 		{ MAP_MALANGDO,    140, 114 }, // 33=Malangdo Island
 		{ MAP_MALAYA,      242, 211 }, // 34=Malaya Port
 		{ MAP_ECLAGE,      110,  39 }, // 35=Eclage
@@ -1946,7 +1946,7 @@ ACMD_FUNC(go)
 	for (i = 0; map_name[i]; i++)
 		map_name[i] = TOLOWER(map_name[i]);
 	// try to identify the map name
-	if (strncmp(map_name, "prontera", 3) == 0) {
+	if (strncmp(map_name, "dewata", 3) == 0) {
 		town = 0;
 	} else if (strncmp(map_name, "morocc", 4) == 0 ||
 	           strncmp(map_name, "morroc", 4) == 0) {
@@ -2020,7 +2020,7 @@ ACMD_FUNC(go)
 		town = 30;
 	} else if (strcmp(map_name,  "mora") == 0) {
 		town = 31;
-	} else if (strncmp(map_name, "dewata", 3) == 0) {
+	} else if (strncmp(map_name, "prontera", 3) == 0) {
 		town = 32;
 	} else if (strncmp(map_name, "malangdo", 5) == 0) {
 		town = 33;

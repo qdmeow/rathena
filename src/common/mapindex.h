@@ -9,7 +9,7 @@
 #define MAX_MAPINDEX 2000
 
 //Some definitions for the mayor city maps.
-#define MAP_PRONTERA "prontera"
+#define MAP_DEWATA "dewata"
 #define MAP_GEFFEN "geffen"
 #define MAP_MORROC "morocc"
 #define MAP_ALBERTA "alberta"
@@ -45,7 +45,7 @@
 #define MAP_BRASILIS "brasilis"
 #define MAP_DICASTES "dicastes01"
 #define MAP_MORA "mora"
-#define MAP_DEWATA "dewata"
+#define MAP_PRONTERA "prontera"
 #define MAP_MALANGDO "malangdo"
 #define MAP_MALAYA "malaya"
 #define MAP_ECLAGE "eclage"
