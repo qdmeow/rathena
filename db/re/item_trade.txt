@@ -382,6 +382,7 @@
 2981,467,100	// Warrior's_Ring
 2997,475,100	// RWC_Gold_Brooch
 2999,475,100	// RWC_Brooch
+4142,479,100	// Doppelganger_Card
 5106,467,100	// Cone_Hat_INA
 5132,475,100	// Angeling_Hat
 5147,507,100	// Baseball_Cap

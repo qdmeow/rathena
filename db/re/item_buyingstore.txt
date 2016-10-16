@@ -187,7 +187,6 @@
 4139	//Joker_Card
 4140	//Knight_Of_Abyss_Card
 4141	//Evil_Druid_Card
-4142	//Doppelganger_Card
 4143	//Orc_Hero_Card
 4144	//Osiris_Card
 4145	//Berzebub_Card
