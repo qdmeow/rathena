@@ -1,0 +1,16 @@
+dewata,199,184,5	script	Freebies	718,{
+	if( !#Freebies ){
+		set #Freebies,1;
+		mes "Welcome to Rojak RO...this is your gift...";
+		getitem 4142,2;
+		getitem 12103,5;
+		getitem 13607,5;
+	}else{
+		mes "You have claim the Reward already.";
+	}
+close;
+
+OnInit:
+	waitingroom "Freebies for Newcomer Here!",0;
+end;
+}
