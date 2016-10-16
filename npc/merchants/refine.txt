@@ -1005,6 +1005,10 @@ lhz_in02,281,24,5	script	Fruel	84,{
 	callfunc "orimain","Fruel";
 	end;
 }
+dewata,187,176,5	script	Refiner	84,{
+	callfunc "orimain","Refiner";
+	end;
+}
 
 // Ori/Elu Functions
 //============================================================
@@ -1144,6 +1148,11 @@ aru_gld,189,336,4	script	Repairman#aru_gld	86,{
 }
 
 sch_gld,340,80,7	script	Repairman#sch_gld	86,{
+	callfunc "repairmain","Repairman";
+	end;
+}
+
+dewata,185,178,5	script	Repairman#dew	86,{
 	callfunc "repairmain","Repairman";
 	end;
 }

@@ -18,7 +18,7 @@
 //= [Stolao]
 // Email: Taingram11@gmail.com
 //============================================================
-prontera,163,174,2	script	Ladder	837,{
+dewata,192,170,2	script	Ladder	837,{
 OnPvpLadder:
 	mes "[Ranking]";
 	.@i = select(((getarraysize(.MapName$))?"Enter PvP Map:":":")+
