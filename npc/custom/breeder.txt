@@ -133,4 +133,5 @@
 
 //===== Duplicates: ==========================================
 prontera, 148, 171, 5	duplicate(gbreeder)	Universal Rental NPC#1	726
+dewata, 183, 180, 5	duplicate(gbreeder)	Universal Rental NPC#2	726
 //============================================================
