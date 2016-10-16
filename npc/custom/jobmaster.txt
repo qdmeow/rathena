@@ -16,7 +16,7 @@
 //= 1.4 Rebellion added.
 //============================================================
 
-prontera,153,193,6	script	Job Master	123,{
+dewata,206,168,6	script	Job Master	123,{
 function Job_Menu;
 
 	mes "[Job Master]";
@@ -58,7 +58,7 @@ function Job_Menu;
 		while(1) {
 			mes "Select an option.";
 			next;
-			.@i = select(" ~ ^0055FFRebirth^000000:" + ((.ThirdClass) ? " ~ ^FF0000Third Class^000000" : "") + ": ~ ^777777Cancel^000000");
+			.@i = select(" ~ ^0055FFRebirth^000000:" + ": ~ ^777777Cancel^000000");
 			if (.@i == 3)
 				close;
 			mes "[Job Master]";
