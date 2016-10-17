@@ -2,9 +2,13 @@ dewata,199,184,5	script	Freebies	718,{
 	if( !#Freebies ){
 		set #Freebies,1;
 		mes "Welcome to Rojak RO...this is your gift...";
-		getitem 4142,2;
-		getitem 12103,5;
-		getitem 13607,5;
+		getitem 4142,2;			//dooppel card
+		getitem 12103,100;		//bloody branch
+		getitem 13607,2;		//bubble gum box x5
+		getitem2 2504,1,1,5,0,0,0,0,0;	
+		getitem2 2404,1,1,5,0,0,0,0,0;
+		getitem2 2320,1,1,5,0,0,0,0,0;
+		getitem2 2102,1,1,5,0,0,0,0,0;
 	}else{
 		mes "You have claim the Reward already.";
 	}
