@@ -5,10 +5,10 @@ dewata,199,184,5	script	Freebies	718,{
 		getitem 4142,2;			//dooppel card
 		getitem 12103,100;		//bloody branch
 		getitem 13607,2;		//bubble gum box x5
-		getitem2 2504,1,1,5,0,0,0,0,0;	
-		getitem2 2404,1,1,5,0,0,0,0,0;
-		getitem2 2320,1,1,5,0,0,0,0,0;
-		getitem2 2102,1,1,5,0,0,0,0,0;
+		getitem2 40003,1,1,5,0,0,0,0,0;	//rojak muffler
+		getitem2 40004,1,1,5,0,0,0,0,0; //rojak shoe
+		getitem2 40005,1,1,5,0,0,0,0,0; //rojak suit
+		getitem2 40006,1,1,5,0,0,0,0,0; //rojak shield
 	}else{
 		mes "You have claim the Reward already.";
 	}
