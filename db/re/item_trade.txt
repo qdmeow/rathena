@@ -1806,7 +1806,7 @@
 13604,475,100	// Str_Dish_Box30
 13605,475,100	// Str_Dish_Box50
 13606,475,100	// Bubble_Gum_Box1
-13607,475,100	// Bubble_Gum_Box5
+13607,475,99	// Bubble_Gum_Box5
 13608,475,100	// Megaphone_Box1
 13609,475,100	// Megaphone_Box5
 13610,475,100	// Enriched_Elunium_Box5
