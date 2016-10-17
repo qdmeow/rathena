@@ -1716,7 +1716,7 @@
 13514,475,100	// Spanner_Box
 13515,475,100	// Grape_Box
 13516,475,100	// Royal_Jelly_Box
-13517,475,100	// Yggdrasilberry_Box
+13517,475,99	// Yggdrasilberry_Box
 13518,475,100	// Weapon_Card_Scroll_Box
 13519,475,100	// Armor_Card_Scroll_Box
 13520,475,100	// Helmet_Card_Scroll_Box

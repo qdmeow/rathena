@@ -958,8 +958,8 @@
 604	//Branch_Of_Dead_Tree
 605	//Anodyne
 606	//Aloebera
-607	//Yggdrasilberry
-608	//Seed_Of_Yggdrasil
+607  // Yggdrasilberry
+608  // Seed_Of_Yggdrasil
 609	//Amulet
 610	//Leaf_Of_Yggdrasil
 611	//Spectacles

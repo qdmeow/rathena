@@ -111,8 +111,8 @@
 604,Branch_Of_Dead_Tree,Dead Branch,2,50,,50,,,,,0xFFFFFFFF,63,2,,,,,,{ monster "this",-1,-1,"--ja--",-1-MOBG_Branch_Of_Dead_Tree,1,""; },{},{}
 605,Anodyne,Anodyne,11,2000,,100,,,,,0xFFFFFFFF,63,2,,,,,,{ itemskill "SM_ENDURE",1; },{},{}
 606,Aloebera,Aloevera,11,1500,,100,,,,,0xFFFFFFFF,63,2,,,,,,{ itemskill "SM_SELFPROVOKE",1; },{},{}
-607,Yggdrasilberry,Yggdrasil Berry,0,5000,,300,,,,,0xFFFFFFFF,63,2,,,,,,{ percentheal 100,100; },{},{}
-608,Seed_Of_Yggdrasil,Yggdrasil Seed,0,5000,,300,,,,,0xFFFFFFFF,63,2,,,,,,{ percentheal 50,50; },{},{}
+607,Yggdrasilberry,Yggdrasil Berry,0,5000,,30,,,,,0xFFFFFFFF,63,2,,,,,,{ percentheal 100,100; },{},{}
+608,Seed_Of_Yggdrasil,Yggdrasil Seed,0,5000,1,30,,,,,0xFFFFFFFF,63,2,,,,,,{ percentheal 50,50; },{},{}
 609,Amulet,Amulet,2,100,,100,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
 610,Leaf_Of_Yggdrasil,Yggdrasil Leaf,11,4000,,100,,,,,0xFFFFFFFF,63,2,,,,,,{ itemskill "ALL_RESURRECTION",1; },{},{}
 611,Spectacles,Magnifier,11,40,,50,,,,,0xFFFFFFFF,63,2,,,,,,{ itemskill "MC_IDENTIFY",1; },{},{}
@@ -6663,7 +6663,7 @@
 12531,White_Potion_Box,White Potion Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 504,100; },{},{}
 12532,Royal_Jelly_Box2,Royal Jelly Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 526,100; },{},{}
 12533,Blue_Herb_Box2,Blue Herb Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 510,100; },{},{}
-12534,Yggdrasil_Seed_Box,Yggdrasil Seed Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+12534,Yggdrasil_Seed_Box,Yggdrasil Seed Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 608,100; },{},{}
 12535,Iggdrasilberry_Box,Iggdrasilberry Box,2,0,,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
 12536,NY_Rice_Cake_Soup,NY Rice Cake Soup,2,20,,100,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
 12537,Solo_Gift_Basket,Solo Gift Basket,2,1000,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ /*getgroupitem(IG_Solo_Gift_Basket);*/ getitem 597,5; getitem 596,3; getitem 561,3; getitem 573,4; getitem 559,10; getitem 560,10; },{},{}
@@ -7478,7 +7478,7 @@
 13514,Spanner_Box,Wrench Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ rentitem 1534,604800; },{},{}
 13515,Grape_Box,Grape Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 514,10; },{},{}
 13516,Royal_Jelly_Box,Royal Jelly Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 526,5; },{},{}
-13517,Yggdrasilberry_Box,Yggdrasil Berry Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 607,3; },{},{}
+13517,Yggdrasilberry_Box,Yggdrasil Berry Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 607,100; },{},{}
 13518,Weapon_Card_Scroll_Box,Weapon Card Pet Egg Scroll Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 13558,1; },{},{}
 13519,Armor_Card_Scroll_Box,Armor Card Pet Egg Scroll Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 13559,1; },{},{}
 13520,Helmet_Card_Scroll_Box,Helmet Card Pet Egg Scroll Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 13560,1; },{},{}
