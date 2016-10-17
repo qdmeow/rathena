@@ -23,3 +23,7 @@
 40000,1,100	// andromeda_wings
 40001,1,100	// hppyfwing
 40002,1,100	// ice_wings
+40003,479,100	// Muffler_
+40004,479,100	// Shoes_
+40005,479,100	// Formal_Suit
+40006,479,100	// Guard_
