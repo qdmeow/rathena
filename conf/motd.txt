@@ -1,2 +1,4 @@
 // Internal default is limited to 128 lines.  If you need more, you will need to modify the MOTD_LINE_SIZE definition in pc.c
 Welcome to RojakRO!
+Always Run RojakROpatcher first before start the game!
+Have Fun :)
