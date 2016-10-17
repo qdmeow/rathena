@@ -64,3 +64,7 @@
 40000,andromeda_wings,Andro Wing,4,1000,,100,,5,,1,0xFFFFFFFF,63,2,1,,,0,1558,{ bonus bStr,15; bonus bAgi,5; bonus bVit,15; bonus bInt,5; bonus bDex,15; bonus bLuk,5; },{},{}
 40001,hppyfwing,Wing of Happiness,4,1000,,100,,5,,1,0xFFFFFFFF,63,2,1,,,1,1559,{ bonus bStr,5; bonus bAgi,15; bonus bVit,5; bonus bInt,15; bonus bDex,5; bonus bLuk,15; },{},{}
 40002,ice_wings,Blue Angel Wing,4,1000,,100,,5,,1,0xFFFFFFFF,63,2,1,,,0,1560,{ bonus bAllStats,10; },{},{}
+40003,Muffler_,Rojak Muffler,4,5000,,40,,8,,1,0xFFFFFFFF,63,2,4,,0,1,0,{},{},{}
+40004,Shoes_,Rojak Shoe,4,3500,,40,,10,,1,0xFFFFFFFF,63,2,64,,0,1,0,{},{},{}
+40005,Formal_Suit,Rojak Suit,4,20,,30,,40,,1,0xFFFFFFFF,63,2,16,,0,1,0,{},{},{}
+40006,Guard_,Rojak Shield,4,500,,30,,20,,1,0xFFFFFFFF,63,2,32,,0,1,1,{},{},{}
