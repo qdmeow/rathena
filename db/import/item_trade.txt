@@ -23,8 +23,8 @@
 40000,1,100	// andromeda_wings
 40001,1,100	// hppyfwing
 40002,1,100	// ice_wings
-40003,479,50	// Muffler_
-40004,479,50	// Shoes_
-40005,479,50	// Formal_Suit
-40006,479,50	// Guard_
+40003,479,99	// Muffler_
+40004,479,99	// Shoes_
+40005,479,99	// Formal_Suit
+40006,479,99	// Guard_
 40007,479,99	// Sunglasses_
