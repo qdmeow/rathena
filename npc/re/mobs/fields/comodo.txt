@@ -37,7 +37,7 @@ cmd_fild02,0,0,0,0	monster	Mobster	1313,1,5000,0,0
 //==================================================
 // cmd_fild03 - Zenhai Marsh
 //==================================================
-cmd_fild03,0,0,0,0	monster	Alligator	1271,150,5000,0,0
+cmd_fild03,0,0,0,0	monster	Alligator	1271,450,5000,0,0
 cmd_fild03,0,0,0,0	monster	Flora	1118,50,5000,0,0
 cmd_fild03,0,0,0,0	monster	Mutant Dragonoid	1262,4,0,0,1
 cmd_fild03,0,0,0,0	monster	Toad	1089,1,3600000,1800000,1
