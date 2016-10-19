@@ -4344,7 +4344,6 @@ struct Damage battle_attack_sc_bonus(struct Damage wd, struct block_list *src, s
 	struct map_session_data *sd = BL_CAST(BL_PC, src);
 	struct status_change *sc = status_get_sc(src);
 	struct status_data *sstatus = status_get_status_data(src);
-	struct status_data *tstatus = status_get_status_data(target);
 	int inf3 = skill_get_inf3(skill_id);
 
 	// Kagerou/Oboro Earth Charm effect +15% wATK
@@ -4369,6 +4368,8 @@ struct Damage battle_attack_sc_bonus(struct Damage wd, struct block_list *src, s
 		if (sc->data[SC_MADNESSCANCEL])
 			ATK_ADD(wd.equipAtk, wd.equipAtk2, 100);
 		if (sc->data[SC_GATLINGFEVER]) {
+			struct status_data *tstatus = status_get_status_data(target);
+			
 			if (tstatus->size == SZ_SMALL) {
 				ATK_ADD(wd.equipAtk, wd.equipAtk2, 10 * sc->data[SC_GATLINGFEVER]->val1);
 			} else if (tstatus->size == SZ_MEDIUM) {
@@ -8458,9 +8459,9 @@ void rAthena_report(char* date, char *time_c) {
 	WBUFW(buf,2) = 6 + 12 + 9 + 24 + 4 + 4 + 4 + 4 + ( bd_size * ( BFLAG_LENGTH + 4 ) );
 	WBUFW(buf,4) = 0x9c;
 
-	safestrncpy((char*)WBUFP(buf,6), date, 12);
-	safestrncpy((char*)WBUFP(buf,6 + 12), time_c, 9);
-	safestrncpy((char*)WBUFP(buf,6 + 12 + 9), timestring, 24);
+	safestrncpy(WBUFCP(buf,6), date, 12);
+	safestrncpy(WBUFCP(buf,6 + 12), time_c, 9);
+	safestrncpy(WBUFCP(buf,6 + 12 + 9), timestring, 24);
 
 	WBUFL(buf,6 + 12 + 9 + 24)         = rev;
 	WBUFL(buf,6 + 12 + 9 + 24 + 4)     = map_getusers();
@@ -8469,7 +8470,7 @@ void rAthena_report(char* date, char *time_c) {
 	WBUFL(buf,6 + 12 + 9 + 24 + 4 + 4 + 4) = bd_size;
 
 	for( i = 0; i < bd_size; i++ ) {
-		safestrncpy((char*)WBUFP(buf,6 + 12 + 9+ 24  + 4 + 4 + 4 + 4 + ( i * ( BFLAG_LENGTH + 4 ) ) ), battle_data[i].str, 35);
+		safestrncpy(WBUFCP(buf,6 + 12 + 9+ 24  + 4 + 4 + 4 + 4 + ( i * ( BFLAG_LENGTH + 4 ) ) ), battle_data[i].str, 35);
 		WBUFL(buf,6 + 12 + 9 + 24 + 4 + 4 + 4 + 4 + BFLAG_LENGTH + ( i * ( BFLAG_LENGTH + 4 )  )  ) = *battle_data[i].val;
 	}
 
