@@ -28,3 +28,7 @@
 40005,479,99	// Formal_Suit
 40006,479,99	// Guard_
 40007,479,99	// Sunglasses_
+40008,281,99	// Gold_Coin
+40009,281,100	// Silver_Coin
+40010,281,100	// Mithril_Coin
+40011,479,100	// Geffen_Coin_Magic_Tournament

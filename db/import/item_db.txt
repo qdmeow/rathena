@@ -69,3 +69,7 @@
 40005,Formal_Suit,Rojak Suit,4,20,,30,,40,,1,0xFFFFFFFF,63,2,16,,0,1,0,{},{},{}
 40006,Guard_,Rojak Shield,4,500,,30,,20,,1,0xFFFFFFFF,63,2,32,,0,1,1,{},{},{}
 40007,Sunglasses_,Rojak Glasses,4,5000,1,10,,0,,1,0xFFFFFFFF,63,2,512,,0,0,144,{ bonus2 bResEff,Eff_Blind,500; },{},{}
+40008,Gold_Coin,Rojak Gold Coin,3,1000000,,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+40009,Silver_Coin,Rojak Silver Coin,3,10000,,0,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+40010,Mithril_Coin,Rojak Mithril Coin,3,1000000000,,40,,,,,0xFFFFFFFF,63,2,,,,,,{},{},{}
+40011,Geffen_Coin_Magic_Tournament,Rojak 7 days Coin,3,100,,0,,,,,,,,,,,,,{},{},{}
