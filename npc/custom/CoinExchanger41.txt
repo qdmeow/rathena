@@ -64,8 +64,8 @@ OnInit:
 // server max zeny
 .max_zeny = 1000000000;
 // coin list + name + value
-setarray .coin_name$,"Silver","Gold","Mithril";
-setarray .coin_id,675,671,674;
+setarray .coin_name$,"Rojak Silver","Rojak Gold","Rojak Mithril";
+setarray .coin_id,40009,40008,40010;
 setarray .value,10000,1000000,100000000;
 
 .coin_size = getarraysize( .coin_name$ );
