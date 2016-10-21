@@ -3,7 +3,7 @@ dewata,199,184,5	script	Freebies	718,{
 		set #Freebies,1;
 		mes "Welcome to Rojak RO...this is your gift...";
 		getitem 4142,2;			//dooppel card
-		getitem 12103,100;		//bloody branch
+		getitem 12103,10;		//bloody branch
 		getitem 13607,2;		//bubble gum box x5
 		getitem 12534,1;		//yggseedbox
 		getitem 40007,1;			//rojak glasses
