@@ -18,14 +18,14 @@
 //= [Stolao]
 // Email: Taingram11@gmail.com
 //============================================================
-dewata,192,170,2	script	Ladder	837,{
+dewata,193,168,2	script	Ladder	837,{
 OnPvpLadder:
 	mes "[Ranking]";
 	.@i = select(((getarraysize(.MapName$))?"Enter PvP Map:":":")+
 			((.Options&1)?"Pvp Ladder:":":")+
 			((.Options&2)?"GvG Ladder:":":")+
 			((.Options&8)?"Top Guild:":":")+
-//			((.Options&16)?"PvP Shops:":":")+
+			((.Options&16)?"PvP Shops:":":")+
 			((.Options&1 || .Options&2 || .Options&8)?"Personal Stats:":":")+
 			((getgmlevel() >= 99)?"Reset PVP Stats":""));
 	switch(.@i){ 
@@ -357,9 +357,6 @@ OnHour00:
 		}
 	}
 OnInit:
-
-	waitingroom "PvP Warper and Ladder",0;
-	
 	// Bitwise Variable
 	// 1: Record PvP
 	// 2: Record GvG (agit on and gvg map)
@@ -372,7 +369,7 @@ OnInit:
 	// 256: Order by KDA instead of most kills
 	// 512: Allow GMs to Join PvP
 	// 1024: Request a GM on Abuse
-	.Options = 1|2|4|8|16|32|128|256|1024;
+	.Options = 1|2|4|8|32|128|256|1024;
 
 	// Monthly Reward Types
 	// 1: Pvp
@@ -414,7 +411,7 @@ OnInit:
 	.PointType$ = "#PvpPoints";
 
 	// Players Shown in PvP Ladder
-	.MaxRank = 10;
+	.MaxRank = 15;
 
 	// Map Names
 	setarray .MapName$,"guild_vs1","guild_vs2","guild_vs3","guild_vs4","guild_vs5";
@@ -428,7 +425,7 @@ OnInit:
 	//	8 = No Ygg
 	//	16 = No 3rds
 	//	32 = No Trans
-	setarray .MapMode,0,1,2,4,56;
+	setarray .MapMode,0,1,4,56;
 
 	// Mapflags for all PvP maps
 	// regardless of Mode
@@ -459,6 +456,7 @@ OnInit:
 		}
 	}
 //==========================================================
+	waitingroom "PvP Warper and Ladder",0;
 	bindatcmd("PvpLadder" ,"Ladder::OnPvpLadder",0,99);
 end;
 }
