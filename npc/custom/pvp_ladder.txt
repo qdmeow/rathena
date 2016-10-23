@@ -414,7 +414,7 @@ OnInit:
 	.MaxRank = 15;
 
 	// Map Names
-	setarray .MapName$,"guild_vs1","guild_vs2","guild_vs3","guild_vs4","guild_vs5";
+	setarray .MapName$,"arena_4","guild_vs2","guild_vs3","guild_vs4","artz_pvp";
 
 	// Pvp Mode
 	// Modes are Addative
