@@ -1,4 +1,4 @@
-dewata,199,184,5	script	Freebies	718,{
+dewata,199,182,5	script	Freebies	718,{
 	if( !#Freebies ){
 		set #Freebies,1;
 		mes "Welcome to Rojak RO...this is your gift...";
