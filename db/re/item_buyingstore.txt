@@ -1403,7 +1403,7 @@
 966	//Flesh_Of_Clam
 967	//Turtle_Shell
 968	//Voucher_Of_Orcish_Hero
-969	//Gold
+969  // Gold
 970	//Alchol
 971	//Detrimindexta
 972	//Karvodailnirol
