@@ -1050,3 +1050,6 @@ lasa_dun_q
 //RojakRO Custom Map = credit to the creator itself, not my works
 arena_4
 artz_pvp
+
+//duplicated map
+dali03
