@@ -133,7 +133,7 @@ pay_dun03,52,262,10,4	monster	White Plant	1082,2,180000,90000,1
 //==================================================
 // pay_dun04 - Payon Cave
 //==================================================
-pay_dun04,0,0,0,0	monster	Dokebi	1110,40,5000,0,0
+pay_dun04,0,0,0,0	monster	Dokebi	1110,80,5000,0,0
 pay_dun04,0,0,0,0	monster	Nine Tail	1180,30,5000,0,0
 pay_dun04,0,0,0,0	monster	Horong	1129,30,5000,0,0
 pay_dun04,0,0,0,0	monster	Archer Skeleton	1016,15,5000,0,0
