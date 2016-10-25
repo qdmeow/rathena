@@ -8,3 +8,14 @@
 //  Items are in same order as data\buyingstoreitemlist.txt, which
 //  must be edited as well for the client to accept added items.
 
+40012  // Dagger_of_Judgement
+40013  // Bow_of_Judgement
+40014  // Fist_of_Judgement
+40015  // Shield_of_Judgement
+40016  // Katar_of_Judgement
+40017  // Two_Handed_Sword_of_Judgement
+40018  // Sword_of_Judgement
+40019  // Spear_of_Judgement
+40020  // Rod_of_Judgement
+40021  // One_Handed_Axe_of_Judgement
+40022  // Two_Handed_Axe_of_Judgement
