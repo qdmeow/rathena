@@ -550,6 +550,10 @@ lhz_in02,282,20,7	script	Fulerr	869,{
 	callfunc "refinemain","Fulerr",0;
 	end;
 }
+dewata,187,176,5	script	Rojak Refiner	869,{
+	callfunc "refinemain","Rojak Refiner",0;
+	end;
+}
 
 //============================================================
 //= Main Refiner Function
@@ -1003,10 +1007,6 @@ ein_in01,18,82,6	script	Matestein	84,{
 }
 lhz_in02,281,24,5	script	Fruel	84,{
 	callfunc "orimain","Fruel";
-	end;
-}
-dewata,187,176,5	script	Refiner	84,{
-	callfunc "orimain","Refiner";
 	end;
 }
 
