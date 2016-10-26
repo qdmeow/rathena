@@ -79,14 +79,18 @@ quiz_02,324,73,5	shop	Shadow Chaser Shop	777,6120:1500,6121:1500.6122:1500,6123:
 
 //The Warper to Mall
 dewata,213,180,2	script	Mall Warper	910,{
-shop:	warp	"quiz_02.gat"	,337,74;
+	shop:	warp	"quiz_02.gat"	,337,74;
+	end;
+
 OnInit:
 	waitingroom	"Shopping Mall",0;
 	end;
 }
 //The Exit
 quiz_02,337,75,5	script	Exit	910,{
-warp	"dewata"	,199,178;
+	warp	"dewata"	,199,178;
+	end;
+
 OnInit:
 	waitingroom	"Exit to maintown",0;
 	end;
