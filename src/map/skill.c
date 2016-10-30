@@ -10920,10 +10920,10 @@ static int8 skill_castend_id_check(struct block_list *src, struct block_list *ta
 		case MER_LEXDIVINA:
 			{
 				//If it's not an enemy, and not silenced, you can't use the skill on them. [Skotlex]
-				if (battle_check_target(src,target, BCT_ENEMY) <= 0 && (!tsc || !tsc->data[SC_SILENCE])) {
-					clif_skill_nodamage (src, target, skill_id, skill_lv, 0);
-					return USESKILL_FAIL_MAX;
-				}
+				if (battle_check_target(src,target, BCT_ENEMY) <= 0 && (!tsc || !tsc->data[SC_SILENCE]))
+					return USESKILL_FAIL_LEVEL;
+				else
+					return -1; //Works on silenced allies
 			}
 			break;
 		case RA_WUGSTRIKE:
@@ -10971,12 +10971,10 @@ static int8 skill_castend_id_check(struct block_list *src, struct block_list *ta
 		case WZ_ESTIMATION:
 		case SL_SKE:
 		case SL_SKA:
+		case RK_PHANTOMTHRUST:
 			if (target->type == BL_MOB && ((TBL_MOB*)target)->mob_id == MOBID_EMPERIUM)
 				return USESKILL_FAIL_MAX;
 			break;
-		case RK_PHANTOMTHRUST:
-			if (!map_flag_vs(src->m))
-				return USESKILL_FAIL_MAX;
 	}
 
 	if (inf && battle_check_target(src, target, inf) <= 0) {
