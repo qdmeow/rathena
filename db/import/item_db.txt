@@ -61,10 +61,32 @@
 //==================================================================
 //2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,63,0,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
 //7170,Tuxedo,Tuxedo,4,43000,,10,,0,,0,0xFFFFFFFE,63,1,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
-40000,Supreme_Bloody_Knight_Card,Supreme Bloody Knight Card,6,20,,10,,,,,,,,769,,,,,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
+40000,Supreme_Bloody_Knight_Card,Supreme Bloody Knight Card,6,350000000,,10,,,,,,,,769,,,,,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
 40001,Monkey_Fist_Card,Monkey Fist Card,6,20,,10,,,,,,,,2,,,,,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
 40002,Exile_Card,Exile Card,6,20,,10,,,,,,,,136,,,,,{ bonus bDex,35; },{},{}
 40003,Envy_Card,Envy Card,6,20,,10,,,,,,,,136,,,,,{ bonus bAgi,35; },{},{}
 40004,Lust_Card,Lust Card,6,20,,10,,,,,,,,136,,,,,{ bonus bLuk,35; },{},{}
 40005,Greed_Card,Greed Card,6,20,,10,,,,,,,,136,,,,,{ bonus bVit,35; },{},{}
 40006,Faith_Card,Faith Card,6,20,,10,,,,,,,,136,,,,,{ bonus bInt,35; },{},{}
+
+40007,omega_wings,Omega Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,0,1542,{ bonus bStr,15; bonus bAgi,5; },{},{}
+40008,alpha_wings,Alpha Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,1,1543,{ bonus bStr,5; bonus bAgi,15; },{},{}
+40009,archangel_wings,Arch Angel Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,1,1544,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
+40010,Megingjard,Megingjard,4,30000000,,800,,2,,0,0xFFFFFFFF,7,2,136,,94,0,0,{ bonus bStr,35; },{},{}
+40011,Lord_Knife,Lord Knife,5,1,,0,100,,1,4,0xFFFFFFFF,7,2,2,4,1,1,1,{},{},{}
+40012,Dagger_of_Uber,Dagger of Uber,5,50000000,,10,100,,1,4,0x028F5EEF,63,2,2,4,160,1,1,{},{},{}
+40013,Bow_of_Uber,Bow of Uber,5,50000000,,10,200,,5,4,0x000A0808,63,2,34,4,160,1,11,{},{},{}
+40014,Fist_of_Uber,Fist of Uber,5,50000000,,10,100,,1,4,0x00008100,63,2,2,4,160,1,12,{},{},{}
+40015,Shield_of_Uber,Shield of Uber,4,50000000,,2000,,60,,1,0xFFFFFFFF,63,2,32,,1,1,1,{},{},{}
+40016,Katar_of_Uber,Katar of Uber,5,50000000,,10,200,,1,4,0x00001000,63,2,34,4,160,1,16,{},{},{}
+40017,Two_Handed_Sword_of_Uber,Two-Handed Sword of Uber,5,50000000,,1500,200,,1,4,0x00004082,63,2,34,4,160,1,3,{},{},{}
+40018,Sword_of_Uber,Sword of Uber,5,50000000,,10,100,,1,4,0x000654E3,63,2,2,4,5,1,2,{},{},{}
+40019,Spear_of_Uber,Spear of Uber,5,50000000,,1500,100,,3,4,0x00004082,63,2,2,4,160,1,4,{},{},{}
+40020,Rod_of_Uber,Rod of Uber,5,50000000,,10,100,,1,4,0x00818315,63,2,2,4,160,1,10,{ bonus bMatkRate,100; },{},{}
+40021,One_Handed_Axe_of_Uber,One-Handed Axe of Uber,5,10,,1500,100,,1,4,0x00040420,63,2,2,4,1,1,6,{},{},{}
+40022,Two_Handed_Axe_of_Uber,Two Handed Axe of Uber,5,50000000,,1500,200,,1,4,0x000444A2,63,2,34,4,160,1,7,{},{},{}
+40023,Violin_of_Uber,Violin of Uber,5,50000000,,10,100,,1,4,0x00080000,63,1,2,4,160,1,13,{},{},{}
+40024,Wire_of_Uber,Wire of Uber,5,50000000,,10,100,,2,4,0x00080000,63,0,2,4,160,1,14,{},{},{}
+40025,Revolver_of_Uber,Revolver of Uber,5,50000000,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{},{},{}
+40026,Huuma_Shuriken_of_Uber,Huuma Shuriken of Uber,5,50000000,,10,200,,1,4,0x22000000,63,2,34,4,160,1,22,{},{},{}
+40027,Book_of_Uber,Book of Uber,5,50000000,,10,100,,1,4,0x00410100,63,2,2,4,160,1,15,{},{},{}
