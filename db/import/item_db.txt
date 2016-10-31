@@ -61,3 +61,10 @@
 //==================================================================
 //2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,63,0,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
 //7170,Tuxedo,Tuxedo,4,43000,,10,,0,,0,0xFFFFFFFE,63,1,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
+40000,Supreme_Bloody_Knight_Card,Supreme Bloody Knight Card,6,20,,10,,,,,,,,769,,,,,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
+40001,Monkey_Fist_Card,Monkey Fist Card,6,20,,10,,,,,,,,2,,,,,{ bonus bStr,10; bonus bAgi,10; bonus bVit,10; bonus bInt,10; bonus bDex,10; bonus bLuk,10; },{},{}
+40002,Exile_Card,Exile Card,6,20,,10,,,,,,,,136,,,,,{ bonus bDex,35; },{},{}
+40003,Envy_Card,Envy Card,6,20,,10,,,,,,,,136,,,,,{ bonus bAgi,35; },{},{}
+40004,Lust_Card,Lust Card,6,20,,10,,,,,,,,136,,,,,{ bonus bLuk,35; },{},{}
+40005,Greed_Card,Greed Card,6,20,,10,,,,,,,,136,,,,,{ bonus bVit,35; },{},{}
+40006,Faith_Card,Faith Card,6,20,,10,,,,,,,,136,,,,,{ bonus bInt,35; },{},{}
