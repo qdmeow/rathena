@@ -23,3 +23,4 @@
 40007,1,100	// omega_wings
 40008,1,100	// alpha_wings
 40009,1,100	// archangel_wings
+40011,1,100	// Lord_Knife
