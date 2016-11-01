@@ -35,8 +35,8 @@ alberta,245,66,4	duplicate(PR_Officer_moscovia)	Moscovia P.R. Officer#1	960
 
 // quests/quests_alberta.txt
 //============================================================
-alberta,247,122,4	duplicate(Sailor_alberta)	Sailor#tur	709
-alberta,248,89,4	duplicate(Turtle_Scholar_alberta)	Turtle Island Scholar	121
+//alberta,247,122,4	duplicate(Sailor_alberta)	Sailor#tur	709
+//alberta,248,89,4	duplicate(Turtle_Scholar_alberta)	Turtle Island Scholar	121
 
 // quests/skills/merchant_skills.txt
 //============================================================
