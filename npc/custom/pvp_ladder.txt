@@ -12,6 +12,9 @@
 //= [Stolao]
 //===== Additional Comments: =================================
 //= 3.00 Overhaul
+//= 3.01 Fixed missing "No" for "No Ygg"
+//= 3.02 Added Show Map Name Option
+//= 3.03 Added Max Players Option
 //===== Todo: ================================================
 //= Condence repeat queries
 //===== Contact Ifo: =========================================
@@ -255,6 +258,9 @@ OnPvpLadder:
 			} else	if(.MapMode[.@m]&32){
 				mes "No Trans Classes Allowed.";
 				close;
+			} else if(getmapusers(.MapName$[.@m]) >= .MaxPlayers){
+				mes "Room is Full.";
+				close;
 			} else {
 				announce "[ PvP Warper ] "+strcharinfo(0)+" has entered in "+((.MapMode[.@m]&1)?"GvG":"PvP")+" Room",0,((.MapMode[.@m]&1)?0x00CC99:0xEE0000);
 				warp .MapName$[.@m],0,0;
@@ -369,7 +375,7 @@ OnInit:
 	// 256: Order by KDA instead of most kills
 	// 512: Allow GMs to Join PvP
 	// 1024: Request a GM on Abuse
-	.Options = 1|2|4|8|32|128|256|1024;
+	.Options = 1|2|4|8|32|128|256;
 
 	// Monthly Reward Types
 	// 1: Pvp
@@ -414,7 +420,7 @@ OnInit:
 	.MaxRank = 15;
 
 	// Map Names
-	setarray .MapName$,"arena_4","guild_vs2","guild_vs3","guild_vs4","artz_pvp";
+	setarray .MapName$,"arena_4";
 
 	// Pvp Mode
 	// Modes are Addative
@@ -425,7 +431,11 @@ OnInit:
 	//	8 = No Ygg
 	//	16 = No 3rds
 	//	32 = No Trans
-	setarray .MapMode,0,1,4,56;
+	//	64 = Show Map Name
+	setarray .MapMode,64;
+
+	// Max Players Per Map
+	setarray .MaxPlayers,50;
 
 	// Mapflags for all PvP maps
 	// regardless of Mode
@@ -438,7 +448,15 @@ OnInit:
 
 //===== Dont Touch - Menu & Mapflag Generation =============
 	for(.@i = 0; .@i < getarraysize(.MapName$); .@i++){
-		.MapList$[.@i] = "["+ ((.MapMode[.@i]&2)?"^EE3333Nightmare ":"") + ((.MapMode[.@i]&4)?"Party ":"") + ((.MapMode[.@i]&1)?"GvG":"PvP") +"^000000] "+ ((.MapMode[.@i] > 8)?"No ":"") + ((.MapMode[.@i]&8)?"Ygg ":"") + ((.MapMode[.@i]&16)?"3rds ":"") + ((.MapMode[.@i]&32)?"Trans ":"");
+		.MapList$[.@i] = "["+ ((.MapMode[.@i]&2)?"^EE3333Nightmare ":"") + 
+			((.MapMode[.@i]&4)?"Party ":"") + 
+			((.MapMode[.@i]&1)?"GvG":"PvP") +"^000000] "+ 
+			((.MapMode[.@i] >= 8)?"No ":"") + 
+			((.MapMode[.@i]&8)?"Ygg ":"") + 
+			((.MapMode[.@i]&16)?"3rds ":"") + 
+			((.MapMode[.@i]&32)?"Trans ":"") + 
+			((.MapMode[.@i]&64)?.MapName$[.@i]:"") + 
+			((.MaxPlayers[.@i])?"["+getmapusers(.MapName$[.@i])+"/"+.MaxPlayers[.@i]+"]":"");
 		for ( .@f = 0; .@f < .@size; .@f++ )
 			setmapflag .MapName$[.@i], .mapflag[.@f];
 		if(.MapMode[.@i]&4) setmapflag .MapName$[.@i], mf_partylock;
@@ -456,8 +474,10 @@ OnInit:
 		}
 	}
 //==========================================================
-	waitingroom "PvP Warper and Ladder",0;
 	bindatcmd("PvpLadder" ,"Ladder::OnPvpLadder",0,99);
+end;
+
+	waitingroom "PvP ROOM and Ladder",0;
 end;
 }
 -	pointshop	PvP_C_Shop	-1,#PvpPoints,501:1,502:2
