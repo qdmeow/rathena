@@ -363,6 +363,9 @@ OnHour00:
 		}
 	}
 OnInit:
+
+	waitingroom "PvP ROOM and Ladder",0;
+
 	// Bitwise Variable
 	// 1: Record PvP
 	// 2: Record GvG (agit on and gvg map)
@@ -475,9 +478,6 @@ OnInit:
 	}
 //==========================================================
 	bindatcmd("PvpLadder" ,"Ladder::OnPvpLadder",0,99);
-end;
-
-	waitingroom "PvP ROOM and Ladder",0;
 end;
 }
 -	pointshop	PvP_C_Shop	-1,#PvpPoints,501:1,502:2
