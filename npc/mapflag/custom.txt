@@ -17,4 +17,4 @@ arena_4	mapflag	nocommand	4
 //enable weather
 dewata	mapflag	leaves
 dali03	mapflag	clouds
-arena_4 mapflag	sakura
+arena_4	mapflag	sakura
