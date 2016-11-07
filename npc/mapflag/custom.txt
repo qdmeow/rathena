@@ -13,3 +13,8 @@ arena_4	mapflag	nopenalty
 arena_4	mapflag	novending
 arena_4	mapflag	nobranch
 arena_4	mapflag	nocommand	4
+
+//enable weather
+dewata	mapflag	leaves
+dali03	mapflag	clouds
+arena_4 mapflag	sakura
