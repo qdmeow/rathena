@@ -69,7 +69,7 @@ OnTimer60000:
 
 	if(@minute == 60){
 		set @minute,0;
-		getitem 13607;
+		getitem 13607,1;
 		dispbottom "You received 1 box of gum for continously playing in 1 hour";
 		set @consecutive_hour, @consecutive_hour + 1;
 	}
@@ -81,7 +81,7 @@ OnTimer60000:
 		getitem 40008,5;
 		getitem 22750,5;
 		getitem 22753,5;
-		getitem 40028;
+		getitem 40028,1;
 		dispbottom "You received 5 box of Yggdrasil Berry Box";
 		dispbottom "You received 5 pieces of Rojak Gold Coin";
 		dispbottom "You received 5 scrolls of Transformation Scroll(Horn Scaraba)";
