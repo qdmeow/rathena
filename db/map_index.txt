@@ -1050,6 +1050,11 @@ lasa_dun_q
 //RojakRO Custom Map = credit to the creator itself, not my works
 arena_4
 artz_pvp
+garden
+ghosthunter
+fishingboat
+storehouse
+desert
 
 //duplicated map
 dali03
