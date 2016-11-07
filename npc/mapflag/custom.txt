@@ -1,0 +1,15 @@
+//mapflag for custom map
+
+//arena_4 pvp room 1
+arena_4	mapflag	pvp
+arena_4	mapflag	partylock
+arena_4	mapflag	guildlock
+arena_4	mapflag	nogo
+arena_4	mapflag	noteleport
+arena_4	mapflag	noreturn
+arena_4	mapflag	nosave
+arena_4	mapflag	nomemo
+arena_4	mapflag	nopenalty
+arena_4	mapflag	novending
+arena_4	mapflag	nobranch
+arena_4	mapflag	nocommand	4
