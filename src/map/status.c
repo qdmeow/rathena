@@ -2012,7 +2012,7 @@ bool status_check_skilluse(struct block_list *src, struct block_list *target, ui
 			break;
 		case SC_MANHOLE:
 			// Skill is disabled against special racial grouped monsters(GvG and Battleground)
-			if (status_get_race2(target) == RC2_GVG || status_get_race2(target) == RC2_BATTLEFIELD)
+			if (target && ( status_get_race2(target) == RC2_GVG || status_get_race2(target) == RC2_BATTLEFIELD ) )
 				return false;
 		default:
 			break;
@@ -2033,6 +2033,9 @@ bool status_check_skilluse(struct block_list *src, struct block_list *target, ui
 				clif_skill_fail((TBL_PC*)src,skill_id,USESKILL_FAIL_LEVEL,0);
 			return false;
 		}
+
+		if (flag == 1 && sc->data[SC_CURSEDCIRCLE_TARGET] && skill_id == MO_ABSORBSPIRITS) // Absorb Spirits fails to go through
+			return false;
 
 		if (skill_id != RK_REFRESH && sc->opt1 && !(sc->opt1 == OPT1_CRYSTALIZE && src->type == BL_MOB) && sc->opt1 != OPT1_BURNING && skill_id != SR_GENTLETOUCH_CURE) { // Stuned/Frozen/etc
 			if (flag != 1) // Can't cast, casted stuff can't damage.
@@ -8691,15 +8694,13 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 	case SC_MOONLITSERENADE:
 	case SC_RUSHWINDMILL:
 	case SC_ECHOSONG:
-	case SC_HARMONIZE:
-	case SC_FRIGG_SONG: // Group A doesn't overlap
+	case SC_HARMONIZE: // Group A doesn't overlap
 		if (type != SC_SWINGDANCE) status_change_end(bl, SC_SWINGDANCE, INVALID_TIMER);
 		if (type != SC_SYMPHONYOFLOVER) status_change_end(bl, SC_SYMPHONYOFLOVER, INVALID_TIMER);
 		if (type != SC_MOONLITSERENADE) status_change_end(bl, SC_MOONLITSERENADE, INVALID_TIMER);
 		if (type != SC_RUSHWINDMILL) status_change_end(bl, SC_RUSHWINDMILL, INVALID_TIMER);
 		if (type != SC_ECHOSONG) status_change_end(bl, SC_ECHOSONG, INVALID_TIMER);
 		if (type != SC_HARMONIZE) status_change_end(bl, SC_HARMONIZE, INVALID_TIMER);
-		if (type != SC_FRIGG_SONG) status_change_end(bl, SC_FRIGG_SONG, INVALID_TIMER);
 		break;
 	case SC_VOICEOFSIREN:
 	case SC_DEEPSLEEP:
