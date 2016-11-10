@@ -1,0 +1,20 @@
+//
+//===== rAthena Script ========================================
+//= Seed Farming Warper
+//===== Credits to ===========================================
+//= Hurtsky
+//===== Description: =========================================
+//= just a warper
+//===== Additional Comments: =================================
+//= please include my name if u edited this script
+//============================================================
+
+//The Warper to Seed Farming Area
+dewata,202,190,2	script	Seed Warper	58,{
+	shop:	warp	"cmd_fild03"	,185,171;
+	end;
+
+OnInit:
+	waitingroom	"YGGSeed Farming Area",0;
+	end;
+}
