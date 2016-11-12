@@ -10,7 +10,7 @@
 -	shop	Emistry_Shop	-1,512:100
 
 
-prontera,155,181,5	script	Silvervine Fruit Dealer	757,{
+dali03,50,107,5	script	Silvervine Fruit Dealer	757,{
 function ShopSettings;
 function ValidateCost;
 function CurrencyInfo;
