@@ -1,0 +1,14 @@
+// found in rathena forum
+
+-	script	Repairman	-1,{
+    if ( getbrokenid(1) == 0 ){
+        mes "[Refiner]";
+        mes "You don't have anything to be repaired!";
+        close;
+    }
+    atcommand "@repairall";
+    dispbottom "Repaired all broken equipment.";
+    end;
+}
+
+prontera,148,170,1	duplicate(Repairman)	Repairman#prt	46
