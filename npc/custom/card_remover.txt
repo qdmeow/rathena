@@ -14,7 +14,7 @@
 //= 1.2a Added 'disable_items' command. [Euphy]
 //============================================================
 
-prontera,142,180,4	script	Card Remover	78,{
+prontera,140,182,4	script	Card Remover	78,{
 
 	set .zenycost,0;    // base cost of the card remover services (in Zeny)
 	set .percardcost,0;  // cost per card of the card remover services (in Zeny)
