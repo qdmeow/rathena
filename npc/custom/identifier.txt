@@ -1,4 +1,4 @@
-prontera,156,187,5	script	Identifier	831,{
+prontera,156,187,1	script	Identifier	831,{
 	set .@Price, 100;	// Zeny per identify
 	getinventorylist;
 	for(set .@i,0; .@i<@inventorylist_count; set .@i,.@i+1) {

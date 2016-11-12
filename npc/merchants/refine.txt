@@ -550,7 +550,7 @@ lhz_in02,282,20,7	script	Fulerr	869,{
 	callfunc "refinemain","Fulerr",0;
 	end;
 }
-prontera,148,170,0	script	Rojak Refiner	85,{
+prontera,164,166,4	script	Rojak Refiner	85,{
 	callfunc "refinemain","Fredrik",0;
 	end;
 }

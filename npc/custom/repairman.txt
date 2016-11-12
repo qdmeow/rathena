@@ -11,4 +11,4 @@
     end;
 }
 
-prontera,148,170,1	duplicate(Rojak RepairMan)	Rojak RepairMan#prt	46
+prontera,164,157,7	duplicate(Rojak RepairMan)	Rojak RepairMan#prt	46
