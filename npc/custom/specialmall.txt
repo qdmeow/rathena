@@ -9,7 +9,7 @@ dewata,189,194,5	script	Special Area	10029,{
 	end;
 
 OnInit:
-	waitingroom	"Special Mall",0;
+	waitingroom	"Special Area",0;
 	end;
 }
 
