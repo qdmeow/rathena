@@ -9,14 +9,15 @@ prontera,159,187,5	script	Freebies	718,{
 		set #Freebies,1;
 		mes "Welcome to Rojak RO...this is your gift...";
 		getitem 4142,2;			//dooppel card
-		getitem 40000,5;		//
-		getitem 40001,5;		//
+		getitem 40000,10;		//
+		getitem 40001,20;		//
 		getitem 40002,5;		//
 		getitem 40003,5;			//
 		getitem 40004,5;		//
 		getitem 40005,5;		//
 		getitem 40006,5;			//
 		getitem 40010,1;
+		getitem2 5013,1,1,10,0,0,0,0,0;
 		getitem2 40007,1,1,10,0,0,0,0,0;	//
 		getitem2 40008,1,1,10,0,0,0,0,0;	//
 		getitem2 40009,1,1,10,0,0,0,0,0;	//
