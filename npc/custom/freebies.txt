@@ -1,7 +1,7 @@
 prontera,159,187,5	script	Freebies	718,{
 
-	if( Weight >= 94000 ){
-		mes "Please up your level first, make sure you have atleast 9400 free weight before claiming freebies. It is alot freebies!";
+	if( Weight >= 9400 ){
+		mes "Please up your level first, make sure you have atleast 940 free weight before claiming freebies. It is alot freebies!";
 		close;
 	}
 
