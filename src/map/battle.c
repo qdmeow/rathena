@@ -1544,6 +1544,8 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 				pc_overheat(sd,element == ELE_FIRE ? 1 : -1);
 		}
 	}
+	if (skill_id == MO_EXTREMITYFIST )
+		damage = min(damage,250000);
 
 	return damage;
 }
