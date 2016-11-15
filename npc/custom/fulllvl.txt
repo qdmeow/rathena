@@ -1,0 +1,13 @@
+// full level
+
+prontera,151,187,5	script	Full Level	864,{
+
+	npctalk "FREE LEVEL FOR YOU";
+	set BaseLevel,300;
+	set JobLevel,300;
+	end;
+	
+OnInit:
+	waitingroom "1 click full level",0;
+end;
+}
