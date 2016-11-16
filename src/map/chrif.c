@@ -299,7 +299,7 @@ int chrif_save(struct map_session_data *sd, int flag) {
 
 	chrif_bsdata_save(sd, (flag && (flag != 3)));
 
-	if (sd->state.storage_flag == 1)
+	if (&sd->storage && sd->storage.dirty)
 		intif_storage_save(sd,&sd->storage);
 	intif_storage_save(sd,&sd->inventory);
 	intif_storage_save(sd,&sd->cart);
@@ -1935,19 +1935,6 @@ int chrif_removefriend(uint32 char_id, int friend_id) {
 	WFIFOL(char_fd,6) = friend_id;
 	WFIFOSET(char_fd,10);
 
-	return 0;
-}
-
-int chrif_send_report(char* buf, int len) {
-
-#ifndef STATS_OPT_OUT
-	chrif_check(-1);
-	WFIFOHEAD(char_fd,len + 2);
-	WFIFOW(char_fd,0) = 0x3008;
-	memcpy(WFIFOP(char_fd,2), buf, len);
-	WFIFOSET(char_fd,len + 2);
-	flush_fifo(char_fd); /* ensure it's sent now. */
-#endif
 	return 0;
 }
 
