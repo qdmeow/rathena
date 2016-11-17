@@ -30,6 +30,7 @@
 
 #include "map.h"
 #include "path.h"
+#include "clan.h"
 #include "clif.h"
 #include "chrif.h"
 #include "itemdb.h"
@@ -7808,6 +7809,7 @@ BUILDIN_FUNC(readparam)
  *	2 : guild_id
  *	3 : account_id
  *	4 : bg_id
+ *	5 : clan_id
  *------------------------------------------*/
 BUILDIN_FUNC(getcharid)
 {
@@ -7831,6 +7833,7 @@ BUILDIN_FUNC(getcharid)
 	case 2: script_pushint(st,sd->status.guild_id); break;
 	case 3: script_pushint(st,sd->status.account_id); break;
 	case 4: script_pushint(st,sd->bg_id); break;
+	case 5: script_pushint(st,sd->status.clan_id); break;
 	default:
 		ShowError("buildin_getcharid: invalid parameter (%d).\n", num);
 		script_pushint(st,0);
@@ -20375,9 +20378,9 @@ BUILDIN_FUNC(party_create)
 {
 	char party_name[NAME_LENGTH];
 	int item1 = 0, item2 = 0;
-	TBL_PC *sd;
+	TBL_PC *sd = NULL;
 
-	if( (!script_hasdata(st,3) && !(sd = script_rid2sd(st))) || (script_hasdata(st,3) && !(sd = map_charid2sd(script_getnum(st,3)))) ) {
+	if (!script_charid2sd(3, sd)) {
 		script_pushint(st,-1);
 		return SCRIPT_CMD_FAILURE;
 	}
@@ -21172,6 +21175,40 @@ BUILDIN_FUNC(npcshopupdate) {
 	}
 
 	script_pushint(st,1);
+	return SCRIPT_CMD_SUCCESS;
+}
+
+// Clan System
+BUILDIN_FUNC(clan_join){
+	struct map_session_data *sd;
+	int clan_id = script_getnum(st,2);
+
+	if( !script_charid2sd( 3, sd ) ){
+		script_pushint(st, false);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if( clan_member_join( sd, clan_id, sd->status.account_id, sd->status.char_id ) )
+		script_pushint(st, true);
+	else
+		script_pushint(st, false);
+
+	return SCRIPT_CMD_SUCCESS;
+}
+
+BUILDIN_FUNC(clan_leave){
+	struct map_session_data *sd;
+
+	if( !script_charid2sd( 2, sd ) ){
+		script_pushint(st, false);
+		return SCRIPT_CMD_FAILURE;
+	}
+
+	if( clan_member_leave( sd, sd->status.clan_id, sd->status.account_id, sd->status.char_id ) )
+		script_pushint(st, true);
+	else
+		script_pushint(st, false);
+
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -22552,6 +22589,10 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(party_changeleader,"ii"),
 	BUILDIN_DEF(party_changeoption,"iii"),
 	BUILDIN_DEF(party_destroy,"i"),
+
+	// Clan system
+	BUILDIN_DEF(clan_join,"i?"),
+	BUILDIN_DEF(clan_leave,"?"),
 
 	BUILDIN_DEF(is_clientver,"ii?"),
 	BUILDIN_DEF2(montransform, "transform", "vi?????"), // Monster Transform [malufett/Hercules]
