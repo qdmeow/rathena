@@ -1,0 +1,17 @@
+// https://www.midgard-community.com/script-repository/utility/reload-npc-using-one-command-reloadnpc-r67
+// by SnakeOfTheFestival
+
+-	script	reload_npc	-1,{
+OnInit:
+	bindatcmd "reloadnpc",strnpcinfo(3)+"::OnReload",99,99;
+	end;
+OnReload:
+	if( .@atcmd_numparameters != 1 ) {
+	dispbottom "Reload NPC failed!"; end; }
+	.npcloc$ = .@atcmd_parameters$[0];
+	atcommand "@unloadnpcfile "+.npcloc$+"";
+	sleep2 500;
+	atcommand "@loadnpc "+.npcloc$+"";
+	dispbottom "Done Reloading NPC : "+.npcloc$+"";
+	end;
+}
