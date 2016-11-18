@@ -20,6 +20,7 @@
 #include "channel.h"
 #include "chat.h"
 #include "chrif.h"
+#include "clan.h"
 #include "date.h" // is_day_of_*()
 #include "duel.h"
 #include "intif.h"
@@ -1412,6 +1413,8 @@ void pc_reg_received(struct map_session_data *sd)
 		party_member_joined(sd);
 	if (sd->status.guild_id)
 		guild_member_joined(sd);
+	if( sd->status.clan_id )
+		clan_member_joined(sd);
 
 	// pet
 	if (sd->status.pet_id > 0)
@@ -8542,17 +8545,16 @@ bool pc_jobchange(struct map_session_data *sd,int job, char upper)
 	pc_equiplookall(sd);
 	pc_show_questinfo(sd);
 
+	chrif_save(sd, 0);
 	//if you were previously famous, not anymore.
-	if (fame_flag) {
-		chrif_save(sd,0);
+	if (fame_flag)
 		chrif_buildfamelist();
-	} else if (sd->status.fame > 0) {
+	else if (sd->status.fame > 0) {
 		//It may be that now they are famous?
  		switch (sd->class_&MAPID_UPPERMASK) {
 			case MAPID_BLACKSMITH:
 			case MAPID_ALCHEMIST:
 			case MAPID_TAEKWON:
-				chrif_save(sd,0);
 				chrif_buildfamelist();
 			break;
 		}
