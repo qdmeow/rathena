@@ -20,7 +20,9 @@
 //	Balmung cannot be dropped, traded, or placed in Guild Storage (1+2+64).
 //	Only groups of group-level 50 and up can override this setting.
 
-40007,1,100	// omega_wings
-40008,1,100	// alpha_wings
-40009,1,100	// archangel_wings
-40011,1,100	// Lord_Knife
+40007,1,99	// omega_wings
+40008,1,99	// alpha_wings
+40009,1,99	// archangel_wings
+40011,1,99	// Lord_Knife
+40028,475,99	// Rojak_Skateboard
+40029,475,99	// Red_Cat_Ears_Beret
