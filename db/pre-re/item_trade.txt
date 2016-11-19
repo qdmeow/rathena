@@ -25,6 +25,7 @@
 2635,507,100	// Wedding Ring
 
 // "2005 The Sign" related items
+4142,479,100	// Doppelganger_Card
 7177,507,100	// Crumb of Sobbing Starlight
 7178,507,100	// Sobbing Starlight
 7304,507,100	// Witch's Spell Scroll
