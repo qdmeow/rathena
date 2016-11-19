@@ -1179,8 +1179,8 @@
 2266,Iron_Cane,Iron Cain,4,20,,300,,1,,0,0x00004082,7,2,1,,50,0,53,{},{},{}
 2267,Cigar,Cigarette,4,20,,100,,0,,0,0xFFFFFFFE,7,2,1,,0,0,54,{ bonus2 bSubRace,RC_Insect,3; },{},{}
 2268,Smoking_Pipe,Pipe,4,20,,100,,0,,0,0xFFFFFFFE,7,2,1,,0,0,55,{ bonus2 bSubRace,RC_Insect,3; },{},{}
-2269,Centimental_Flower,Romantic Flower,4,20,,100,,0,,0,0xFFFFFFFE,7,2,1,,0,0,56,{ bonus2 bSubRace,RC_Plant,3; },{},{}
-2270,Centimental_Leaf,Romantic Leaf,4,20,,100,,0,,0,0xFFFFFFFE,7,2,1,,0,0,57,{ bonus2 bSubRace,RC_Plant,3; },{},{}
+2269,Centimental_Flower,Romantic Flower,4,20,,100,,0,,1,0xFFFFFFFE,7,2,1,,0,0,56,{ bonus2 bSubRace,RC_Plant,3; },{},{}
+2270,Centimental_Leaf,Romantic Leaf,4,20,,100,,0,,1,0xFFFFFFFE,7,2,1,,0,0,57,{ bonus2 bSubRace,RC_Plant,3; },{},{}
 2271,Jack_A_Dandy,Jack be Dandy,4,45000,,100,,1,,0,0xFFFFFFFE,7,2,256,,0,0,58,{},{},{}
 2272,Stop_Post,Stop Post,4,20,,400,,1,,0,0xFFFFFFFF,7,2,256,,0,1,59,{},{},{}
 2273,Doctor_Cap,Doctor Band,4,20,,100,,3,,0,0xFFFFFFFE,7,2,256,,0,1,60,{ bonus bInt,1; },{},{}
