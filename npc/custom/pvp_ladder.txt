@@ -380,7 +380,7 @@ OnInit:
 	// Monthly Reward Types
 	// 1: Pvp
 	// 2: Gvg
-	.RewardType = 0;
+	.RewardType = 1|2;
 
 	// PVP Rewards
 	// Item,Qnt,Zeny
@@ -435,7 +435,7 @@ OnInit:
 	setarray .MapMode,0,1,2,4,56;
 
 	// Max Players Per Map
-	setarray .MaxPlayers,0,50,10,36,50;
+	setarray .MaxPlayers,10,50,10,36,50;
 
 	// Mapflags for all PvP maps
 	// regardless of Mode
@@ -477,5 +477,4 @@ OnInit:
 	bindatcmd("PvpLadder" ,"Ladder::OnPvpLadder",0,99);
 end;
 }
-
 -	pointshop	PvP_C_Shop	-1,#PvpPoints,501:1,502:2
