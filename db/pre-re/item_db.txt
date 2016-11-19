@@ -1196,7 +1196,7 @@
 2283,Ear_Mufs,Ear Muffs,4,20,,200,,3,,0,0xFFFFFFFF,7,2,256,,0,1,70,{ bonus2 bResEff,Eff_Curse,1000; },{},{}
 2284,Antler,Antlers,4,20,,500,,4,,0,0xFFFFFFFE,7,2,256,,0,1,71,{},{},{}
 2285,Apple_Of_Archer,Apple of Archer,4,20,,200,,0,,0,0xFFFFFFFE,7,2,256,,30,1,72,{ bonus bDex,3; },{},{}
-2286,Elven_Ears,Elven Ears,4,20,,100,,0,,0,0xFFFFFFFE,7,2,512,,70,0,177,{},{},{}
+2286,Elven_Ears,Elven Ears,4,20,,100,,0,,1,0xFFFFFFFE,7,2,512,,70,0,177,{},{},{}
 2287,Pirate_Bandana,Pirate Bandana,4,20,,100,,3,,0,0xFFFFFFFE,7,2,256,,0,1,74,{ bonus bStr,1; },{},{}
 2288,Mr_Scream,Mr. Scream,4,20,,100,,1,,0,0xFFFFFFFE,7,2,513,,0,0,75,{},{},{}
 2289,Poo_Poo_Hat,Poo Poo Hat,4,20,,700,,0,,0,0xFFFFFFFF,7,2,256,,0,0,76,{ bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_Player,10; },{},{}
@@ -2244,13 +2244,13 @@
 5065,Fish_On_Head,Blue Fish,4,20,,500,,2,,0,0xFFFFFFFF,7,2,256,,50,1,149,{ bonus2 bAddRace,RC_Fish,10; },{},{}
 5066,Horn_Of_Succubus,Succubus Horn,4,20,,800,,4,,0,0xFFFFFFFE,7,2,256,,70,1,150,{ bonus bInt,1; bonus bMdef,10; },{},{}
 5067,Sombrero,Sombrero,4,20,,350,,4,,0,0xFFFFFFFE,7,2,256,,0,1,151,{ bonus bAgi,1; },{},{}
-5068,Ear_Of_Devil's_Wing,Evil Wing Ears,4,20,,100,,1,,0,0xFFFFFFFF,7,2,512,,70,0,152,{ bonus bStr,1; },{},{}
+5068,Ear_Of_Devil's_Wing,Evil Wing Ears,4,20,,100,,1,,1,0xFFFFFFFF,7,2,512,,70,0,152,{ bonus bStr,1; },{},{}
 5069,Mask_Of_Fox,Kitsune Mask,4,20,,300,,1,,0,0xFFFFFFFE,7,2,256,,0,1,153,{ bonus bAgi,1; bonus bLuk,1; },{},{}
 5070,Headband_Of_Power,Hot-blooded Headband,4,20,,100,,1,,0,0xFFFFFFFE,7,2,256,,0,1,154,{ bonus bStr,2; },{},{}
 5071,Indian_Headband,Indian Headband,4,20,,200,,1,,0,0xFFFFFFFE,7,2,256,,0,1,155,{ bonus bDex,1; },{},{}
 5072,Inccubus_Horn,Incubus Horn,4,20,,800,,4,,0,0xFFFFFFFE,7,2,256,,70,1,156,{ bonus bAgi,1; bonus bMdef,10; },{},{}
 5073,Cap_Of_Concentration,Model Training Hat,4,20,,700,,2,,0,0xFFFFFFFE,7,2,256,,0,1,157,{ bonus bDex,2; },{},{}
-5074,Ear_Of_Angel's_Wing,Angel Wing Ears,4,20,,100,,1,,0,0xFFFFFFFF,7,2,512,,70,0,158,{ bonus bStr,1; },{},{}
+5074,Ear_Of_Angel's_Wing,Angel Wing Ears,4,20,,100,,1,,1,0xFFFFFFFF,7,2,512,,70,0,158,{ bonus bStr,1; },{},{}
 5075,Cowboy_Hat,Cowboy Hat,4,20,,500,,4,,0,0xFFFFFFFF,7,2,256,,0,1,159,{},{},{}
 5076,Fur_Hat,Beanie,4,20,,350,,2,,0,0xFFFFFFFF,7,2,256,,0,1,160,{ bonus bLuk,1; },{},{}
 5077,Tulip_Hairpin,Tulip Hairpin,4,20,,100,,1,,0,0xFFFFFFFF,7,2,256,,0,1,161,{},{},{}
@@ -2278,7 +2278,7 @@
 5099,Cat_Hat,Neko Mimi,4,20,,300,,1,,0,0xFFFFFFFF,7,2,256,,0,1,182,{ bonus bLuk,2; bonus bMdef,10; bonus2 bSubRace,RC_Brute,5; },{},{}
 5100,Sales_Signboard,Sales Banner,4,20,,800,,0,,0,0xFFFFFFFF,7,2,256,,75,1,183,{ bonus bStr,1; bonus bAgi,1; bonus bLuk,1; },{},{}
 5101,Takius_Blindfold,Takius's Blindfold,4,20,,100,,0,,0,0xFFFFFFFF,7,2,512,,0,0,184,{},{},{}
-5102,Round_Eyes,Blank Eyes,4,20,,100,,0,,0,0xFFFFFFFF,7,2,512,,0,0,185,{},{},{}
+5102,Round_Eyes,Blank Eyes,4,20,,100,,0,,1,0xFFFFFFFF,7,2,512,,0,0,185,{},{},{}
 5103,Sunflower_Hairpin,Sunflower Hairpin,4,20,,600,,1,,0,0xFFFFFFFE,7,2,256,,30,0,186,{ bonus bAgi,2; bonus bCritical,5; },{},{}
 5104,Dark_Blindfold,Dark Blinder,4,20,,100,,0,,0,0xFFFFFFFE,7,2,512,,0,0,187,{ bonus2 bResEff,Eff_Blind,10000; bonus2 bResEff,Eff_Stun,200; },{},{}
 5105,Hat_Of_Cake_,2nd Anniversary Hat,4,20,,1000,,1,,0,0xFFFFFFFF,7,2,256,,24,1,109,{ bonus bDex,1; bonus bMaxSP,80; bonus3 bAddMonsterDropItem,7864,7,50; },{},{}
