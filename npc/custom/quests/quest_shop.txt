@@ -42,8 +42,8 @@ OnInit:
 	set .Announce,1;	// Announce quest completion? (1: yes / 0: no)
 	set .ShowSlot,1;	// Show item slots? (2: all equipment / 1: if slots > 0 / 0: never)
 	set .ShowID,1;  	// Show item IDs? (1: yes / 0: no)
-	set .ShowZeny,1;	// Show Zeny cost, if any? (1: yes / 0: no)
-	set .MaxStack,1;	// Max number of quest items purchased at one time.
+	set .ShowZeny,0;	// Show Zeny cost, if any? (1: yes / 0: no)
+	set .MaxStack,100;	// Max number of quest items purchased at one time.
 
 // -----------------------------------------------------------
 //  Points variable -- optional quest requirement.
@@ -66,7 +66,7 @@ OnInit:
 //	    <required item ID>,<required item amount>{,...});
 // -----------------------------------------------------------
 
-	Add(1,5013,1,5000000,0,714,3,743,1,2268,1,5035,1,2613,1,968,1,923,1,7020,1,7036,1,741,1,752,1,742,1,743,1,754,1,753,1,751,1,750,1);
+	Add(1,5013,1,5000000,0,714,3,2268,1,2613,1,968,1,923,1,7020,1,7036,1,752,1,742,1,743,1,754,1,753,1,751,1,750,1);
 //	Add(1,5032,1,0,0,1059,250,2221,1,2227,1,7063,600);
 //	Add(1,5027,1,0,0,2252,1,1036,400,7001,50,4052,1);
 //	Add(1,5045,1,0,0,2252,1,1054,450,943,1200);
