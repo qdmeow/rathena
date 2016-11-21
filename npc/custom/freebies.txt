@@ -17,6 +17,6 @@ dewata,199,182,5	script	Freebies	718,{
 close;
 
 OnInit:
-	waitingroom "Freebies for Newcomer Here!",0;
+	waitingroom "Freebies for Newbies here!",0;
 end;
 }
