@@ -44,7 +44,7 @@ function	ShopSettings	{
 	switch( getarg(0) ){
 		Case 1:
 			// Currency [ Rojak Gold ]
-			set @Currency$,"40008";
+			set @Currency$,"50008";
 			// Item ID Lists
 			setarray @ItemLists[0],6417;
 			// Item Price

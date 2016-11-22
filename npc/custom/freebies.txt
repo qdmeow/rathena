@@ -6,11 +6,11 @@ dewata,199,182,5	script	Freebies	718,{
 		getitem 12103,10;		//bloody branch
 		getitem 13607,2;		//bubble gum box x5
 		getitem 12534,1;		//yggseedbox
-		getitem 40007,1;			//rojak glasses
-		getitem2 40003,1,1,5,0,0,0,0,0;	//rojak muffler
-		getitem2 40004,1,1,5,0,0,0,0,0; //rojak shoe
-		getitem2 40005,1,1,5,0,0,0,0,0; //rojak suit
-		getitem2 40006,1,1,5,0,0,0,0,0; //rojak shield
+		getitem 50007,1;			//rojak glasses
+		getitem2 50003,1,1,5,0,0,0,0,0;	//rojak muffler
+		getitem2 50004,1,1,5,0,0,0,0,0; //rojak shoe
+		getitem2 50005,1,1,5,0,0,0,0,0; //rojak suit
+		getitem2 50006,1,1,5,0,0,0,0,0; //rojak shield
 	}else{
 		mes "You have claim the Reward already.";
 	}

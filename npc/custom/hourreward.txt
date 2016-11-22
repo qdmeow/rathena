@@ -88,10 +88,10 @@ OnTimer60000:
 		message strcharinfo(0),"[Hourly Reward]:You received 1 piece of Medal of Hunter";
 		message strcharinfo(0),"[Hourly Reward]:Thank you for playing 12 consecutive hours, enjoy your reward!";
 		getitem 13517,5;
-		getitem 40008,5;
+		getitem 50008,5;
 		getitem 22750,5;
 		getitem 22753,5;
-		getitem 40028,1;
+		getitem 50028,1;
 		set @consecutive_hour,0;
 	}
 
