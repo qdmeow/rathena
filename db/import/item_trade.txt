@@ -36,3 +36,4 @@
 50029,409,100	// Vulture_Wings
 50030,409,100	// blisswings
 50031,409,100	// golden_wings_easter
+50032,1,100	// Caster_Card

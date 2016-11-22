@@ -93,3 +93,4 @@
 50029,Vulture_Wings,Vulture Wing,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10003,{ bonus bVit,10; bonus bSpeedRate,35; bonus bMaxHPrate,5; },{},{}
 50030,blisswings,Bliss Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10004,{ bonus bDex,10; bonus bSpeedRate,35; bonus bHitRate,5; },{},{}
 50031,golden_wings_easter,Golden Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10005,{ bonus bLuk,10; bonus bSpeedRate,35; bonus bCriticalRate,5; },{},{}
+50032,Caster_Card,Caster Card,6,20,,10,,,,,,,,64,,,,,{ bonus bVariableCastrate,-50; bonus bNoCastCancel,0; },{},{}
