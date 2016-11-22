@@ -17,6 +17,24 @@
 // Price:
 //    Item cost, in cash points (#CASHPOINTS).
 
+//New 0
 0,40000,150
 0,40001,150
 0,40002,150
+
+//Hot 1
+
+//Limited 2
+
+//Rental 3
+
+//Gear 4
+4,40000,150
+4,40001,150
+4,40002,150
+
+//Buff 5
+
+//Heal 6
+
+//Other 7
