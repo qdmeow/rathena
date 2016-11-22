@@ -83,7 +83,7 @@
 50019,Spear_of_Judgement,Spear of Judgment,5,100,,1500,150,,3,4,0x00004082,63,2,2,4,160,1,4,{ bonus bAllStats,5; },{},{}
 50020,Rod_of_Judgement,Rod of Judgement,5,100,,10,50:150,,1,4,0x00818315,63,2,2,4,160,1,10,{ bonus bAllStats,5; },{},{}
 50021,One_Handed_Axe_of_Judgement,One-Handed Axe of Judgement,5,100,,1500,150,,1,4,0x00040420,63,2,2,4,1,1,6,{ bonus bAllStats,5; },{},{}
-50022,Two_Handed_Axe_of_Judgement,Two Handed Axe of Judgement,5,100,,1500,200,,1,4,0x000444A2,63,2,34,4,160,1,7,{ bonus bAllStats,5; },{},{}
+50022,Two_Handed_Axe_of_Judgement,Two-Handed Axe of Judgement,5,100,,1500,200,,1,4,0x000444A2,63,2,34,4,160,1,7,{ bonus bAllStats,5; },{},{}
 50023,Violin_of_Judgement,Violin of Judgement,5,100,,10,150,,1,4,0x00080000,63,1,2,4,160,1,13,{ bonus bAllStats,5; },{},{}
 50024,Wire_of_Judgement,Wire of Judgement,5,100,,10,150,,2,4,0x00080000,63,0,2,4,160,1,14,{ bonus bAllStats,5; },{},{}
 50025,Revolver_of_Judgement,Revolver of Judgement,5,100,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{ bonus bAllStats,5; },{},{}
