@@ -20,18 +20,6 @@
 //	Balmung cannot be dropped, traded, or placed in Guild Storage (1+2+64).
 //	Only groups of group-level 50 and up can override this setting.
 
-40000,1,100	// andromeda_wings
-40001,1,100	// happyfwing
-40002,1,100	// ice_wings
-40003,479,99	// Muffler_
-40004,479,99	// Shoes_
-40005,479,99	// Formal_Suit
-40006,479,99	// Guard_
-40007,479,99	// Sunglasses_
-40008,281,99	// Gold_Coin
-40009,281,100	// Silver_Coin
-40010,281,100	// Mithril_Coin
-40011,479,100	// Geffen_Coin_Magic_Tournament
 50000,1,100	// andromeda_wings
 50001,1,100	// happyfwing
 50002,1,100	// ice_wings
