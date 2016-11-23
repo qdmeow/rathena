@@ -24,19 +24,19 @@
 + * Number of seconds after an 'input' field is displayed before invoking an idle timeout.
 + * Default: 180
  **/
-#define NPC_SECURE_TIMEOUT_INPUT 180
+#define NPC_SECURE_TIMEOUT_INPUT 300
 
 /**
 + * Number of seconds after a 'menu' is displayed before invoking an idle timeout.
 + * Default: 60
  **/
-#define NPC_SECURE_TIMEOUT_MENU 60
+#define NPC_SECURE_TIMEOUT_MENU 120
 
 /**
 + * Number of seconds after a 'next' button is displayed before invoking an idle timeout.
 + * Default: 60
  **/
-#define NPC_SECURE_TIMEOUT_NEXT 60
+#define NPC_SECURE_TIMEOUT_NEXT 120
 
 /**
  * (Secure) Optional NPC Dialog Timer
@@ -44,6 +44,6 @@
  * Minimum Interval Between timeout checks in seconds
  * Default: 1s
  **/
-#define SECURE_NPCTIMEOUT_INTERVAL 1
+#define SECURE_NPCTIMEOUT_INTERVAL 10
 
 #endif // _CONFIG_SECURE_H_
