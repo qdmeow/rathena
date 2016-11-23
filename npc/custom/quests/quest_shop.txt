@@ -25,7 +25,7 @@
 // Shop NPCs -- supplying no argument displays entire menu.
 //	callfunc "qshop"{,<shop ID>{,<shop ID>{,...}}};
 //============================================================
-dali03,59,99,6	script	Lord Kaho Quest#1	998,{ callfunc "qshop"; }
+dali03,59,99,6	script	Headgear Quest#1	998,{ callfunc "qshop"; }
 
 // Script Core
 //============================================================
@@ -56,7 +56,7 @@ OnInit:
 //	setarray .Shops$[1],"<Shop 1>","<Shop 2>"{,...};
 // -----------------------------------------------------------
 
-	setarray .Shops$[1],"Lord Kaho Creation Quest";
+	setarray .Shops$[1],"Upper Headgear";
 
 // -----------------------------------------------------------
 //  Quest items -- do NOT use a reward item more than once!
@@ -65,8 +65,15 @@ OnInit:
 //	    <required item ID>,<required item amount>{,...});
 // -----------------------------------------------------------
 
-	Add(1,5013,1,0,0,6380,100,714,100,6423,5,50011,2); 
+	Add(1,5013,1,0,0,6380,50,714,50,6423,5,50011,2);
 	//5013lordkaho,6380mora coins 100,741emperium 100,6423seagod anger,5,Rojak7dayscoins,2//
+	Add(1,50033,1,0,0,6380,50,714,20,50011,2);
+	//50033infernalcap,6380mora coins 50,741emperium 20,Rojak7dayscoins,2//
+	Add(1,50034,1,0,0,6380,50,714,20,50011,2);
+	Add(1,50036,1,0,0,6380,50,714,20,50011,2);
+	Add(1,50037,1,0,0,6380,50,714,20,50011,2); 
+	Add(1,50038,1,0,0,6380,50,714,20,50011,2);
+	Add(1,50039,1,0,0,6380,50,714,20,50011,2); 
 //	Add(1,5032,1,0,0,1059,250,2221,1,2227,1,7063,600);
 //	Add(1,5027,1,0,0,2252,1,1036,400,7001,50,4052,1);
 //	Add(1,5045,1,0,0,2252,1,1054,450,943,1200);
