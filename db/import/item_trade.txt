@@ -37,3 +37,10 @@
 50030,409,100	// blisswings
 50031,409,100	// golden_wings_easter
 50032,1,100	// Caster_Card
+50033,1,100	// Infernal_Cap
+50034,1,100	// Ivory_Valkyrie_Helm
+50035,1,100	// Nightvision_Goggles
+50036,1,100	// Red_Cat_Ears_Beret
+50037,1,100	// Black_Cat_Ears_Beret
+50038,1,100	// Blue_Cat_Ears_Beret
+50039,1,100	// Rainbowring_Hat
