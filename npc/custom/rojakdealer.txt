@@ -23,7 +23,7 @@ mes "^00FF00____________________________^000000";
 mes "Consist same item, but different currency. Please choose:";
 next;
 // Menu Selection
-select("Rojak Mithril","Rojak 7 days Coins","Medal of Hunter");
+select("Rojak Mithril","Medal of Hunter");
 
 ClearData();
 ShopSettings( @menu );
