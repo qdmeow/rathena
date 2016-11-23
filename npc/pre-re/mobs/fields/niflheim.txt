@@ -25,6 +25,7 @@ nif_fild01,0,0,0,0	monster	Dullahan	1504,13,0,0,0
 nif_fild01,0,0,0,0	monster	Gibbet	1503,10,0,0,0
 nif_fild01,0,0,0,0	monster	Heirozoist	1510,10,0,0,0
 nif_fild01,0,0,0,0	monster	Quve	1508,30,0,0,0
+nif_fild01,0,0,0,0	monster	Bloody Knight	1268,5,3600000,0,0
 
 //==================================================
 // nif_fild02 - Valley of Gyoll
