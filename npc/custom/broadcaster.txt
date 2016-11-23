@@ -1,39 +1,43 @@
 // http://rathena.org/board/topic/66794-broadcaster/#entry148563
-
 prontera,151,187,5	script	Broadcast Agent	57,{
 
-	set .@Price, 1000000;
+	set .@Price, 100000;
 	setarray .@Color$[0], "Red", "Green", "Blue";
 	setarray .@ColorCode$[0], "0xFF0000", "0x00FF00", "0x0000FF";
 
-	mes "[Broadcaster]";
-	mes "Hello, ^0055ff"   strcharinfo(0)   "^000000.";
-	mes "Do you want to broadcast something? The price is "   .@Price   "z.";
+	mes "[broadcaster]";
+	mes "Hello, ^0055ff" + strcharinfo(0) + "^000000.";
+	mes "Do you want to broadcast something? The price is " + .@Price + "z.";
 	next;
+	
 	if (select("Yes:No") == 2) {
-		mes "[Broadcaster]";
+		mes "[broadcaster]";
 		mes "Oh that's a bummmer.";
 		mes "Feel free to talk to me again.";
 		close;
 	}
+	
 	if (Zeny < .@Price) {
-		mes "[Broadcaster]";
+		mes "[broadcaster]";
 		mes "I don't think you have enough zeny.";
 		close;
 	}
-	mes "[Broadcaster]";
+	
+	mes "[broadcaster]";
 	mes "Now please pick a color:";
 	next;
-	for (set .@i, 0; .@i < getarraysize(.@Color$); set .@i, .@i   1)
-			set .@Menu$, .@Menu$   .@Color$[.@i]   ":";
-			set .@i,(select(.@Menu$) - 1);
-	mes "[Broadcaster]";
+	
+	for (set .@i, 0; .@i < getarraysize(.@Color$); set .@i, .@i + 1)
+		set .@Menu$, .@Menu$ + .@Color$[.@i] + ":";
+		set .@i,(select(.@Menu$) - 1);
+	mes "[broadcaster]";
 	mes "Please type your message now:";
 	next;
+	
 	input .@Msg$;
-	mes "[Broadcaster]";
+	mes "[broadcaster]";
 	mes "Alright, message is broadcasted now! Thank you.";
 	set Zeny, Zeny - .@Price;
-	announce strcharinfo(0)   ": "   .@Msg$, bc_all, .@ColorCode$[.@i];
+	announce strcharinfo(0) + ": " + .@Msg$, bc_all, .@ColorCode$[.@i];
 	close;
 }
