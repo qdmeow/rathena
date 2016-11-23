@@ -46,9 +46,9 @@ function	ShopSettings	{
 			// Currency [ Rojak Mithril ]
 			set @Currency$,"50010";
 			// Item ID Lists
-			setarray @ItemLists[0],4047,4302;
+			setarray @ItemLists[0],4047,4302,4143;
 			// Item Price
-			setarray @ItemCost[0],4,4;
+			setarray @ItemCost[0],4,4,2;
 			break;
 		Case 2:
 			// Currency [ Medal of Hunter ]
