@@ -4,7 +4,7 @@
 //The Special Shops
 dali03,70,99,4	shop	Judgement Dealer	10118,50012:50000000,50013:50000000,50014:50000000,50015:50000000,50016:50000000,50017:50000000,50018:50000000,50019:50000000,50020:50000000,50021:50000000,50022:50000000,50023:50000000,50024:50000000,50025:50000000,50026:50000000,50027:50000000
 
-dewata,189,194,5	script	Special Area	10029,{
+dewata,199,182,5	script	Special Area	10029,{
 	shop:	warp	"dali03"	,64,113;
 	end;
 
@@ -21,3 +21,15 @@ OnInit:
 	waitingroom	"Exit to maintown",0;
 	end;
 }
+
+// Stater Place
+dewata,102,186,4	script	Go Town	10029,{
+warp	"dewata"	,199,178;
+end;
+
+OnInit:
+	waitingroom	"Jump To Main Town",0;
+	end;
+}
+
+
