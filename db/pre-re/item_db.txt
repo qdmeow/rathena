@@ -1230,7 +1230,7 @@
 2316,Plate_Armor,Full Plate,4,80000,,4500,,10,,0,0x00004082,7,2,16,,40,1,0,{},{},{}
 2317,Plate_Armor_,Full Plate,4,80000,,4500,,10,,1,0x00004082,7,2,16,,40,1,0,{},{},{}
 2318,Clothes_Of_The_Lord,Lord's Clothes,4,20,,2500,,8,,1,0x00040420,7,2,16,,70,1,0,{ bonus bMdef,5; bonus bInt,1; },{},{}
-2319,Glittering_Clothes,Glittering Jacket,4,20,,2500,,7,,1,0xFFFFFFFE,7,2,16,,60,1,0,{ bonus bMdef,5; bonus2 bAddEff,Eff_Blind,300; },{},{}
+2319,Glittering_Clothes,Glittering Jacket,4,20,,2500,,7,,1,0xFFFFFFFE,7,2,16,,60,0,0,{},{},{}
 2320,Formal_Suit,Formal Suit,4,20,,300,,5,,1,0xFFFFFFFE,7,2,16,,0,1,0,{},{},{}
 2321,Silk_Robe,Silk Robe,4,8000,,400,,3,,0,0x0085C7B6,7,2,16,,0,1,0,{ bonus bMdef,10; },{},{}
 2322,Silk_Robe_,Silk Robe,4,8000,,400,,3,,1,0x0085C7B6,7,2,16,,0,1,0,{ bonus bMdef,10; },{},{}
