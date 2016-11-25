@@ -26,3 +26,4 @@
 40011,1,99	// Lord_Knife
 40028,475,99	// Rojak_Skateboard
 40029,475,99	// Red_Cat_Ears_Beret
+40030,479,100	// Rojak_Card

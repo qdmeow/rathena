@@ -92,3 +92,4 @@
 40027,Book_of_Uber,Book of Uber,5,50000000,,10,100,,1,4,0x00410100,63,2,2,4,160,1,15,{},{},{}
 40028,Rojak_Skateboard,Rojak Skateboard,4,10,,10,,,,,0xFFFFFFFF,63,2,1,,,1,1545,{ bonus bSpeedRate,35; },{},{}
 40029,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,10,,,,,,4,0xFFFFFFFF,63,2,256,,,1,1546,{ bonus bAllStats,3; },{},{}
+40030,Rojak_Card,Rojak Card,6,20,,10,,,,,,,,136,,,,,{ bonus bAllStats,5; },{},{}
