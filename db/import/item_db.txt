@@ -94,10 +94,10 @@
 50030,blisswings,Bliss Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10004,{ bonus bDex,10; bonus bSpeedRate,35; bonus bHitRate,5; },{},{}
 50031,golden_wings_easter,Golden Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10005,{ bonus bLuk,10; bonus bSpeedRate,35; bonus bCriticalRate,5; },{},{}
 50032,Caster_Card,Caster Card,6,20,,10,,,,,,,,64,,,,,{ bonus bDex,40; },{},{}
-50033,Infernal_Cap,Infernal Cap,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10006,{ bonus bStr,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
-50034,Ivory_Valkyrie_Helm,Ivory Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10007,{ bonus bAgi,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
+50033,Infernal_Cap,Infernal Cap,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10006,{ bonus bStr,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
+50034,Ivory_Valkyrie_Helm,Ivory Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10007,{ bonus bAgi,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
 50035,Nightvision_Goggles,Nightvision Goggles,4,0,,10,,5,,1,0xFFFFFFFF,63,2,512,,,1,10008,{ bonus bDex,5; bonus bSpeedRate,10; bonus bMaxHPrate,getrefine(); },{},{}
-50036,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10009,{ bonus bDex,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
-50037,Black_Cat_Ears_Beret,Black Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10010,{ bonus bVit,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
-50038,Blue_Cat_Ears_Beret,Blue Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10011,{ bonus bInt,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
-50039,Rainbowring_Hat,Rainbowring Hat,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10012,{ bonus bLuk,5; bonus bSpeedRate,getrefine(); bonus bMaxHPrate,getrefine(); },{},{}
+50036,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10009,{ bonus bDex,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
+50037,Black_Cat_Ears_Beret,Black Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10010,{ bonus bVit,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
+50038,Blue_Cat_Ears_Beret,Blue Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10011,{ bonus bInt,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
+50039,Rainbowring_Hat,Rainbowring Hat,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10012,{ bonus bLuk,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
