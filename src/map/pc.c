@@ -1159,7 +1159,7 @@ bool pc_authok(struct map_session_data *sd, uint32 login_id2, time_t expiration_
 	memset(&sd->premiumStorage, 0, sizeof(struct s_storage));
 	memset(&sd->equip_index, -1, sizeof(sd->equip_index));
 
-	if( sd->status.option&OPTION_INVISIBLE && !pc_can_use_command( sd, "hide", COMMAND_ATCOMMAND ) ){
+	if( pc_isinvisible(sd) && !pc_can_use_command( sd, "hide", COMMAND_ATCOMMAND ) ){
 		sd->status.option &= ~OPTION_INVISIBLE;
 	}
 
@@ -1448,7 +1448,7 @@ void pc_reg_received(struct map_session_data *sd)
 		clif_parse_LoadEndAck(sd->fd, sd);
 	}
 
-	if( sd->sc.option&OPTION_INVISIBLE ) {
+	if( pc_isinvisible(sd) ) {
 		sd->vd.class_ = INVISIBLE_CLASS;
 		clif_displaymessage( sd->fd, msg_txt( sd, 11 ) ); // Invisible: On
 		// decrement the number of pvp players on the map
@@ -1937,7 +1937,7 @@ int pc_disguise(struct map_session_data *sd, int class_)
 	if (class_ && sd->disguise == class_)
 		return 0;
 
-	if(sd->sc.option&OPTION_INVISIBLE)
+	if(pc_isinvisible(sd))
   	{	//Character is invisible. Stealth class-change. [Skotlex]
 		sd->disguise = class_; //viewdata is set on uncloaking.
 		return 2;
@@ -4549,7 +4549,7 @@ char pc_additem(struct map_session_data *sd,struct item *item,int amount,e_log_p
  * @param sd
  * @param n Item index in inventory
  * @param amount
- * @param type &1: Don't notify deletion; &2 Don't notify weight change
+ * @param type &1: Don't notify deletion; &2 Don't notify weight change; &4 Don't calculate status
  * @param reason Delete reason
  * @param log_type e_log_pick_type
  * @return 1 - invalid itemid or negative amount; 0 - Success
@@ -4567,7 +4567,7 @@ char pc_delitem(struct map_session_data *sd,int n,int amount,int type, short rea
 	sd->weight -= sd->inventory_data[n]->weight*amount ;
 	if( sd->inventory.u.items_inventory[n].amount <= 0 ){
 		if(sd->inventory.u.items_inventory[n].equip)
-			pc_unequipitem(sd,n,3);
+			pc_unequipitem(sd,n,2|(!(type&4) ? 1 : 0));
 		memset(&sd->inventory.u.items_inventory[n],0,sizeof(sd->inventory.u.items_inventory[0]));
 		sd->inventory_data[n] = NULL;
 	}
@@ -9941,7 +9941,7 @@ void pc_check_available_item(struct map_session_data *sd, uint8 type)
 
 	nullpo_retv(sd);
 
-	if (battle_config.item_check&ITMCHK_INVENTORY || type&ITMCHK_INVENTORY) { // Check for invalid(ated) items in inventory.
+	if (battle_config.item_check&ITMCHK_INVENTORY && type&ITMCHK_INVENTORY) { // Check for invalid(ated) items in inventory.
 		for(i = 0; i < MAX_INVENTORY; i++) {
 			nameid = sd->inventory.u.items_inventory[i].nameid;
 
@@ -9951,7 +9951,7 @@ void pc_check_available_item(struct map_session_data *sd, uint8 type)
 				sprintf(output, msg_txt(sd, 709), nameid); // Item %hu has been removed from your inventory.
 				clif_displaymessage(sd->fd, output);
 				ShowWarning("Removed invalid/disabled item (ID: %hu, amount: %d) from inventory (char_id: %d).\n", nameid, sd->inventory.u.items_inventory[i].amount, sd->status.char_id);
-				pc_delitem(sd, i, sd->inventory.u.items_inventory[i].amount, 0, 0, LOG_TYPE_OTHER);
+				pc_delitem(sd, i, sd->inventory.u.items_inventory[i].amount, 4, 0, LOG_TYPE_OTHER);
 				continue;
 			}
 			if (!sd->inventory.u.items_inventory[i].unique_id && !itemdb_isstackable(nameid))
@@ -9959,7 +9959,7 @@ void pc_check_available_item(struct map_session_data *sd, uint8 type)
 		}
 	}
 
-	if (battle_config.item_check&ITMCHK_CART || type&ITMCHK_CART) { // Check for invalid(ated) items in cart.
+	if (battle_config.item_check&ITMCHK_CART && type&ITMCHK_CART) { // Check for invalid(ated) items in cart.
 		for(i = 0; i < MAX_CART; i++) {
 			nameid = sd->cart.u.items_cart[i].nameid;
 
@@ -9977,7 +9977,7 @@ void pc_check_available_item(struct map_session_data *sd, uint8 type)
 		}
 	}
 
-	if (battle_config.item_check&ITMCHK_STORAGE || type&ITMCHK_STORAGE) { // Check for invalid(ated) items in storage.
+	if (battle_config.item_check&ITMCHK_STORAGE && type&ITMCHK_STORAGE) { // Check for invalid(ated) items in storage.
 		for(i = 0; i < sd->storage.max_amount; i++) {
 			nameid = sd->storage.u.items_storage[i].nameid;
 
@@ -10006,7 +10006,7 @@ static int pc_calc_pvprank_sub(struct block_list *bl,va_list ap)
 	sd1=(struct map_session_data *)bl;
 	sd2=va_arg(ap,struct map_session_data *);
 
-	if( sd1->sc.option&OPTION_INVISIBLE || sd2->sc.option&OPTION_INVISIBLE )
+	if( pc_isinvisible(sd1) || pc_isinvisible(sd2) )
 	{// cannot register pvp rank for hidden GMs
 		return 0;
 	}
@@ -10042,7 +10042,7 @@ int pc_calc_pvprank_timer(int tid, unsigned int tick, int id, intptr_t data)
 		return 0;
 	sd->pvp_timer = INVALID_TIMER;
 
-	if( sd->sc.option&OPTION_INVISIBLE )
+	if( pc_isinvisible(sd) )
 	{// do not calculate the pvp rank for a hidden GM
 		return 0;
 	}

@@ -3294,7 +3294,10 @@ int status_calc_pc_(struct map_session_data* sd, enum e_status_calc_opt opt)
 		+ sizeof(sd->ignore_mdef_by_race)
 		+ sizeof(sd->ignore_mdef_by_class)
 		+ sizeof(sd->ignore_def_by_race)
+		+ sizeof(sd->ignore_def_by_class)
 		+ sizeof(sd->sp_gain_race)
+		+ sizeof(sd->magic_addrace2)
+		+ sizeof(sd->ignore_mdef_by_race2)
 		+ sizeof(sd->dropaddrace)
 		+ sizeof(sd->dropaddclass)
 		);
@@ -3358,6 +3361,8 @@ int status_calc_pc_(struct map_session_data* sd, enum e_status_calc_opt opt)
 		+ sizeof(sd->sp_loss)
 		+ sizeof(sd->hp_regen)
 		+ sizeof(sd->sp_regen)
+		+ sizeof(sd->percent_hp_regen)
+		+ sizeof(sd->percent_sp_regen)
 		+ sizeof(sd->add_def)
 		+ sizeof(sd->add_mdef)
 		+ sizeof(sd->add_mdmg)
@@ -7965,7 +7970,7 @@ int status_get_sc_def(struct block_list *src, struct block_list *bl, enum sc_typ
 
 		// Item resistance (only applies to rate%)
 		if(sd && SC_COMMON_MIN <= type && type <= SC_COMMON_MAX) {
-			if( sd->reseff[type-SC_COMMON_MIN] > 0 )
+			if( sd->reseff[type-SC_COMMON_MIN] )
 				rate -= rate*sd->reseff[type-SC_COMMON_MIN]/10000;
 			if( sd->sc.data[SC_COMMONSC_RESIST] )
 				rate -= rate*sd->sc.data[SC_COMMONSC_RESIST]->val1/100;
