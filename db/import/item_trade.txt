@@ -39,8 +39,13 @@
 50032,1,100	// Caster_Card
 50033,1,100	// Infernal_Cap
 50034,1,100	// Ivory_Valkyrie_Helm
-50035,1,100	// Nightvision_Goggles
+50035,1,100	// Nightvision_Goggles_Lvl_1
 50036,1,100	// Red_Cat_Ears_Beret
 50037,1,100	// Black_Cat_Ears_Beret
 50038,1,100	// Blue_Cat_Ears_Beret
 50039,1,100	// Rainbowring_Hat
+50040,1,100	// Dokkebi_Mask_Lvl_1
+50041,1,100	// Tha_Despero_Mask_Lvl_1
+50042,1,100	// Opera_Ghost_Mask_Lvl_1
+50043,1,100	// Goblini_Mask_Lvl_1
+50044,1,100	// Thanatos_Mal_Mask_Lvl_1
