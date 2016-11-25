@@ -11,6 +11,7 @@ prontera,159,187,5	script	Freebies	718,{
 		getitem 4142,2;			//dooppel card
 		getitem 40028,1;		//Rojak Skateboard
 		getitem 40029,1;		//Red Cat Ears Beret
+		getitem 40030,4;		//Rojak Card
 	}else{
 		mes "You have claim the Reward already.";
 	}
