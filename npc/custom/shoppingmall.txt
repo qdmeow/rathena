@@ -81,6 +81,9 @@ quiz_02,324,79,5	shop	Uber Dealer	10118,40011:50000000,40012:50000000,40013:5000
 quiz_02,324,76,5	shop	Special Dealer	10118,40010:50000000,2410:50000000,2630:50000000
 quiz_02,324,73,5	shop	Card Dealer	10118,4143:200000000,4135:200000000,40000:350000000,4146:130000000
 
+//trash buyer
+prontera,147,159,5	shop	Tool Dealer#cst	94,501:10000,611:300
+
 //The Warper to Mall
 prontera,164,171,2	script	Mall Warper	910,{
 	shop:	warp	"quiz_02.gat"	,337,74;
