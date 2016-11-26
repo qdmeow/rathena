@@ -142,3 +142,6 @@ spl_in01	mapflag	pvp	off
 spl_in02	mapflag	pvp	off
 
 //evt_zombie	mapflag	pvp	off
+
+//shopping mall
+quiz_02	mapflag	pvp	off
