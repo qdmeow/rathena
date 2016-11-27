@@ -27,3 +27,4 @@
 40028,475,99	// Rojak_Skateboard
 40029,475,99	// Red_Cat_Ears_Beret
 40030,479,90	// Rojak_Card
+40031,473,100	// Castle_Box
