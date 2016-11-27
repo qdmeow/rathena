@@ -61,9 +61,9 @@
 //==================================================================
 //2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,63,0,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
 //7170,Tuxedo,Tuxedo,4,43000,,10,,0,,0,0xFFFFFFFE,63,1,16,,0,1,0,{},{ sc_start SC_WEDDING,-1,0; },{ sc_end SC_WEDDING; }
-50000,andromeda_wings,Andro Wing,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10000,{ bonus bStr,10; bonus bSpeedRate,35; bonus bBaseAtk,100; },{},{}
-50001,happyfwing,Wing of Happiness,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10001,{ bonus bAgi,10; bonus bSpeedRate,35; bonus bFlee,100; },{},{}
-50002,ice_wings,Blue Angel Wing,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10002,{ bonus bInt,10; bonus bSpeedRate,35; bonus bMatk,100; },{},{}
+50000,andromeda_wings,Andro Wing,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10000,{ bonus bStr,10; bonus bSpeedRate,35; bonus bBaseAtk,100; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
+50001,happyfwing,Wing of Happiness,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10001,{ bonus bAgi,10; bonus bSpeedRate,35; bonus bFlee,100; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
+50002,ice_wings,Blue Angel Wing,4,1000,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10002,{ bonus bInt,10; bonus bSpeedRate,35; bonus bMatk,100; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50003,Muffler_,Rojak Muffler,4,5000,,40,,8,,1,0xFFFFFFFF,63,2,4,,0,1,0,{},{},{}
 50004,Shoes_,Rojak Shoe,4,3500,,40,,10,,1,0xFFFFFFFF,63,2,64,,0,1,0,{},{},{}
 50005,Formal_Suit,Rojak Suit,4,20,,30,,40,,1,0xFFFFFFFF,63,2,16,,0,1,0,{},{},{}
@@ -90,19 +90,20 @@
 50026,Huuma_Shuriken_of_Judgement,Huuma Shuriken of Judgement,5,100,,10,200:50,,1,4,0x22000000,63,2,34,4,160,1,22,{ bonus bAllStats,5; },{},{}
 50027,Book_of_Judgement,Book of Judgement,5,100,,10,150,,1,4,0x00410100,63,2,2,4,160,1,15,{ bonus bAllStats,5; },{},{}
 50028,Medal_of_Hunter,Medal of Hunter,3,0,,0,,,,,,,,,,,,,{},{},{}
-50029,Vulture_Wings,Vulture Wing,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10003,{ bonus bVit,10; bonus bSpeedRate,35; bonus bMaxHPrate,15; },{},{}
-50030,blisswings,Bliss Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10004,{ bonus bDex,10; bonus bSpeedRate,35; bonus bHit,100; },{},{}
-50031,golden_wings_easter,Golden Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10005,{ bonus bLuk,10; bonus bSpeedRate,35; bonus bCriticalRate,5; },{},{}
+50029,Vulture_Wings,Vulture Wing,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10003,{ bonus bVit,10; bonus bSpeedRate,35; bonus bMaxHPrate,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
+50030,blisswings,Bliss Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10004,{ bonus bDex,10; bonus bSpeedRate,35; bonus bHit,100; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
+50031,golden_wings_easter,Golden Wings,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10005,{ bonus bLuk,10; bonus bSpeedRate,35; bonus bCriticalRate,50; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50032,Caster_Card,Caster Card,6,20,,10,,,,,,,,64,,,,,{ bonus bDex,40; },{},{}
-50033,Infernal_Cap,Infernal Cap,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10006,{ bonus bStr,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50034,Ivory_Valkyrie_Helm,Ivory Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10007,{ bonus bAgi,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50035,Nightvision_Goggles_Lvl_1,Nightvision Goggles Lvl 1,4,0,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,10008,{ bonus bLuk,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50036,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10009,{ bonus bDex,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50037,Black_Cat_Ears_Beret,Black Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10010,{ bonus bVit,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50038,Blue_Cat_Ears_Beret,Blue Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10011,{ bonus bInt,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50039,Rainbowring_Hat,Rainbowring Hat,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10012,{ bonus bLuk,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50040,Dokkebi_Mask_Lvl_1,Dokkebi Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,689,{ bonus bStr,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50041,Tha_Despero_Mask_Lvl_1,Thanatos Despero Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,693,{ bonus bAgi,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50042,Opera_Ghost_Mask_Lvl_1,Opera Phantom Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,128,{ bonus bDex,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50043,Goblini_Mask_Lvl_1,Goblin Mask Lvl 1,4,20,,100,,1,,0,0xFFFFFFFE,63,2,513,,0,1,84,{ bonus bInt,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
-50044,Thanatos_Mal_Mask_Lvl_1,Thanatos Mal Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,667,{ bonus bInt,5; bonus bSpeedRate,2*(getrefine()); bonus bMaxHPrate,3*(getrefine()); },{},{}
+50033,Infernal_Cap,Infernal Cap,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10006,{ bonus bStr,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50034,Ivory_Valkyrie_Helm,Ivory Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10007,{ bonus bAgi,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50035,Nightvision_Goggles_Lvl_1,Nightvision Goggles Lvl 1,4,0,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,10008,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50036,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10009,{ bonus bDex,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50037,Black_Cat_Ears_Beret,Black Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10010,{ bonus bVit,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50038,Blue_Cat_Ears_Beret,Blue Cat Ears Beret,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10011,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50039,Rainbowring_Hat,Rainbowring Hat,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10012,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50040,Dokkebi_Mask_Lvl_1,Dokkebi Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,689,{ bonus bStr,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50041,Tha_Despero_Mask_Lvl_1,Thanatos Despero Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,693,{ bonus bAgi,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50042,Opera_Ghost_Mask_Lvl_1,Opera Phantom Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,128,{ bonus bDex,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50043,Goblini_Mask_Lvl_1,Goblin Mask Lvl 1,4,20,,100,,1,,0,0xFFFFFFFE,63,2,513,,0,1,84,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50044,Thanatos_Mal_Mask_Lvl_1,Thanatos Mal Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,667,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50045,Wings_of_Purity,Wings of Purity,4,0,,100,,5,,,0xFFFFFFFF,63,2,1,,,1,10013,{ bonus bAddMaxWeight,(getrefine()*1000); bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}

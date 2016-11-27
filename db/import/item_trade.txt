@@ -49,3 +49,4 @@
 50042,1,100	// Opera_Ghost_Mask_Lvl_1
 50043,1,100	// Goblini_Mask_Lvl_1
 50044,1,100	// Thanatos_Mal_Mask_Lvl_1
+50045,1,100	// Wings_of_Purity
