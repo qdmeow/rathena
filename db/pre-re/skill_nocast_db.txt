@@ -56,6 +56,7 @@
 1013,4	//BS_GREED
 2284,4	//SC_FATALMENACE
 2300,4	//SC_DIMENSIONDOOR
+426,4	//TK_HIGHJUMP
 
 //----------------------------------------------------------------------------
 // Battlegrounds
