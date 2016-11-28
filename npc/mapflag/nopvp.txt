@@ -14,6 +14,14 @@
 //= 1.3 Renewal split. [Euphy]
 //============================================================
 
+// Outside Castle ===================
+prt_gld	mapflag	pvp	off
+alde_gld	mapflag	pvp	off
+aru_gld	mapflag	pvp	off
+gef_fild13	mapflag	pvp	off
+pay_gld	mapflag	pvp	off
+sch_gld	mapflag	pvp	off
+
 // Instances ===================
 1@cata	mapflag	pvp	off
 2@cata	mapflag	pvp	off
@@ -39,11 +47,11 @@ bat_c02	mapflag	pvp	off
 bat_c03	mapflag	pvp	off
 
 // GvG Arenas ===================
-guild_vs1	mapflag	pvp	off
-guild_vs2	mapflag	pvp	off
-guild_vs3	mapflag	pvp	off
-guild_vs4	mapflag	pvp	off
-guild_vs5	mapflag	pvp	off
+//guild_vs1	mapflag	pvp	off
+//guild_vs2	mapflag	pvp	off
+//guild_vs3	mapflag	pvp	off
+//guild_vs4	mapflag	pvp	off
+//guild_vs5	mapflag	pvp	off
 
 // Cities ========================
 ayo_in01	mapflag	pvp	off
