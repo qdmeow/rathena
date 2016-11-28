@@ -46,6 +46,6 @@
 //Useables 6
 
 //Other 7
-7,50032,40
 
 //Special 8
+7,50032,40
