@@ -104,7 +104,7 @@
 50040,Dokkebi_Mask_Lvl_1,Dokkebi Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,689,{ bonus bStr,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50041,Tha_Despero_Mask_Lvl_1,Thanatos Despero Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,693,{ bonus bAgi,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50042,Opera_Ghost_Mask_Lvl_1,Opera Phantom Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,128,{ bonus bDex,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
-50043,Goblini_Mask_Lvl_1,Goblin Mask Lvl 1,4,20,,100,,1,,0,0xFFFFFFFE,63,2,513,,0,1,84,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50043,Goblini_Mask_Lvl_1,Goblin Mask Lvl 1,4,20,,100,,1,,0,0xFFFFFFFE,63,2,512,,0,1,84,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50044,Thanatos_Mal_Mask_Lvl_1,Thanatos Mal Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,667,{ bonus bVit,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50045,Wings_of_Purity,Wings of Purity,4,0,,100,,5,,,0xFFFFFFFF,63,2,1,,,1,10013,{ bonus bAddMaxWeight,(getrefine()*1000); bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
-50046,Falcon_Mask_Lvl_1,Falcon Mask Lvl 1,4,10,,30,,0,,0,0xFFFFFFFF,63,2,513,,50,0,480,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50046,Falcon_Mask_Lvl_1,Falcon Mask Lvl 1,4,10,,30,,0,,0,0xFFFFFFFF,63,2,512,,1,0,480,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
