@@ -19,6 +19,9 @@
 //= 2.0 Renewal split. [Euphy]
 //============================================================
 
+// Mall ========================
+quiz_02	mapflag	nobranch
+
 // Cities ======================
 ayo_in01	mapflag	nobranch
 ayo_in02	mapflag	nobranch
