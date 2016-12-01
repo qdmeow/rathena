@@ -1549,6 +1549,9 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 	
 	if (skill_id == CR_ACIDDEMONSTRATION )
 		damage = min(damage,10000);
+		
+	if (skill_id == NJ_ISSEN )
+		damage = min(damage,250000);
 
 	return damage;
 }
