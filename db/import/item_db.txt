@@ -72,24 +72,24 @@
 40007,omega_wings,Omega Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,0,1542,{ bonus bStr,15; bonus bAgi,5; bonus bVit,15; bonus bInt,5; bonus bDex,15; bonus bLuk,5; },{},{}
 40008,alpha_wings,Alpha Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,0,1543,{ bonus bStr,5; bonus bAgi,15; bonus bVit,5; bonus bInt,15; bonus bDex,5; bonus bLuk,15; },{},{}
 40009,archangel_wings,Arch Angel Wings,4,100,,100,,10,,1,0xFFFFFFFF,63,2,1,,1,1,1544,{ bonus bAllStats,10; },{},{}
-40010,Megingjard,Megingjard,4,30000000,,800,,2,,0,0xFFFFFFFF,7,2,136,,94,0,0,{ bonus bStr,35;},{},{}
-40011,Lord_Knife,Lord Knife,5,200,,100,100,,1,4,0xFFFFFFFF,7,2,2,4,1,1,8,{ bonus bAllstats,7;},{},{}
+40010,Megingjard,Megingjard,4,30000000,,800,,2,,0,0xFFFFFFFF,7,2,136,,94,0,0,{ bonus bStr,40; bonus bMdef,7; },{},{}
+40011,Lord_Knife,Lord Knife,5,50000000,,100,100,,1,4,0xFFFFFFFF,7,2,2,4,1,1,8,{ bonus bAllstats,7; },{},{}
 40012,Dagger_of_Uber,Dagger of Uber,5,50000000,,10,100,,1,4,0x028F5EEF,63,2,2,4,160,1,1,{ bonus bAtk,15; bonus bAgi,4; bonus bStr,4; },{},{}
 40013,Bow_of_Uber,Bow of Uber,5,50000000,,10,200,,5,4,0x000A0808,63,2,34,4,160,1,11,{ bonus bDex,4; bonus bFlee,15; },{},{}
 40014,Fist_of_Uber,Fist of Uber,5,50000000,,10,100,,1,4,0x00008100,63,2,2,4,160,1,12,{ bonus bStr,4; bonus bInt,4; },{},{}
-40015,Shield_of_Uber,Shield of Uber,4,50000000,,2000,,60,,1,0xFFFFFFFF,63,2,32,,1,1,1,{ if(getrefine()>9) { bonus bMaxHPRate,5; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_Player,5; bonus bShortWeaponDamageReturn,5; bonus bLongWeaponDamageReturn,5; } },{},{}
+40015,Shield_of_Uber,Shield of Uber,4,50000000,,2000,,5,,1,0xFFFFFFFF,63,2,32,,1,1,1,{ if(getrefine()>9) { bonus bMaxHPRate,5; bonus2 bSubRace,RC_DemiHuman,5; bonus2 bSubRace,RC_Player,5; bonus bShortWeaponDamageReturn,5; bonus bLongWeaponDamageReturn,5; } },{},{}
 40016,Katar_of_Uber,Katar of Uber,5,50000000,,10,200,,1,4,0x00001000,63,2,34,4,160,1,16,{ bonus bHit,15; bonus bStr,4; bonus bLuk,4; },{},{}
 40017,Two_Handed_Sword_of_Uber,Two-Handed Sword of Uber,5,50000000,,1500,200,,1,4,0x00004082,63,2,34,4,160,1,3,{ bonus bStr,4; bonus bVit,3; bonus bDef,5; },{},{}
-40018,Sword_of_Uber,Sword of Uber,5,50000000,,10,100,,1,4,0x000654E3,63,2,2,4,5,1,2,{ bonus bAtk,15; bonus bStr,4; bonus bVit,3; bonus bDex,3; bonus bHit,15; },{},{}
-40019,Spear_of_Uber,Spear of Uber,5,50000000,,4500,100,,3,4,0x00004082,63,2,2,4,160,1,4,{ bonus bStr,4; bonus bHit,15; },{},{}
-40020,Rod_of_Uber,Rod of Uber,5,50000000,,10,100,,1,4,0x00818315,63,2,2,4,160,1,10,{ bonus bMatkRate,10; bonus bInt,4; bonus bVit,4; },{},{}
+40018,Sword_of_Uber,Sword of Uber,5,50000000,,10,200,,1,4,0x000654E3,63,2,2,4,5,1,2,{ bonus bAtk,15; bonus bStr,4; bonus bVit,3; bonus bDex,3; bonus bHit,15; },{},{}
+40019,Spear_of_Uber,Spear of Uber,5,50000000,,4500,200,,3,4,0x00004082,63,2,2,4,160,1,4,{ bonus bStr,5; bonus bHit,15; },{},{}
+40020,Rod_of_Uber,Rod of Uber,5,50000000,,10,100,,1,4,0x00818315,63,2,2,4,160,1,10,{ bonus bMatkRate,15; bonus bInt,5; },{},{}
 40021,One_Handed_Axe_of_Uber,One-Handed Axe of Uber,5,10,,1500,100,,1,4,0x00040420,63,2,2,4,1,1,6,{ bonus bAtk,15; bonus bStr,4; bonus bDex,4; bonus bVit,3; },{},{}
 40022,Two_Handed_Axe_of_Uber,Two Handed Axe of Uber,5,50000000,,1500,200,,1,4,0x000444A2,63,2,34,4,160,1,7,{ bonus bAtk,15; bonus bStr,4; bonus bDex,4; bonus bVit,3; },{},{}
 40023,Violin_of_Uber,Violin of Uber,5,50000000,,10,100,,1,4,0x00080000,63,1,2,4,160,1,13,{ bonus bAgi,4; bonus bDex,4; bonus bFlee,15; },{},{}
 40024,Wire_of_Uber,Wire of Uber,5,50000000,,10,100,,2,4,0x00080000,63,0,2,4,160,1,14,{ bonus bAgi,4; bonus bDex,4; bonus bFlee,15; },{},{}
-40025,Revolver_of_Uber,Revolver of Uber,5,50000000,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{ bonus bVit,3; bonus bDex,3; bonus bStr,3; bonus bAgi,3; bonus bMaxHPRate,2; bonus bMdef,2; },{},{}
-40026,Huuma_Shuriken_of_Uber,Huuma Shuriken of Uber,5,50000000,,10,200,,1,4,0x22000000,63,2,34,4,160,1,22,{ bonus bVit,3; bonus bInt,3; bonus bStr,3; bonus bMaxHPRate,2; bonus bMdef,2; },{},{}
-40027,Book_of_Uber,Book of Uber,5,50000000,,10,100,,1,4,0x00410100,63,2,2,4,160,1,15,{ bonus bMatkRate,10; bonus bInt,4; bonus bVit,4; bonus bStr,4; },{},{}
+40025,Revolver_of_Uber,Revolver of Uber,5,50000000,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{ bonus bDex,10; },{},{}
+40026,Huuma_Shuriken_of_Uber,Huuma Shuriken of Uber,5,50000000,,10,200,,1,4,0x22000000,63,2,34,4,160,1,22,{ bonus bAgi,5; bonus bVit,10; },{},{}
+40027,Book_of_Uber,Book of Uber,5,50000000,,10,100,,1,4,0x00410100,63,2,2,4,160,1,15,{ bonus bMatkRate,10; bonus bInt,4; bonus bVit,4; bonus bStr,4; bonus bAtkspd,5; },{},{}
 40028,Rojak_Skateboard,Rojak Skateboard,4,10,,10,,,,,0xFFFFFFFF,63,2,1,,,1,1545,{ bonus bSpeedRate,35; },{},{}
 40029,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,10,,,,,,4,0xFFFFFFFF,63,2,256,,,1,1546,{ bonus bAllStats,3; },{},{}
 40030,Rojak_Card,Rojak Card,6,20,,10,,,,,,,,769,,,,,{ bonus bAllStats,5; },{},{}
