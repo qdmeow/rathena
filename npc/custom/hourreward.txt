@@ -2,7 +2,7 @@
 //===== By: ==========================================================
 //= GorthexTiger modified by Nibi
 //===== Current Version: =============================================
-//= 1.0
+//= 1.5
 //===== Compatible With: =============================================
 //= Any eAthena Version
 //===== Description: =================================================
@@ -97,7 +97,7 @@ OnInit:
 	set .rewardCount, 60; 			// give reward at 60mins = 1 Hour. == should be 60
 	set .secondReward, 5;			// give different reward at next (.secondReward) hours == default 5 hours
 	set .maxCount, 720;				// Max cycle is 12 hours == should be 720
-    set .dlimit, 60; 				// idle check in seconds == should be 60
+    set .dlimit, 300; 				// idle check in seconds == should be 300 = 5mins
 	set .showNotice, 20; 			// show 1 notice every (.showNotice) minutes == should be 20 cycle
 	.checkVenChat = 0;				// initialize
 	.checkAfk = 0;					// initialize
