@@ -22,84 +22,83 @@
 //					=	replace dispbottom with message
 //					=	rearrage message
 //					=	reset count after getting the reward
+//= 1.5 = 2/12/2016	=	Rework completely
 //====================================================================
 -	script	hourlypoints	-1,{
 
-//--Start of the Script
+OnPointGet:
+	for (.minutes = 0; .minutes <= .maxCount; .minutes++) {
+		sleep2 .countCheck;
+		while ((checkvending() >= 1) || (checkchatting() == 1) || (checkidle() >= .dlimit)) {
+			if(.@mes$==""){
+				.afkcount = (checkidle()/60);
+				if ((checkvending() >= 1) || (checkchatting() >= 1))
+					.checkVenChat += 1;
+				if (.checkVenChat == 1)
+					dispbottom set(.@mes$,"The hourly points event haulted because you were vending or chatting");
+				if (checkidle() > .dlimit)
+					.checkAfk += 1;
+				if (.checkAfk == 1)
+					dispbottom set(.@mes$,"You already entered  "+.afkcount+"mins idle mode, hourly reward timer stopped");
+				if (.checkAfk == .showNotice) {
+					dispbottom set(.@mes$,"You already in idle for "+.afkcount+"mins.");
+					.checkAfk = 2;
+				}
+				callsub OnMinutesReset;
+				end;
+			}
+		}
+		if(.minutes == .rewardCount){
+			dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
+			getitem 13607,1;
+			.minutes = 0;
+			.hours++;
+		}
+		if(.hours == .secondReward){
+			dispbottom "[Hourly Reward]:You received 2 box of Yggdrasil Berry Box";
+			dispbottom "[Hourly Reward]:You received 2 pieces of Rojak Gold Coin";
+			dispbottom "[Hourly Reward]:You received 2 scrolls of Transformation Scroll(Horn Scaraba)";
+			dispbottom "[Hourly Reward]:You received 2 scrolls of Transformation Scroll(Kobold Archer)";
+			dispbottom "[Hourly Reward]:You received 1 piece of Medal of Hunter";
+			dispbottom "[Hourly Reward]:Thank you for playing 5 consecutive hours, enjoy your reward!";
+			getitem 13517,2;
+			getitem 50008,2;
+			getitem 22750,2;
+			getitem 22753,2;
+			getitem 50028,1;
+			.minutes = 0;
+			.hours = 0;
+		}
+	}
+
 OnPCLoginEvent:
-	attachnpctimer ""+strcharinfo(0)+"";
-	initnpctimer;
-end;
+    addtimer .timer,"hourlypoints::OnPointGet";
+	set @hourly_points_timer, gettimetick(2) + ( .hourTimer / 1000 );
+    end;
 
-OnTimer30000:
-
-//Check if Vending (normal or @at)
-	if(checkvending() >= 1) {
-		message strcharinfo(0),"[Hourly Reward]: The hourly timer stopped because you were vending. Please relog if you wish to start again.";
-		stopnpctimer;
+OnMinutesReset:
+	.minutes = 0;									//reset minutes count
+	callsub OnPointGet;
 	end;
-	}
 
-//Check chatting
-	if(checkchatting() == 1) {
-		message strcharinfo(0),"[Hourly Reward]: The hourly timer stopped because you were in chatting ROOM. Please relog if you wish to start again.";
-		stopnpctimer;
+OnCmdHour:
+	message strcharinfo(0),@hourly_points_timer ? Time2Str( @hourly_points_timer )+" Remaining.":"Something went wrong relog!";
 	end;
-	}
 
-//Check if Idle
-	getmapxy( .@map$, .@x, .@y, 0 );
-	if(@map$ == .@map$ && @x == .@x && @y == .@y) {
-		set @afk, @afk + 1;
-	}
+OnPCLogoutEvent:
+	deltimer "hourlypoints::OnPointGet";
+	end;
 
-//If move timer resets
-	else {
-		set @afk, 0;
-	}
-	set @map$, .@map$; set @x, .@x; set @y, .@y;
-
-	//Idle Check for 5 Minutes
-	if(@afk == 5) {
-		message strcharinfo(0),"[Hourly Reward]: The hourly timer stopped because you were idle for 5 minutes. Please relog if you wish to start again.";
-		stopnpctimer;
-		end;
-	}
-
-end;
-
-OnTimer60000:
-	set @minute, @minute + 1;
-	//Check for 1 Minute
-
-	if(@minute == 60){
-		message strcharinfo(0),"[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
-		getitem 13607,1;
-		set @minute,0;
-		set @consecutive_hour, @consecutive_hour + 1;
-	}
-	
-	//Check for 12 hours consecutive
-	if(@consecutive_hour == 12) {
-		message strcharinfo(0),"[Hourly Reward]:You received 5 box of Yggdrasil Berry Box";
-		message strcharinfo(0),"[Hourly Reward]:You received 5 pieces of Rojak Gold Coin";
-		message strcharinfo(0),"[Hourly Reward]:You received 5 scrolls of Transformation Scroll(Horn Scaraba)";
-		message strcharinfo(0),"[Hourly Reward]:You received 5 scrolls of Transformation Scroll(Kobold Archer)";
-		message strcharinfo(0),"[Hourly Reward]:You received 1 piece of Medal of Hunter";
-		message strcharinfo(0),"[Hourly Reward]:Thank you for playing 12 consecutive hours, enjoy your reward!";
-		getitem 13517,5;
-		getitem 50008,5;
-		getitem 22750,5;
-		getitem 22753,5;
-		getitem 50028,1;
-		set @consecutive_hour,0;
-	}
-
-stopnpctimer;
-
-initnpctimer;
-
-end;
+OnInit:
+	bindatcmd "hour","hourlypoints::OnCmdHour";
+    set .timer, 5000;				// start count after 5second login
+	set .hourTimer, 3605000;		// 1 hour check @hour + 5000 due to script start after 5s
+	set .countCheck, 60000; 		// check every 1minutes in ms == should be 60000
+	set .rewardCount, 60; 			// give reward at 60mins = 1 Hour. == should be 60
+	set .secondReward, 5;			// give different reward at next (.secondReward) hours == default 5 hours
+	set .maxCount, 720;				// Max cycle is 12 hours == should be 720
+    set .dlimit, 60; 				// idle check in seconds == should be 60
+	set .showNotice, 20; 			// show 1 notice every (.showNotice) minutes == should be 20 cycle
+	.checkVenChat = 0;				// initialize
+	.checkAfk = 0;					// initialize
 }
-
-//--End of the Script
