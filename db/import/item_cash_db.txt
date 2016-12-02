@@ -10,8 +10,8 @@
 //    2: Limited
 //    3: Rental
 //    4: Equips
-//    5: Buff
-//    6: Heal
+//    5: Scrolls
+//    6: Usables
 //    7: Other
 //	  8: Special
 //
@@ -43,7 +43,7 @@
 
 //Scrolls 5
 
-//Useables 6
+//Usables 6
 
 //Other 7
 
