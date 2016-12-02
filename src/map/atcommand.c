@@ -9897,7 +9897,7 @@ ACMD_FUNC(adopt)
 ACMD_FUNC(afk) {
 	nullpo_retr(-1, sd);
 
-	if(sd->bl.m == map_mapname2mapid("dewata")) {
+	if(sd->bl.m == map_mapname2mapid("prontera")) {
 		clif_displaymessage(fd, "@afk is not allowed on this map.");
 		return 0;
 	}
