@@ -1520,7 +1520,7 @@
 2698,Vesper_Core03_C,Vesper Core 03,4,1,,0,,1,,0,0xFFFFFFFE,7,2,136,,1,0,0,{ bonus bMdef,3; bonus bAgi,3; bonus bFlee,5; },{},{}
 2699,Vesper_Core04_C,Vesper Core 04,4,1,,0,,1,,0,0xFFFFFFFE,7,2,136,,1,0,0,{ bonus bMdef,3; bonus bDex,3; bonus bHit,10; },{},{}
 2700,Red_Silk_Seal,Red Silk Seal,4,20,,100,,0,,0,0x00004082,2,2,136,,60,0,0,{},{},{}
-2701,Orleans_Glove,Orleans's Glove,4,20,,100,,0,,1,0xFFFFFFFE,2,2,136,,90,0,0,{ bonus bDex,2; bonus bMatkRate,3; },{},{}
+2701,Orleans_Glove,Orleans's Glove,4,20,,100,,0,,1,0xFFFFFFFE,2,2,136,,90,0,0,{},{},{}
 2702,Bison_Horn,Bison Horn,4,20,,100,,0,,1,0xFFFFFFFE,2,2,136,,90,0,0,{ bonus bAgi,2; },{},{}
 2703,Expert_Ring,Expert Ring,4,20,,150,,0,,1,0xFFFFFFFE,2,2,136,,50,0,0,{ bonus bDelayRate,-5; bonus bUseSPrate,5; },{},{}
 2704,Golden_Accessory,Golden Accessories,4,20,,100,,4,,0,0xFFFFFFFF,7,2,136,,0,0,0,{ bonus bMdef,4; },{},{}
