@@ -298,7 +298,7 @@ OnInit:
 	setarray .JobReq[0],10,40;	// Minimum job level to turn into 1st class, 2nd class
 	.ThirdClass = 1;			// Enable third classes? (1: yes / 0: no)
 	.SecondExpanded = 1;		// Enable new expanded second classes: Ex. Super Novice, Kagerou/Oboro, Rebellion? (1: yes / 0: no)
-	.SNovice = 45;				// Minimum base level to turn into Super Novice
+	.SNovice = 10;				// Minimum base level to turn into Super Novice
 	.LastJob = 1;				// Enforce linear class changes? (1: yes / 0: no)
 	.SkillPointCheck = 1;		// Force player to use up all skill points? (1: yes / 0: no)
 	.Platinum = 1;				// Get platinum skills automatically? (1: yes / 0: no)
