@@ -9930,6 +9930,68 @@ ACMD_FUNC(afk) {
 	return 0;
 }
 
+/*
+ *==========================================
+ * @autoattack by goddameit
+ *==========================================
+ */
+static int buildin_autoattack_sub(struct block_list *bl,va_list ap)
+{
+	int *target_id=va_arg(ap,int *);
+	*target_id = bl->id;
+	return 1;
+}
+void autoattack_motion(struct map_session_data* sd)
+{
+	int i, target_id;
+	for(i=0;i<=9;i++)
+	{
+		target_id=0;
+		map_foreachinarea(buildin_autoattack_sub, sd->bl.m, sd->bl.x-i, sd->bl.y-i, sd->bl.x+i, sd->bl.y+i, BL_MOB, &target_id);
+		if(target_id)
+		{
+			unit_attack(&sd->bl,target_id,1);
+			break;			
+		}
+		target_id=0;
+	}
+	if(!target_id)
+	{
+		unit_walktoxy(&sd->bl,sd->bl.x+(rand()%2==0?-1:1)*(rand()%10),sd->bl.y+(rand()%2==0?-1:1)*(rand()%10),0);
+	}
+	return;
+}
+int autoattack_timer(int tid, unsigned int tick, int id, intptr_t data)
+{
+	struct map_session_data *sd=NULL;
+
+	sd=map_id2sd(id);
+	if(sd==NULL)
+		return 0;
+	if(sd->sc.option & OPTION_AUTOATTACK)
+	{
+		autoattack_motion(sd);
+		add_timer(gettick()+2000,autoattack_timer,sd->bl.id,0);
+	}
+	return 0;
+}
+ACMD_FUNC(autoattack)
+{
+	nullpo_retr(-1, sd);
+	if (sd->sc.option & OPTION_AUTOATTACK)
+	{
+		clif_displaymessage(fd, "Auto-attack OFF");
+		sd->sc.option &= ~OPTION_AUTOATTACK;
+		unit_stop_attack(&sd->bl);
+	}else
+	{
+		clif_displaymessage(fd, "Auto-attack ON");
+		sd->sc.option |= OPTION_AUTOATTACK;
+		add_timer(gettick()+200,autoattack_timer,sd->bl.id,0);
+	}
+	clif_changeoption(&sd->bl);
+	return 0;
+}
 #include "../custom/atcommand.inc"
 
 /**
@@ -10226,6 +10288,7 @@ void atcommand_basecommands(void) {
 		ACMD_DEF(agitstart3),
 		ACMD_DEF(agitend3),
 		ACMD_DEF(afk),
+		ACMD_DEF(autoattack),
 	};
 	AtCommandInfo* atcommand;
 	int i;
