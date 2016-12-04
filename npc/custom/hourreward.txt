@@ -82,7 +82,7 @@ OnMinutesReset:
 	end;
 
 OnCmdHour:
-	message strcharinfo(0),@hourly_points_timer ? Time2Str( @hourly_points_timer )+" Remaining.":"Something went wrong relog!";
+	message strcharinfo(0),"[Hourly Reward]: You're already "+.hours+"hours and "+.minutes+"minutes in hourly reward timer.";
 	end;
 
 OnPCLogoutEvent:
