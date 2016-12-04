@@ -73,7 +73,6 @@ OnPointGet:
 
 OnPCLoginEvent:
     addtimer .timer,"hourlypoints::OnPointGet";
-	set @hourly_points_timer, gettimetick(2) + ( .hourTimer / 1000 );
     end;
 
 OnMinutesReset:
@@ -92,7 +91,6 @@ OnPCLogoutEvent:
 OnInit:
 	bindatcmd "hour","hourlypoints::OnCmdHour";
     set .timer, 5000;				// start count after 5second login
-	set .hourTimer, 3605000;		// 1 hour check @hour + 5000 due to script start after 5s
 	set .countCheck, 60000; 		// check every 1minutes in ms == should be 60000
 	set .rewardCount, 60; 			// give reward at 60mins = 1 Hour. == should be 60
 	set .secondReward, 5;			// give different reward at next (.secondReward) hours == default 5 hours
