@@ -364,6 +364,7 @@ enum {
 	MF_NOCOSTUME,
 	MF_GVG_TE_CASTLE,
 	MF_GVG_TE,
+	MF_HIDEMOBHPBAR,
 };
 
 const char* script_op2name(int op)
@@ -3095,7 +3096,7 @@ int set_reg(struct script_state* st, TBL_PC* sd, int64 num, const char* name, co
 	}
 }
 
-int set_var(TBL_PC* sd, char* name, void* val)
+int set_var(struct map_session_data* sd, char* name, void* val)
 {
 	return set_reg(NULL, sd, reference_uid(add_str(name),0), name, val, NULL);
 }
@@ -5501,6 +5502,9 @@ static int buildin_areawarp_sub(struct block_list *bl,va_list ap)
 		pc_randomwarp((TBL_PC *)bl,CLR_TELEPORT);
 	else if(x3 && y3) {
 		int max, tx, ty, j = 0;
+		int16 m;
+
+		m = map_mapindex2mapid(index);
 
 		// choose a suitable max number of attempts
 		if( (max = (y3-y2+1)*(x3-x2+1)*3) > 1000 )
@@ -5511,7 +5515,7 @@ static int buildin_areawarp_sub(struct block_list *bl,va_list ap)
 			tx = rnd()%(x3-x2+1)+x2;
 			ty = rnd()%(y3-y2+1)+y2;
 			j++;
-		} while( map_getcell(index,tx,ty,CELL_CHKNOPASS) && j < max );
+		} while( map_getcell(m,tx,ty,CELL_CHKNOPASS) && j < max );
 
 		pc_setpos((TBL_PC *)bl,index,tx,ty,CLR_OUTSIGHT);
 	}
@@ -11888,6 +11892,7 @@ BUILDIN_FUNC(getmapflag)
 			case MF_NOCOSTUME:			script_pushint(st,map[m].flag.nocostume); break;
 			case MF_GVG_TE_CASTLE:		script_pushint(st,map[m].flag.gvg_te_castle); break;
 			case MF_GVG_TE:				script_pushint(st,map[m].flag.gvg_te); break;
+			case MF_HIDEMOBHPBAR:		script_pushint(st,map[m].flag.hidemobhpbar); break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -12011,6 +12016,7 @@ BUILDIN_FUNC(setmapflag)
 				map[m].flag.gvg_te = 1;
 				clif_map_property_mapall(m, MAPPROPERTY_AGITZONE);
 				break;
+			case MF_HIDEMOBHPBAR:		map[m].flag.hidemobhpbar = 1; break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -12118,6 +12124,7 @@ BUILDIN_FUNC(removemapflag)
 				map[m].flag.gvg_te = 0;
 				clif_map_property_mapall(m, MAPPROPERTY_NOTHING);
 				break;
+			case MF_HIDEMOBHPBAR:		map[m].flag.hidemobhpbar = 0; break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
