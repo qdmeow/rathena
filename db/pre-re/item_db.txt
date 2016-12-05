@@ -1233,21 +1233,21 @@
 2319,Glittering_Clothes,Glittering Jacket,4,20,,2500,,1,,1,0xFFFFFFFE,7,2,16,,60,0,0,{},{},{}
 2320,Formal_Suit,Formal Suit,4,20,,300,,5,,1,0xFFFFFFFE,7,2,16,,0,1,0,{},{},{}
 2321,Silk_Robe,Silk Robe,4,8000,,400,,3,,0,0x0085C7B6,7,2,16,,0,1,0,{ bonus bMdef,10; },{},{}
-2322,Silk_Robe_,Silk Robe,4,8000,,400,,3,,1,0x0085C7B6,7,2,16,,0,1,0,{ bonus bMdef,10; },{},{}
+2322,Silk_Robe_,Silk Robe,4,8000,,400,,2,,1,0x0085C7B6,7,2,16,,0,1,0,{},{},{}
 2323,Scapulare,Scapulare,4,6500,,400,,4,,0,0x00008110,7,2,16,,0,1,0,{},{},{}
 2324,Scapulare_,Scapulare,4,6500,,400,,4,,1,0x00008110,7,2,16,,0,1,0,{},{},{}
 2325,Saint_Robe,Saint's Robe,4,54000,,600,,6,,0,0x00048530,7,2,16,,0,1,0,{ bonus bMdef,5; },{},{}
-2326,Saint_Robe_,Saint's Robe,4,54000,,600,,6,,1,0x00048530,7,2,16,,0,1,0,{ bonus bMdef,5; },{},{}
+2326,Saint_Robe_,Saint's Robe,4,54000,,600,,2,,1,0x00048530,7,2,16,,0,1,0,{},{},{}
 2327,Holy_Robe,Holy Robe,4,20,,1700,,7,,0,0x00008110,7,2,16,,60,1,0,{ bonus bMdef,5; bonus2 bSubRace,RC_Demon,15; bonus2 bSubEle,Ele_Dark,10; },{},{}
 2328,Wooden_Mail,Wooden Mail,4,5500,,1000,,4,,0,0x000444A2,7,2,16,,0,1,0,{},{},{}
 2329,Wooden_Mail_,Wooden Mail,4,5500,,1000,,4,,1,0x000444A2,7,2,16,,0,1,0,{},{},{}
 2330,Tights,Tights,4,71000,,500,,6,,0,0x00080808,7,2,16,,45,1,0,{ bonus bDex,1; },{},{}
-2331,Tights_,Tights,4,71000,,500,,6,,1,0x00080808,7,2,16,,45,1,0,{ bonus bDex,1; },{},{}
+2331,Tights_,Tights,4,71000,,500,,2,,1,0x00080808,7,2,16,,45,1,0,{},{},{}
 2332,Silver_Robe,Silver Robe,4,7000,,700,,4,,0,0x00810204,7,2,16,,0,1,0,{},{},{}
 2333,Silver_Robe_,Silver Robe,4,7000,,700,,4,,1,0x00810204,7,2,16,,0,1,0,{},{},{}
 2334,Mage_Coat,Mage Coat,4,20,,600,,5,,0,0x00810204,7,2,16,,50,1,0,{ bonus bMdef,5; bonus bInt,1; },{},{}
 2335,Thief_Clothes,Thief Clothes,4,74000,,100,,6,,0,0x02021040,7,2,16,,0,1,0,{ bonus bAgi,1; },{},{}
-2336,Thief_Clothes_,Thief Clothes,4,74000,,100,,6,,1,0x02021040,7,2,16,,0,1,0,{ bonus bAgi,1; },{},{}
+2336,Thief_Clothes_,Thief Clothes,4,74000,,100,,2,,1,0x02021040,7,2,16,,0,1,0,{},{},{}
 2337,Ninja_Suit,Ninja Suit,4,20,,1500,,7,,0,0x02021040,7,2,16,,50,1,0,{ bonus bAgi,1; bonus bMdef,3; },{},{}
 2338,Wedding_Dress,Wedding Dress,4,43000,,500,,0,,0,0xFFFFFFFE,7,2,16,,0,1,0,{ bonus bMdef,15; },{},{}
 2339,G_Strings,Pantie,4,1000,,100,,4,,0,0xFFFFFFFF,7,2,16,,0,1,0,{},{},{}
@@ -1264,14 +1264,14 @@
 2350,Earth_Sprits_Armor,Claytos Cracking Earth Armor,4,136000,,2200,,4,,0,0x000444A2,7,2,16,,45,1,0,{ bonus bDefEle,Ele_Earth; },{},{}
 2351,Earth_Sprits_Armor_,Claytos Cracking Earth Armor,4,136000,,2200,,4,,1,0xFFFFFFFE,7,2,16,,45,1,0,{ bonus bDefEle,Ele_Earth; },{},{}
 2352,Novice_Plate,Tattered Novice Ninja Suit,4,1,,1,,4,,0,0x00000001,7,2,16,,0,0,0,{},{},{}
-2353,Odin's_Blessing,Odin's Blessing,4,30000,,2500,,6,,1,0xFFFFFFFE,7,2,16,,65,1,0,{},{},{}
+2353,Odin's_Blessing,Odin's Blessing,4,30000,,2500,,2,,1,0xFFFFFFFE,7,2,16,,65,1,0,{},{},{}
 2354,Goibne's_Armor,Goibne's Armor,4,50000,,3500,,7,,0,0xFFFFFFFE,7,2,16,,54,1,0,{ bonus bVit,2; bonus bMaxHPrate,10; },{},{}
 2355,Angel's_Protection,Angelic Protection,4,10000,,600,,4,,1,0x00000001,7,2,16,,40,1,0,{ bonus bMdef,20; },{},{}
-2356,Vestment_Of_Grace,Blessed Holy Robe,4,20,,2500,,5,,1,0x00008100,7,2,16,,70,1,0,{ bonus bMdef,5; bonus2 bResEff,Eff_Blind,8000; },{},{}
+2356,Vestment_Of_Grace,Blessed Holy Robe,4,20,,2500,,2,,1,0x00008100,7,2,16,,70,1,0,{},{},{}
 2357,Valkyrie_Armor,Valkyrian Armor,4,0,,2800,,6,,1,0xFFFFFFFE,2,2,16,,1,1,0,{ bonus bAllStats,1; bonus bUnbreakableArmor,0; if(BaseClass==Job_Mage||BaseClass==Job_Archer||BaseClass==Job_Acolyte) bonus2 bResEff,Eff_Silence,5000; else if(BaseClass==Job_Swordman||BaseClass==Job_Merchant||BaseClass==Job_Thief) bonus2 bResEff,Eff_Stun,5000; },{},{}
 2358,Dress_Of_Angel,Angel's Dress,4,20,,1000,,5,,0,0xFFFFFFFF,7,2,16,,1,0,0,{ bonus bLuk,4; },{},{}
-2359,Ninja_Suit_,Ninja Suit,4,20,,1500,,7,,1,0x02021040,7,2,16,,50,1,0,{ bonus bAgi,1; bonus bMdef,3; },{},{}
-2360,Robe_Of_Casting_,Robe of Cast,4,124800,,1100,,5,,1,0x00810200,7,2,16,,75,1,0,{ bonus bCastrate,-3; bonus bMdef,4; },{},{}
+2359,Ninja_Suit_,Ninja Suit,4,20,,1500,,2,,1,0x02021040,7,2,16,,50,1,0,{},{},{}
+2360,Robe_Of_Casting_,Robe of Cast,4,124800,,1100,,2,,1,0x00810200,7,2,16,,75,1,0,{},{},{}
 //2361,Blue_Aodai,Blue Robe,4,20,,500,,0,,0,0xFFFFFFFE,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
 //2362,Red_Aodai,Red Robe,4,20,,500,,0,,0,0xFFFFFFFE,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
 //2363,White_Aodai,White Robe,4,20,,500,,0,,0,0x00000001,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
@@ -1283,8 +1283,8 @@
 2369,Freyja_Overcoat,Freyja Overcoat,4,0,,500,,12,,0,0xFFFFFFFE,7,2,16,,0,0,0,{ bonus bUnbreakableArmor,0; bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_Player,10; },{},{}
 2370,Used_Mage_Coat,Used Mage Coat,4,0,,0,,15,,0,0xFFFFFFFF,7,2,16,,0,0,0,{ bonus bMaxHP,300; bonus bMaxSP,30; bonus bBaseAtk,10; bonus bAGI,1; },{},{}
 2371,G_Strings_,Pantie,4,1000,,100,,4,,1,0xFFFFFFFF,7,2,16,,0,1,0,{},{},{}
-2372,Mage_Coat_,Mage Coat,4,20,,600,,5,,1,0x00810204,7,2,16,,50,1,0,{ bonus bMdef,5; bonus bInt,1; },{},{}
-2373,Holy_Robe_,Holy Robe,4,20,,1700,,7,,1,0x00008110,7,2,16,,60,1,0,{ bonus bMdef,5; bonus2 bSubRace,RC_Demon,15; bonus2 bSubEle,Ele_Dark,10; },{},{}
+2372,Mage_Coat_,Mage Coat,4,20,,600,,2,,1,0x00810204,7,2,16,,50,1,0,{},{},{}
+2373,Holy_Robe_,Holy Robe,4,20,,1700,,2,,1,0x00008110,7,2,16,,60,1,0,{},{},{}
 2374,Diabolus_Robe,Diabolus Robe,4,20,,300,,6,,1,0x00098B1C,2,2,16,,55,1,0,{ bonus bMaxSP,150; bonus bMdef,5; bonus bHealPower,6; bonus bDelayRate,-10; },{},{}
 2375,Diabolus_Armor,Diabolus Armor,4,20,,600,,7,,1,0x000654E2,2,2,16,,55,1,0,{ bonus bStr,2; bonus bDex,1; bonus bMaxHP,150; bonus2 bResEff,Eff_Stun,500; bonus2 bResEff,Eff_Stone,500; },{},{}
 2376,Assaulter_Plate,Assaulter Plate,4,10,,0,,7,,1,0x006444A2,7,2,16,,80,1,0,{ bonus bMaxHP,150; bonus bMdef,2; bonus2 bSubRace,RC_DemiHuman,2; bonus2 bSubRace,RC_Player,2; },{},{}
@@ -1400,7 +1400,7 @@
 2533,Freyja_Cape,Freyja Cape,4,0,,200,,10,,0,0xFFFFFFFE,7,2,4,,0,0,0,{ bonus2 bSubRace,RC_DemiHuman,15; bonus2 bSubRace,RC_Player,15; },{},{}
 2534,Ruffler,Ruffler,4,20,,0,,10,,0,0xFFFFFFFF,7,2,4,,0,0,0,{ bonus2 bSubEle,Ele_Neutral,17; bonus bFlee,17; },{},{}
 2535,Cloak_Of_Survival_C,Cloak Of Survival,4,1,,0,,5,,0,0x00810204,7,2,4,,0,0,0,{ bonus bVit,10; bonus bMdef,10; },{},{}
-2536,Skin_Of_Ventus,Skin of Ventus,4,20,,250,,2,,1,0xFFFFFFFE,7,2,4,,60,1,0,{ bonus bMdef,2; bonus bMaxHP,200; bonus bFlee,10; },{},{}
+2536,Skin_Of_Ventus,Skin of Ventus,4,20,,250,,2,,1,0xFFFFFFFE,7,2,4,,60,1,0,{},{},{}
 2537,Diabolus_Manteau,Diabolus Manteau,4,20,,250,,5,,1,0x00CFFF80,2,2,4,,0,1,0,{ bonus2 bSubEle,Ele_Neutral,5; bonus bMaxHP,100; bonus2 bAddDamageClass,1916,10; bonus2 bAddDamageClass,1917,10; },{},{}
 2538,Commander_Manteau,Captain's Manteau,4,10,,0,,4,,1,0x026654E2,7,2,4,,80,1,0,{ bonus bMaxHP,50; bonus bMdef,1; bonus2 bSubRace,RC_DemiHuman,1; bonus2 bSubRace,RC_Player,1; },{},{}
 2539,Commander_Manteau_,Commander's Manteau,4,10,,0,,3,,1,0x00898B1C,7,2,4,,80,1,0,{ bonus bMaxHP,50; bonus bMdef,1; bonus2 bSubRace,RC_DemiHuman,1; bonus2 bSubRace,RC_Player,1; },{},{}
@@ -1722,7 +1722,7 @@
 4085,Orc_Skeleton_Card,Orc Skeleton Card,6,20,,10,,,,,,,,2,,,,,{ bonus2 bAddEle,Ele_Holy,20; },{},{}
 4086,Soldier_Skeleton_Card,Soldier Skeleton Card,6,20,,10,,,,,,,,2,,,,,{ bonus bCritical,9; },{},{}
 4087,Giearth_Card,Giearth Card,6,20,,10,,,,,,,,769,,,,,{ bonus2 bResEff,Eff_Confusion,10000; bonus2 bSubEle,Ele_Earth,15; },{},{}
-4088,Frilldora_Card,Frilldora Card,6,20,,10,,,,,,,,4,,,,,{ skill "AS_CLOAKING",1; },{},{ sc_end SC_CLOAKING; }
+4088,Frilldora_Card,Frilldora Card,6,20,,10,,,,,,,,4,,,,,{},{},{ sc_end SC_CLOAKING; }
 4089,Sword_Fish_Card,Swordfish Card,6,20,,10,,,,,,,,16,,,,,{ bonus bDefEle,Ele_Water; bonus bDef,1; },{},{}
 4090,Munak_Card,Munak Card,6,20,,10,,,,,,,,32,,,,,{ bonus2 bResEff,Eff_Stone,1500; bonus2 bSubEle,Ele_Earth,5; bonus bDef,1; },{},{}
 4091,Kobold_Card,Kobold Card,6,20,,10,,,,,,,,136,,,,,{ bonus bStr,1; bonus bCritical,4; },{},{}
