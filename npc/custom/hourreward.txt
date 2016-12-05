@@ -1,102 +1,109 @@
-//===== Hourly Points Script =========================================
-//===== By: ==========================================================
-//= GorthexTiger modified by Nibi
-//===== Current Version: =============================================
-//= 1.5
-//===== Compatible With: =============================================
-//= Any eAthena Version
-//===== Description: =================================================
-//= Get Points every successful hours of gameplay, you cannot get
-//= the points even if you miss a second or a minute. A player will
-//= get a very big bonus if they played 12 hours consecutively
-//= or without logging out of the game. If the player is vending
-//= the script will then stop.
-//===== Additional Comments: =========================================
-//= You can modify the script to your liking.
-//= The default points is Kafrapoints change it anyway if you like.
-//= 1.1 = Check Chatting too
-//= 1.2 = 5 Minute Idle Check & @at/@autotrade check.
-//= 1.3 = Corrected the current balance line on 12 Hours Consecutive
+// https://rathena.org/board/topic/108276-hourly-points/
 //===== Hurtsky Modification =========================================
-//= 1.4 = 7/11/2016	=	Fix get item for rathena latest rev
-//					=	replace dispbottom with message
-//					=	rearrage message
-//					=	reset count after getting the reward
-//= 1.5 = 2/12/2016	=	Rework completely
+//= 1.1	=	=	Add Idle, Vending and Chatting Check
 //====================================================================
--	script	hourlypoints	-1,{
+ 
+-	script	hourly_point_main	-1,{
 
-OnPointGet:
-	for (.minutes = 0; .minutes <= .maxCount; .minutes++) {
-		sleep2 .countCheck;
-		while ((checkvending() >= 1) || (checkchatting() == 1) || (checkidle() >= .dlimit)) {
-			if(.@mes$==""){
-				.afkcount = (checkidle()/60);
-				if ((checkvending() >= 1) || (checkchatting() >= 1))
-					.checkVenChat += 1;
-				if (.checkVenChat == 1)
-					dispbottom set(.@mes$,"The hourly points event haulted because you were vending or chatting");
-				if (checkidle() > .dlimit)
-					.checkAfk += 1;
-				if (.checkAfk == 1)
-					dispbottom set(.@mes$,"You already entered  "+.afkcount+"mins idle mode, hourly reward timer stopped");
-				if (.checkAfk == .showNotice) {
-					dispbottom set(.@mes$,"You already in idle for "+.afkcount+"mins.");
-					.checkAfk = 2;
-				}
-				callsub OnMinutesReset;
-				end;
+    OnInit:
+		.npc_name$ = strnpcinfo(3);
+		.timer = 60000;									//ms
+		.idlelimit = 600;								//seconds
+        bindatcmd "check",.npc_name$+"::OnAtcommand";
+		end;
+
+    OnAtcommand:
+        dispbottom "Accumulated "+#daily_minute_count+" minute(s)";
+        end;
+
+    OnUpdate:
+		if ((checkvending() >= 1) || (checkchatting() == 1)){
+			#ven_chat_count++;
+			deltimer .npc_name$+"::OnUpdate";
+			switch ( #ven_chat_count ) {
+				default:
+					break;
+				case 1: // display first notice after entering venchat mode
+					dispbottom "[Hourly Reward]:The hourly points event haulted because you were vending or chatting";
+					break;
+				case 20: // display second notice after 20 counts of venchat
+					dispbottom "[Hourly Reward]:The hourly points event haulted because you were vending or chatting";
+					#ven_chat_count = 0; // reset venchat count
+					break;
 			}
+			goto OnTimerReset;
+			end;
 		}
-		if(.minutes == .rewardCount){
-			dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
-			getitem 13607,1;
-			.minutes = 0;
-			.hours++;
+		if (checkidle() >= .idlelimit){
+			#afk_count++;
+			deltimer .npc_name$+"::OnUpdate";
+			@idletime = (checkidle()/60);
+			switch ( #afk_count ) {
+				default:
+					break;
+				case 1: // display first notice after entering idle mode
+					dispbottom "[Hourly Reward]:You already in AFK mode in "+@idletime+" minute(s)";
+					break;
+				case 10: // 10 cycles of AFK getting rewards
+					dispbottom "[AFK Reward]:You gained AFKPOINTS for idle "+@idletime+" minute(s)";
+					#AFKPOINTS++;
+					dispbottom "[AFK Reward]:You have "+#AFKPOINTS+" now";
+					break;
+				case 20: // display second notice after 20 counts of afk
+					dispbottom "[Hourly Reward]:You already in AFK mode in"+@idletime+" minute(s)";
+					#afk_count = 0; // reset afk count
+					break;
+			}
+			goto OnTimerReset;
+			end;
 		}
-		if(.hours == .secondReward){
-			dispbottom "[Hourly Reward]:You received 2 box of Yggdrasil Berry Box";
-			dispbottom "[Hourly Reward]:You received 2 pieces of Rojak Gold Coin";
-			dispbottom "[Hourly Reward]:You received 2 scrolls of Transformation Scroll(Horn Scaraba)";
-			dispbottom "[Hourly Reward]:You received 2 scrolls of Transformation Scroll(Kobold Archer)";
-			dispbottom "[Hourly Reward]:You received 1 piece of Medal of Hunter";
-			dispbottom "[Hourly Reward]:Thank you for playing 5 consecutive hours, enjoy your reward!";
-			getitem 13517,2;
-			getitem 50008,2;
-			getitem 22750,2;
-			getitem 22753,2;
-			getitem 50028,1;
-			.minutes = 0;
-			.hours = 0;
+		#ven_chat_count = 0; 	// reset vending and chatting room count if pass check
+		#afk_count = 0;			// reset afk count if pass check
+		#daily_minute_count++;
+		deltimer .npc_name$+"::OnUpdate";
+		dispbottom "Accumulated "+#daily_minute_count+" minute(s)";
+		switch ( #daily_minute_count ) {
+			default:
+				break;
+            case 60: // 1hour
+				dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
+				getitem 13607,1;
+				break;
+            case 120: // 2hour
+				dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
+				getitem 13607,1;
+                break;
+            case 180: // 3hour
+				dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
+				getitem 13607,1;
+                break;
+            case 240: // 4hour
+				dispbottom "[Hourly Reward]:You received 1 box of gum for continously playing in 1 hour";
+				getitem 13607,1;
+				break;
+            case 300: // 5hour
+				dispbottom "[Hourly Reward]:You received 1 box of Gum";
+				dispbottom "[Hourly Reward]:You received 2 pieces of Rojak Gold Coin";
+				dispbottom "[Hourly Reward]:You received 2 box of Yggdrasil Berry Box";
+				dispbottom "[Hourly Reward]:You received 1 piece of Medal of Hunter";
+				dispbottom "[Hourly Reward]:Thank you for playing 5 consecutive hours, enjoy your reward!";
+				getitem 13607,1;
+				getitem 50008,2;
+				getitem 13517,2;
+				getitem 50028,1;
+				#daily_minute_count = 0; // reset.
+				break;
 		}
-	}
 
-OnPCLoginEvent:
-    addtimer .timer,"hourlypoints::OnPointGet";
-    end;
+	OnTimerReset:
+	OnPCLoginEvent:
+		addtimer .timer, .npc_name$+"::OnUpdate";
+		end;
 
-OnMinutesReset:
-	.minutes = 0;									//reset minutes count
-	callsub OnPointGet;
-	end;
-
-OnCmdHour:
-	message strcharinfo(0),"[Hourly Reward]: You're already "+.hours+"hours and "+.minutes+"minutes in hourly reward timer.";
-	end;
-
-OnPCLogoutEvent:
-	deltimer "hourlypoints::OnPointGet";
-	end;
-
-OnInit:
-	bindatcmd "hour","hourlypoints::OnCmdHour";
-    set .timer, 5000;				// start count after 5second login
-	set .countCheck, 60000; 		// check every 1minutes in ms == should be 60000
-	set .rewardCount, 60; 			// give reward at 60mins = 1 Hour. == should be 60
-	set .secondReward, 5;			// give different reward at next (.secondReward) hours == default 5 hours
-	set .maxCount, 720;				// Max cycle is 12 hours == should be 720
-    set .dlimit, 300; 				// idle check in seconds == should be 300 = 5mins
-	set .showNotice, 20; 			// show 1 notice every (.showNotice) minutes == should be 20 cycle
-	.checkVenChat = 0;				// initialize
-	.checkAfk = 0;					// initialize
+	OnPCLogoutEvent:
+		deltimer .npc_name$+"::OnUpdate";		// delete timer
+		#ven_chat_count = 0; 					// reset all
+		#afk_count = 0;							// reset all
+        #daily_minute_count = 0;				// reset all
+		end;
 }
