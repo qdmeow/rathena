@@ -1077,7 +1077,7 @@
 2107,Mirror_Shield,Mirror Shield,4,60000,,1000,,4,,0,0x00404082,7,2,32,,0,1,4,{ bonus bMdef,5; },{},{}
 2108,Mirror_Shield_,Mirror Shield,4,60000,,1000,,4,,1,0x00404082,7,2,32,,0,1,4,{ bonus bMdef,5; },{},{}
 2109,Memorize_Book,Memory Book,4,20,,1000,,3,,0,0x00810204,7,2,32,,0,1,5,{ bonus bInt,1; bonus bMdef,2; },{},{}
-2110,Holy_Guard,Holy Guard,4,85000,,1400,,5,,0,0x00004000,7,2,32,,68,0,4,{ bonus bVit,2; bonus bMdef,2; },{},{}
+2110,Holy_Guard,Holy Guard,4,85000,,1400,,5,,0,0x00004000,7,2,32,,68,0,4,{ bonus bMdef,2; },{},{}
 2111,Herald_Of_GOD,Sacred Mission,4,128000,,1600,,5,,0,0x00004000,7,2,32,,83,1,4,{ bonus bVit,3; bonus bInt,2; bonus bMdef,3; bonus bUnbreakableShield,0; },{},{}
 2112,Novice_Guard,Novice Guard,4,1,,1,,3,,0,0x00000001,7,2,32,,0,0,1,{},{},{}
 2113,Novice_Shield,Novice Shield,4,5000,,1000,,3,,1,0x00000001,7,2,32,,40,1,3,{ bonus2 bSubEle,Ele_Water,20; bonus2 bSubEle,Ele_Earth,20; bonus2 bSubEle,Ele_Fire,20; bonus2 bSubEle,Ele_Wind,20; bonus2 bSubEle,Ele_Poison,20; bonus2 bSubEle,Ele_Ghost,20; bonus2 bSubEle,Ele_Undead,20; },{},{}
@@ -1088,17 +1088,17 @@
 2118,Arm_Guard_,Arm Guard,4,10000,,150,,5,,1,0x02000000,7,2,32,,20,1,1,{},{},{}
 2119,Improved_Arm_Guard,Advanced Arm Guard,4,40000,,150,,4,,0,0x02000000,7,2,32,,50,1,1,{ bonus bMdef,5; },{},{}
 2120,Improved_Arm_Guard_,Advanced Arm Guard,4,40000,,150,,4,,1,0x02000000,7,2,32,,50,1,1,{ bonus bMdef,5; },{},{}
-2121,Memorize_Book_,Memory Book,4,20,,1000,,3,,1,0x00810204,7,2,32,,0,1,5,{ bonus bInt,1; bonus bMdef,2; },{},{}
+2121,Memorize_Book_,Memory Book,4,20,,1000,,3,,1,0x00810204,7,2,32,,0,1,5,{},{},{}
 2122,Platinum_Shield,Platinum Shield,4,20,,1200,,5,,0,0xFFFFFFFE,2,2,32,,68,1,4,{ bonus bMdef,5; bonus2 bSubSize,Size_Medium,15; bonus2 bSubSize,Size_Large,15; bonus2 bSubRace,RC_Undead,10; bonus5 bAutoSpellWhenHit,"NPC_MAGICMIRROR",7,150,BF_MAGIC,0; },{},{}
 2123,Orleans_Server,Orleans's Server,4,20,,1000,,5,,1,0xFFFFFFFE,2,2,32,,55,1,4,{ bonus bMdef,2; bonus bMagicDamageReturn,5; },{},{}
 2124,Thorny_Buckler,Thorny Buckler,4,20,,1000,,5,,1,0xFFFFFFFE,2,2,32,,55,1,2,{ bonus bMdef,2; },{},{}
 2125,Strong_Shield,Strong Shield,4,20,,2500,,4,,1,0xFFFFFFFE,2,2,32,,75,1,4,{ bonus bNoKnockback,0; bonus2 bSubEle,Ele_Neutral,-20; bonus2 bSubEle,Ele_Fire,-20; bonus2 bSubEle,Ele_Water,-20; bonus2 bSubEle,Ele_Wind,-20; bonus2 bSubEle,Ele_Earth,-20; bonus2 bSubEle,Ele_Dark,-20; bonus2 bSubEle,Ele_Holy,-20; bonus2 bSubEle,Ele_Ghost,-20; },{},{}
 2126,Guyak_Shield,Guyak Shield,4,20,,700,,3,,0,0xFFFFFFFE,7,2,32,,75,1,2,{ bonus bMdef,3; },{},{}
 2127,Secular_Mission,Secular Mission,4,20,,0,,10,,0,0xFFFFFFFF,7,2,32,,0,0,4,{ bonus2 bSubClass,Class_All,25; },{},{}
-2128,Herald_Of_GOD_,Sacred Mission,4,128000,,1600,,5,,1,0x00004000,7,2,32,,83,1,4,{ bonus bVit,3; bonus bInt,2; bonus bMdef,3; bonus bUnbreakableShield,0; },{},{}
+2128,Herald_Of_GOD_,Sacred Mission,4,128000,,1600,,5,,1,0x00004000,7,2,32,,83,1,4,{ bonus bMdef,3; bonus bUnbreakableShield,0; },{},{}
 2129,Exorcism_Bible,Exorcism Bible,4,20,,600,,5,,0,0x00008100,7,2,32,,50,1,5,{ bonus bHPrecovRate,3; bonus bSPrecovRate,3; bonus bInt,1; },{},{}
 2130,Cross_Shield,Cross Shield,4,20,,2000,,6,,1,0x00004000,7,2,32,,80,1,4,{ bonus bStr,1; bonus2 bSkillAtk,"PA_SHIELDCHAIN",30; bonus2 bSkillAtk,"CR_SHIELDBOOMERANG",30; bonus bUseSPrate,10; },{},{}
-2131,Magic_Study_Vol1,Magic Bible Vol1,4,20,,1000,,2,,1,0x00810204,2,2,32,,70,1,5,{ bonus bMdef,3; bonus bInt,2; bonus2 bAddEffWhenHit,Eff_Stun,1000; },{},{}
+2131,Magic_Study_Vol1,Magic Bible Vol1,4,20,,1000,,2,,1,0x00810204,2,2,32,,70,1,5,{},{},{}
 2132,Shelter_Resistance,Shell Of Resistance,4,20,,0,,9,,0,0xFFFFFFFF,2,2,32,,0,0,2,{ bonus2 bSubEle,Ele_Neutral,20; bonus2 bSubEle,Ele_Water,20; bonus2 bSubEle,Ele_Earth,20; bonus2 bSubEle,Ele_Fire,20; bonus2 bSubEle,Ele_Wind,20; bonus2 bSubEle,Ele_Poison,20; bonus2 bSubEle,Ele_Holy,20; bonus2 bSubEle,Ele_Dark,20; bonus2 bSubEle,Ele_Ghost,20; bonus2 bSubEle,Ele_Undead,20; bonus bShortWeaponDamageReturn,1; },{},{}
 2133,Tournament_Shield,Tournament Shield,4,20,,1000,,5,,1,0x00004082,2,2,32,,50,1,4,{ bonus2 bAddClass,Class_All,1; if( Class==Job_Lord_Knight ) bonus bAspdRate,-5; },{},{}
 2134,Shield_Of_Naga,Shield of Naga,4,20,,500,,3,,1,0x00CFFF80,2,2,32,,70,1,2,{ bonus bMdef,3; autobonus2 "{ bonus bShortWeaponDamageReturn,(getrefine()*3); }",10,5000,BF_WEAPON,"{ specialeffect2 EF_GUARD; }"; },{},{}
@@ -1275,7 +1275,7 @@
 //2361,Blue_Aodai,Blue Robe,4,20,,500,,0,,0,0xFFFFFFFE,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
 //2362,Red_Aodai,Red Robe,4,20,,500,,0,,0,0xFFFFFFFE,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
 //2363,White_Aodai,White Robe,4,20,,500,,0,,0,0x00000001,7,2,16,,1,1,0,{ bonus bAllStats,3; bonus bMdef,5; },{},{}
-2364,Meteo_Plate_Armor,Meteo Plate Armor,4,20,,3000,,10,,1,0x000444A2,2,2,16,,55,1,0,{ bonus2 bResEff,Eff_Stun,3000; bonus2 bResEff,Eff_Freeze,3000; },{},{}
+2364,Meteo_Plate_Armor,Meteo Plate Armor,4,20,,3000,,10,,1,0x000444A2,2,2,16,,55,1,0,{},{},{}
 2365,Orleans_Gown,Orleans's Gown,4,20,,300,,2,,1,0xFFFFFFFE,2,2,16,,55,1,0,{ bonus bCastrate,15; bonus bNoCastCancel,0; },{},{}
 2366,Divine_Cloth,Divine Cloth,4,20,,1500,,6,,1,0xFFFFFFFE,2,2,16,,55,1,0,{ bonus2 bResEff,Eff_Curse,500; bonus2 bResEff,Eff_Silence,500; bonus2 bResEff,Eff_Stun,500; bonus2 bResEff,Eff_Stone,500; bonus2 bResEff,Eff_Sleep,500; },{},{}
 2367,Sniping_Suit,Sniping Suit,4,20,,750,,5,,1,0x00000800,2,2,16,,50,1,0,{ bonus bMdef,5; bonus bCritical,6+(readparam(bLuk)/10); bonus bDelayRate,-23; },{},{}
@@ -1327,7 +1327,7 @@
 2412,Grave_,Greaves,4,54000,,750,,5,,1,0x00004080,7,2,64,,65,1,0,{},{},{}
 2413,Safty_Boots,Safety Boots,4,34000,,350,,6,,0,0x00004082,7,2,64,,30,0,0,{},{},{}
 2414,Novice_Boots,Novice Slippers,4,1,,1,,2,,0,0x00000001,7,2,64,,0,0,0,{},{},{}
-2415,Slipper,Bunny Slipper,4,34000,,300,,3,,1,0xFFFFFFFE,7,0,64,,30,1,0,{ bonus bLuk,3; bonus bMdef,3; },{},{}
+2415,Slipper,Bunny Slipper,4,34000,,300,,3,,1,0xFFFFFFFE,7,0,64,,30,1,0,{},{},{}
 2416,Novice_Shoes,Novice Shoes,4,35000,,500,,2,,1,0x00000001,7,2,64,,40,1,0,{ bonus bMaxHPrate,5; },{},{}
 2417,Fricco_Shoes,Fricco's Shoes,4,30000,,500,,3,,0,0xFFFFFFFE,7,2,64,,65,1,0,{ bonus bAgi,2; bonus2 bAddItemGroupHealRate,IG_Potion,20; },{},{}
 2418,Vidar's_Boots,Vidar's Boots,4,30000,,650,,4,,0,0xFFFFFFFE,7,2,64,,65,1,0,{ bonus bMaxHPrate,9; bonus bMaxSPrate,9; },{},{}
@@ -1378,7 +1378,7 @@
 2511,Skeleton's_Cape,Skeleton Manteau,4,5000,,700,,1,,0,0xFFFFFFFE,7,2,4,,75,1,0,{ bonus bStr,2; bonus bInt,-3; bonus bDex,2; bonus bVit,-3; bonus bLuk,2; bonus bAgi,-4; },{},{}
 2512,Novice_Manteau,Novice Manteau,4,50000,,500,,2,,1,0x00000001,7,2,4,,40,1,0,{ bonus2 bSubEle,Ele_Neutral,10; },{},{}
 2513,Celestial_Robe,Heavenly Maiden Robe,4,20,,500,,3,,1,0xFFFFFFFE,7,2,4,,80,1,0,{},{},{}
-2514,Pauldron,Pauldron,4,20,,800,,5,,1,0x000654E2,7,2,4,,80,1,0,{},{},{}
+2514,Pauldron,Pauldron,4,20,,800,,4,,1,0x000654E2,7,2,4,,80,1,0,{},{},{}
 2515,Wing_Of_Eagle,Eagle Wing,4,20000,,300,,1,,1,0x00810204,7,2,4,,85,1,0,{},{},{}
 2516,Falcon_Robe,Falcon Muffler,4,30000,,400,,3,,0,0xFFFFFFFE,7,2,4,,65,1,0,{ bonus bFlee,15; bonus bFlee2,5; },{},{}
 2517,Vali's_Manteau,Vali's Manteau,4,30000,,600,,4,,0,0xFFFFFFFE,7,2,4,,65,1,0,{ bonus2 bSubEle,Ele_Neutral,15; },{},{}
@@ -1386,10 +1386,10 @@
 2519,Morrigane's_Manteau,Morrigane's Manteau,4,30000,,600,,3,,0,0xFFFFFFFE,7,2,4,,61,1,0,{ bonus bLuk,2; bonus bFlee2,8; },{},{}
 2520,Goibne's_Shoulder_Arms,Goibne's Spaulders,4,30000,,700,,3,,0,0xFFFFFFFE,7,2,4,,54,1,0,{ bonus bLongAtkDef,10; bonus bMdef,2; bonus bVit,1; },{},{}
 2521,Angel's_Warmth,Angelic Cardigan,4,10000,,400,,2,,1,0x00000001,7,2,4,,20,1,0,{ bonus bHPrecovRate,5; },{},{}
-2522,Undershirt,Undershirt,4,20000,,150,,2,,0,0xFFFFFFFF,7,2,4,,1,1,0,{ bonus bMdef,1; },{},{}
-2523,Undershirt_,Undershirt,4,20000,,150,,2,,1,0xFFFFFFFF,7,2,4,,1,1,0,{ bonus bMdef,1; },{},{}
+2522,Undershirt,Undershirt,4,20000,,150,,2,,0,0xFFFFFFFF,7,2,4,,1,1,0,{},{},{}
+2523,Undershirt_,Undershirt,4,20000,,150,,2,,1,0xFFFFFFFF,7,2,4,,1,1,0,{},{},{}
 2524,Valkyrie_Manteau,Valkyrian Manteau,4,0,,500,,3,,1,0xFFFFFFFE,2,2,4,,1,1,0,{ bonus bUnbreakableGarment,0; if(BaseClass==Job_Mage||BaseClass==Job_Archer||BaseClass==Job_Acolyte) bonus bFlee2,5+(getequiprefinerycnt(EQI_GARMENT)*2); else if(BaseClass==Job_Swordman||BaseClass==Job_Merchant||BaseClass==Job_Thief) bonus bShortWeaponDamageReturn,5+(getequiprefinerycnt(EQI_GARMENT)*2); },{},{}
-2525,Cape_Of_Ancient_Lord_,Ancient Cape,4,82000,,600,,2,,1,0xFFFFFFFE,7,2,4,,40,1,0,{ bonus bAgi,1; },{},{}
+2525,Cape_Of_Ancient_Lord_,Ancient Cape,4,82000,,600,,2,,1,0xFFFFFFFE,7,2,4,,40,1,0,{},{},{}
 2526,Dragon_Scale_Coat,Coat of Dragon Scale,4,20,,10,,4,,0,0xFFFFFFFF,7,2,4,,50,1,0,{},{},{}
 2527,Dragon_Breath,Dragon Breath,4,20,,600,,4,,1,0xFFFFFFFE,2,2,4,,48,1,0,{ bonus2 bSubRace,RC_Dragon,15; },{},{}
 2528,Wool_Scarf,Wool Scarf,4,20,,500,,3,,1,0xFFFFFFFE,2,2,4,,55,1,0,{ bonus bMdef,4; },{},{}
@@ -1864,7 +1864,7 @@
 4227,Spring_Rabbit_Card,Spring Rabbit Card,6,20,,10,,,,,,,,136,,,,,{ bonus2 bAddItemGroupHealRate,IG_Meat,50; bonus3 bAddMonsterDropItem,517,RC_Brute,200; bonus3 bAddMonsterDropItem,528,RC_Brute,200; },{},{}
 4228,Sleeper_Card,Sleeper Card,6,20,,10,,,,,,,,136,,,,,{ bonus3 bAddMonsterDropItem,12031,RC_Fish,100; },{},{}
 4229,C_Tower_Manager_Card,Tower Keeper Card,6,20,,10,,,,,,,,769,,,,,{ bonus bInt,1; bonus bCastrate,-5; },{},{}
-4230,Shinobi_Card,Shinobi Card,6,20,,10,,,,,,,,136,,,,,{ bonus bAgi,1; bonus3 bAutoSpellWhenHit,"AS_CLOAKING",5,100; },{},{}
+4230,Shinobi_Card,Shinobi Card,6,20,,10,,,,,,,,136,,,,,{},{},{}
 4231,Increase_Soil_Card,Mi Gao Card,6,20,,10,,,,,,,,32,,,,,{ bonus2 bSubRace2,RC2_Guardian,50; },{},{}
 4232,Wild_Ginseng_Card,Hermit Plant Card,6,20,,10,,,,,,,,136,,,,,{ bonus2 bAddItemGroupHealRate,IG_Herb,50; bonus3 bAddMonsterDropItem,507,RC_Plant,300; bonus3 bAddMonsterDropItem,508,RC_Plant,200; bonus3 bAddMonsterDropItem,509,RC_Plant,100; },{},{}
 4233,Baby_Leopard_Card,Baby Leopard Card,6,20,,10,,,,,,,,16,,,,,{ bonus bLuk,3; if(BaseClass==Job_Merchant) bonus bUnbreakableArmor,0; },{},{}
