@@ -26,21 +26,6 @@
 1@spa	mapflag	noicewall
 1@spa	mapflag	monster_noteleport
 
-function	script	questprogress	{
-	.@id = getarg(0);
-	.@type = getarg(1, HAVEQUEST);
-	.@val = checkquest(.@id, .@type);
-	if(.@val == -1){
-		return 0;
-	}else if(.@val == 0 || .@val == 1){
-		return 1;
-	}else if(.@val == 2){
-		return 2;
-	}else{ // Unknown state
-		return 0;
-	}
-}
-
 -	itemshop	Gray Shard Exchanger#GSE	-1,6672,1438:100,1496:100,1669:100,1836:100,1933:100,1988:100,2023:100,13093:100,13441:100,16028:100,18119:100,21009:100,28000:100,28100:100,2187:50,15090:50,15091:50,18820:50,20721:50,22033:50
 
 
@@ -69,32 +54,21 @@ dali,43,129,5	script	Unpleasant R. Guard	4_M_SAKRAYROYAL,{
 		mes "So weak... you must be level 110 at least.";
 		close;
 	}
-	if (questprogress(1261)) {
-		if (questprogress(1261, PLAYTIME) == 2) {
-			mes "You may enter the Ghost Palace again.";
-			erasequest 1261;
-			if(questprogress(1260)) erasequest 1260;
-			close;
-		}
+	if ((checkquest(1261,PLAYTIME) == 2)){
+		mes "You may enter the Ghost Palace again.";
+		erasequest 1261;
+		if(checkquest(1260))
+			erasequest 1260;
+		close;
+	}
+
+	if ((checkquest(1261,PLAYTIME) == 0) || (checkquest(1261,PLAYTIME) == 1)){
 		mes "You are still on cooldown for Ghost Palace.";
 		close;
 	}
 
-/*	if(questprogress(1260)) {
-
-			mes "[Unpleasant R. Guard]";
-			mes "Did the gate close?";
-			mes "Please enter the gate as soon as you can next time.";
-			erasequest 1260;
-			close;
-			}
-		mes "[Unpleasant R. Guard]";
-		mes "Please go ahead, ^0000ffThe entrance is behind me.^000000";
-		mes "I will be right behind you!";
-		close;
-*/
 	set .@party_id,getcharid(1);
-	
+
 	if (!.@party_id) {
 		mes "[Unpleasant R. Guard]";
 		mes "The Palace is dangerous, please come back when you have a team assembled.";
@@ -134,27 +108,32 @@ dali,43,129,5	script	Unpleasant R. Guard	4_M_SAKRAYROYAL,{
 		close;
 	}
 	
-	if(!questprogress(1260)) setquest 1260;
+	if(checkquest(1260) == -1) {
+		setquest 1260;
 		mes "[Unpleasant R. Guard]";
 		mes "Thank you. Let me open the secret passage for you.";
 		mes "Go ahead, ^0000ffthe entrance is behind me.^000000";
 		mes "I will be right there with you!";
 		close;
-
+	}
 }
 
 dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
-	if (questprogress(1261)) {
-		if (questprogress(1261, PLAYTIME) == 2) {
-			mes "You may enter the Ghost Palace again.";
-			erasequest 1261;
-			if(questprogress(1260)) erasequest 1260;
-			close;
-		}
+
+	if (checkquest(1261, PLAYTIME) == 2) {
+		mes "You may enter the Ghost Palace again.";
+		erasequest 1261;
+		if(checkquest(1260) == 2)
+			erasequest 1260;
+		close;
+	}
+
+	if ((checkquest(1261,PLAYTIME) == 0) || (checkquest(1261,PLAYTIME) == 1)){
 		mes "You are still on cooldown for Ghost Palace.";
 		close;
 	}
-	if(getcharid(0) == getpartyleader(.@party_id,2) && !questprogress(1260)) {
+
+	if(getcharid(0) == getpartyleader(.@party_id,2)) {
 		mes "[Unpleasant R. Guard]";
 		mes "Please help me adventurers!";
 		mes "Have your party leader to speak to me.";
@@ -171,22 +150,23 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		close;
 	} 
 	switch(instance_enter("Ghost Palace")) {
-			case 3:
-				mes "An unknown error has occurred.";
-				close;
-			case 2:
-				mes "The memorial dungeon Ghost Palace does not exist.";
-				mes "The party leader did not generate the dungeon yet.";
-				close;
-			case 1:
-				mes "Only the registered members can enter the instance Ghost Palace.";
-				close;
-			case 0:
+		case 3:
+			mes "An unknown error has occurred.";
+			close;
+		case 2:
+			mes "The memorial dungeon Ghost Palace does not exist.";
+			mes "The party leader did not generate the dungeon yet.";
+			close;
+		case 1:
+			mes "Only the registered members can enter the instance Ghost Palace.";
+			close;
+		case 0:
 	mapannounce "dali",strcharinfo(0)+" of "+getpartyname(getcharid(1))+" is entering the Ghost Palace.",bc_map,"0x00ff99"; //FW_NORMAL 12 0 0
-	if(!questprogress(1260)) setquest 1260;
-	setquest 1261;
-				close;
-			}
+	if(!checkquest(1260))
+		setquest 1260;
+		setquest 1261;
+		close;
+	}
 
 }
 
@@ -250,7 +230,7 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		areamonster .@mapname$,182,190,214,214,"--ja--",2949,2,.@label$;
 		areamonster .@mapname$,182,190,214,214,"--ja--",2948,2,.@label$;
 		end;
-	
+
 	OnMyMobDead:
 		if(mobcount(instance_mapname("1@spa"),instance_npcname("#gp1control")+"::OnMyMobDead"))
 			end;
@@ -263,11 +243,11 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		enablenpc instance_npcname("#gp1warp");
 		disablenpc instance_npcname("#gp1control");
 		end;
-		
+
 	OnInstanceInit:
 		'gp1 = 0;
 		disablenpc instance_npcname("#gp1warp");
-		end;		
+		end;
 }
 
 
@@ -353,7 +333,7 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		areamonster .@mapname$,143,96,94,143,"--ja--",2951,4,.@label$;
 		areamonster .@mapname$,143,96,94,143,"--ja--",2952,3,.@label$;
 		end;
-	
+
 	OnMyMobDead:
 		if(mobcount(instance_mapname("1@spa"),instance_npcname("#gp2control")+"::OnMyMobDead"))
 			end;
@@ -361,10 +341,10 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		enablenpc instance_npcname("#gp2warp");
 		disablenpc instance_npcname("#gp2control");
 		end;
-		
+
 	OnInstanceInit:
 		disablenpc instance_npcname("#gp2warp");
-		end;		
+		end;
 }
 
 1@spa,117,137,0	warp	#gp2warp	1,1,1@spa,60,43
@@ -461,7 +441,7 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 		unittalk 'talkid[3], "and your princess might suffer too!";
 		end;
 
-	
+
 	OnMyMobDead:
 		if(mobcount(instance_mapname("1@spa"),instance_npcname("#gp3control")+"::OnMyMobDead"))
 			end;
@@ -479,11 +459,11 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 			disablenpc instance_npcname("#gp3control");
 		}
 		end;
-		
+
 	OnInstanceInit:
 		disablenpc instance_npcname("#gp3warp");
 		'gp3 = 0;
-		end;		
+		end;
 }
 
 1@spa,35,56,1	script	Unknown Voice#gp3	4_TRACE,{
@@ -528,12 +508,12 @@ dali,40,134,0	script	Dimensional Gate#gp	PORTAL,{
 warp instance_mapname("1@spa"),218,186;
 	}
 	else {
-		if(questprogress(40024)) completequest 40024;
+		if(checkquest(40024) == 1)
+		completequest 40024;
 		warp "dali",49,127;
 	}
 	end;
 }
-
 
 1@spa,1,1,1	script	#gp4control	HIDDEN_NPC,{
 		end;
@@ -546,7 +526,7 @@ warp instance_mapname("1@spa"),218,186;
 		areamonster .@mapname$,182,217,214,188,"--ja--",2949,rand(2,3),.@label$;
 		areamonster .@mapname$,182,217,214,188,"--ja--",2956,rand(2,3),.@label$;
 		end;
-	
+
 	OnMyMobDead:
 		if(mobcount(instance_mapname("1@spa"),instance_npcname("#gp4control")+"::OnMyMobDead"))
 			end;
@@ -556,7 +536,7 @@ warp instance_mapname("1@spa"),218,186;
 		else
 			donpcevent instance_npcname("#gp4control") + "::OnSummon";
 		end;
-		
+
 	OnStory:
 		for(.@i = 1; .@i <= 4; ++.@i)
 				enablenpc instance_npcname("Corpse#gp4"+.@i);
@@ -565,7 +545,7 @@ warp instance_mapname("1@spa"),218,186;
 		enablenpc instance_npcname("Thanatos#gp4");
 		enablenpc instance_npcname("Prince#gp4");
 		end;
-		
+
 	OnBoss:
 		for(.@i = 1; .@i <= 4; ++.@i)
 				hideonnpc instance_npcname("Corpse#gp4"+.@i);
@@ -576,14 +556,14 @@ warp instance_mapname("1@spa"),218,186;
 		sleep 1000;
 		monster instance_mapname("1@spa"),197,218,"--ja--",2959,1,instance_npcname("#gp4control")+"::OnBossDead";
 		end;
-	
+
 	OnBossDead:
 		mapannounce instance_mapname("1@spa"), "You may access palace level 5.", bc_map, "0XFFFF00";
 		enablenpc instance_npcname("#gp4warp");
 		donpcevent instance_npcname("#gp5control") + "::OnStart";
 		disablenpc instance_npcname("#gp4control");
 		end;
-			
+
 	OnInstanceInit:
 		disablenpc instance_npcname("#gp4warp");
 		for(.@i = 1; .@i <= 4; ++.@i)
@@ -632,7 +612,7 @@ warp instance_mapname("1@spa"),218,186;
 	close2;
 	cutin "",255;
 	donpcevent instance_npcname("#gp4control") + "::OnBoss";
-	end;	
+	end;
 }
 
 1@spa,197,218,5	script	Prince#gp4	4_M_KNIGHT_SILVER,{
@@ -650,7 +630,7 @@ warp instance_mapname("1@spa"),218,186;
 		enablenpc instance_npcname("Unpleasant R. Guard#gp5");
 		enablenpc instance_npcname("Princess Tiara#gp5");
 		end;
-	
+
 	OnStart2:	
 		hideonnpc instance_npcname("Unpleasant R. Guard#gp5");
 		hideonnpc instance_npcname("Princess Tiara#gp5");
@@ -667,7 +647,7 @@ warp instance_mapname("1@spa"),218,186;
 		areamonster .@mapname$,61,63,24,24,"--ja--",2956,rand(1,2),.@label$;
 		'talkid[3] = $@mobid[0];
 		end;
-	
+
 	OnTimer2000:
 		stopnpctimer;
 		unittalk 'talkid[0],"Open your eyes and look! We are not monsters!";
@@ -675,7 +655,7 @@ warp instance_mapname("1@spa"),218,186;
 		unittalk 'talkid[2], "Sakray... Sakray you...!";
 		unittalk 'talkid[3], "Sakray killed the king! Now he wants to kill us!";
 		end;
-	
+
 	OnMyMobDead:
 		if(mobcount(instance_mapname("1@spa"),instance_npcname("#gp5control")+"::OnMyMobDead"))
 			end;
@@ -685,11 +665,12 @@ warp instance_mapname("1@spa"),218,186;
 		else
 			donpcevent instance_npcname("#gp5control") + "::OnSummon";
 		end;
-	
+
 	OnStory:
 		stopnpctimer;
-		'BossID = monster(instance_mapname("1@spa"),44,47,"--ja--",2961,1,instance_npcname("#gp4control")+"::OnBossDead");
-		setunitdata 'BossID,29,1;
+		monster instance_mapname("1@spa"),44,47,"--ja--",2961,1,instance_npcname("#gp4control")+"::OnBossDead";
+		'BossID = $@mobid[0];
+		setunitdata 'BossID,UMOB_MAXHP,1000000;
 		unittalk 'BossID, "Thanatos, if I can't be your master, I will simply destroy you!";
 		sleep 3000;
 		unittalk 'BossID,"...ughh.. nooo. this is not happening!!...";
@@ -698,7 +679,7 @@ warp instance_mapname("1@spa"),218,186;
 		enablenpc instance_npcname("Thanatos#gp5");
 		unitkill 'BossID;
 		end;
-	
+
 	OnEnd:
 		mapannounce instance_mapname("1@spa"), "Princess Tiara's Voice: Then, what can I do for you?", bc_map, "0XFFFFFF";
 		sleep 3000;
