@@ -40,6 +40,8 @@
 //Rental 3
 
 //Equips 4
+4,2589,30
+4,2573,30
 
 //Scrolls 5
 
