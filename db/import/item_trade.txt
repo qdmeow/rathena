@@ -50,3 +50,12 @@
 50043,1,100	// Goblini_Mask_Lvl_1
 50044,1,100	// Thanatos_Mal_Mask_Lvl_1
 50045,1,100	// Wings_of_Purity
+50049,1,100	// Red_Angel_Wings
+50050,1,100	// Skull_Aura
+50051,1,100	// Blue_Angel_Wings
+50052,1,100	// Green_Angel_Wings
+50053,1,100	// Golden_Angel_Wings
+50054,1,100	// Wraith_Devil_Wings
+50055,1,100	// Crow_Wings
+50056,1,100	// Holy_Angel_Wings
+50057,1,100	// Elemental_Glasses
