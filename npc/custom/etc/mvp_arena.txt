@@ -31,7 +31,7 @@ quiz_00,49,31,4	script	MVP Arena Guide	778,{
 	mes "[ ^0065DFMVP Arena Guide^000000 ]";
 	mes "Welcome and behold this sacred place. Here you will find out if you truly have what it takes to call yourself a warrior.";
 	next;
-	switch(select("Information","Heal me!","Return to Prontera","Cancel")) {
+	switch(select("Information","Heal me!","Return to Dewata","Cancel")) {
 	case 1:
 		mes "[ ^0065DFMVP Arena Guide^000000 ]";
 		mes "There are four Keepers, and each can spawn four different MVPs.";
@@ -42,7 +42,7 @@ quiz_00,49,31,4	script	MVP Arena Guide	778,{
 		percentheal 100,100;
 		close;
 	case 3:
-		warp "prontera",156,179;
+		warp "dewata",199,178;
 		close;
 	case 4:
 		close;
@@ -82,7 +82,7 @@ function	script	Protector	{
 		percentheal 100,100;
 		end;
 	case 3:
-		warp "prontera",156,179;
+		warp "dewata",199,178;
 		end;
 	}
 }
