@@ -23,6 +23,7 @@ before_script:
   - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db_re.sql || aborterror "Unable to import renewal monster skill table."
   - mysql -u $DB_ROOT $DB_NAME < sql-files/mob_skill_db2_re.sql || aborterror "Unable to import renewal monster skill 2 table."
   - mysql -u $DB_ROOT $DB_NAME < sql-files/roulette_default_data.sql || aborterror "Unable to import roulette table."
+  - mysql -u $DB_ROOT $DB_NAME < sql-files/uptime.sql || aborterror "Unable to import uptime table."
   - mysql -u $DB_ROOT -e "GRANT ALL ON *.* TO '$DB_USER'@'$DB_HOST' IDENTIFIED BY '$DB_PASS';"
 
 script:
@@ -41,10 +42,7 @@ env:
     - DB_PASS="ragnarok"
     - PACKETDBVER=45
   matrix:
-    - CONFIGURE_FLAGS="--enable-prere=no --enable-vip=no --enable-buildbot=yes"
     - CONFIGURE_FLAGS="--enable-prere=yes --enable-vip=no --enable-buildbot=yes"
-    - CONFIGURE_FLAGS="--enable-prere=no --enable-vip=yes --enable-buildbot=yes"
-    - CONFIGURE_FLAGS="--enable-prere=yes --enable-vip=yes --enable-buildbot=yes"
 
 notifications:
   email: false

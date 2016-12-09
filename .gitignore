@@ -51,9 +51,6 @@ Thumbs.db
 # /db/
 /db/import/packet_db.txt
 
-# /privatenpc
-/npc/private/
-
 # /conf/
 /conf/import
 /conf/msg_conf/import
