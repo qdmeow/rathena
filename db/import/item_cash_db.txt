@@ -60,10 +60,10 @@
 7,4047,30	//ghostring
 7,4146,30	//maya
 7,4198,30	//maya purple
-7,4305,30	//turtle general
-7,4330,30	//evil snake lord
 7,4318,30	//stormy knight
-7,4168,30	//dark lord
-7,4147,30	//baphomet
 7,4135,30	//Orc Lord
-7,4143,30	//Orc Hero
+7,4168,10	//dark lord
+7,4143,10	//Orc Hero
+7,4305,10	//turtle general
+7,4330,10	//evil snake lord
+7,4147,10	//baphomet
