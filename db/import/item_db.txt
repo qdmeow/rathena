@@ -112,7 +112,7 @@
 50048,Fallen_Angel_Wing,Sealed Fallen Angel Wing,4,0,,200,,18,,1,0xFFFFFFFF,63,2,4,,0,1,3,{ bonus bAllStats,1; bonus bAtk,readparam(bStr)/20; bonus bMatk,readparam(bInt)/20; bonus2 bSubEle,Ele_Neutral,readparam(bVit)/20; bonus bLongAtkRate,readparam(bDex)/20; bonus bCritAtkRate,readparam(bLuk)/20; },{},{}
 50049,Red_Angel_Wings,Red Angel Wings,4,0,,0,,10,,1,0xFFFFFFFF,63,2,1,,,1,10073,{ bonus2 bSubEle,Ele_Fire,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50050,Skull_Aura,Skull Aura,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10024,{},{},{}
-50051,Blue_Angel_Wings,Blue Angel Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10077,{ bonus2 bSubEle,Ele_Water,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
+50051,Dark_Blue_Angel_Wings,Dark Blue Angel Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10077,{ bonus2 bSubEle,Ele_Water,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50052,Green_Angel_Wings,Green Angel Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10055,{ bonus2 bSubEle,Ele_Wind,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50053,Golden_Angel_Wings,Golden Angel Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,256,,,1,10082,{ bonus2 bSubEle,Ele_Earth,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50054,Wraith_Devil_Wings,Wraith Devil Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10076,{ bonus2 bSubEle,Ele_Ghost,10; bonus2 bSubEle,Ele_Dark,5; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
