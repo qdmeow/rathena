@@ -1,6 +1,6 @@
 
 
-dewata,197,190,5	script	Coin Manager	757,{
+dali03,79,119,5	script	Coin Manager	757,{
 function int__;
 
 do{
