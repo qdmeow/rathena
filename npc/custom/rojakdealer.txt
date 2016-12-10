@@ -18,12 +18,12 @@ function ClearData;
 function ValueConvert;
 function ErrorNotice;
 
-mes "This shop using ^FF0000Rojak Mithril Coins and Medal Hunter - 12hours reward^000000.";
+mes "This shop using ^FF0000Rojak Coins^000000.";
 mes "^00FF00____________________________^000000";
 mes "Consist same item, but different currency. Please choose:";
 next;
 // Menu Selection
-select("Rojak Gold Coins","Rojak Mithril Coins","Medal of Hunter");
+select("Rojak Gold Coins","Rojak Mithril Coins");
 
 ClearData();
 ShopSettings( @menu );
@@ -57,14 +57,6 @@ function	ShopSettings	{
 			setarray @ItemLists[0],4047,4302,4143;
 			// Item Price
 			setarray @ItemCost[0],5,5,3;
-			break;
-		Case 3:
-			// Currency [ Medal of Hunter ]
-			set @Currency$,"50028";
-			// Item ID Lists
-			setarray @ItemLists[0],31100,31101,31102,31103;
-			// Item Price
-			setarray @ItemCost[0],5,5,5,5;
 			break;
 		// Case 4,5,6.....etc...
 		default:
