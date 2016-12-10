@@ -17724,7 +17724,11 @@ BUILDIN_FUNC(unitwalk)
 	const char *cmd = script_getfuncname(st), *done_label = "";
 	uint8 off = 5;
 
-	bl = map_id2bl(script_getnum(st,2));
+	int unit_id = script_getnum(st,2);
+	if(!unit_id)
+		bl = map_id2bl(st->rid);
+	else
+		bl = map_id2bl(unit_id);
 
 	if (!bl) {
 		ShowError("buildin_unitwalk: Invalid unit with ID '%d'.\n", script_getnum(st,2));
@@ -17766,7 +17770,12 @@ BUILDIN_FUNC(unitwalk)
 /// unitkill <unit_id>;
 BUILDIN_FUNC(unitkill)
 {
-	struct block_list* bl = map_id2bl(script_getnum(st,2));
+	struct block_list* bl;
+	int unit_id = script_getnum(st,2);
+	if(!unit_id)
+		bl = map_id2bl(st->rid);
+	else
+		bl = map_id2bl(unit_id);
 
 	if (bl != NULL)
 		status_kill(bl);
