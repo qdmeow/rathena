@@ -1,0 +1,1030 @@
+//===== rAthena Script ======================================= 
+//= Wave Mode Memorial Dungeon
+//===== By: ================================================== 
+//= MasterOfMuppets
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Custom Implementation]
+//= Defeat the monster waves before they reach the other side.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [MasterOfMuppets]
+//============================================================ 
+
+prontera,146,75,4	script	Wave Mode Rep	831,{
+
+	mes "[Belka]";
+	mes "Welcome to Cool Event Corp, where";
+	mes "innovation begins. What can I do for you?";
+	next;
+	switch(select("Why are you here?:Request Entry.:Create Instance ^6B9C00<Wave Mode-Forest>^000000.:Create Instance ^6B9C00<Wave Mode-Sky>^000000.:Cancel.")) {
+	case 1:
+		mes "[Belka]";
+		mes "We now offer a new service. Have";
+		mes "you heard about the dimensional";
+		mes "rifts?";
+		next;
+		mes "[Belka]";
+		mes "In case you haven't, many";
+		mes "organizations and scientists study";
+		mes "the rifts formed between";
+		mes "dimensions.";
+		next;
+		mes "[Belka]";
+		mes "One of them is my company,";
+		mes "Cool Event Corp, and after long";
+		mes "painstaking research...";
+		next;
+		mes "[Belka]";
+		mes "We've developed two different";
+		mes "dimensional rifts that we call Wave Modes - Forest and Sky!";
+		next;
+		mes "[Belka]";
+		mes "Any questions about Cool Event Corp's ambitious new project, Wave Mode?";
+	LWaveGoto1:
+		next;
+		switch(select("About ^6B9C00<Wave Mode-Forest>^000000:About ^6B9C00<Wave Mode-Sky>^000000:No."))
+		{
+			case 1:
+				mes "[Belka]";
+				mes "The ^6B9C00<Wave Mode-Forest>^000000 memorial";
+				mes "dungeon was the first Wave Mode";
+				mes "service that Cool Event Corp";
+				mes "developed.";
+				next;
+				mes "[Belka]";			
+				mes "The objective is to";
+				mes "work with your party members";
+				mes "to keep monster waves from reaching the other side";
+				mes "of the bridge.";
+				next;
+				mes "[Belka]";
+				mes "Monsters will advance without";
+				mes "fighting. But your party will fail";
+				mes "if 20 monsters are let go.";
+				next;
+				mes "[Belka]";
+				mes "Any other questions?";
+				goto LWaveGoto1;
+			break;
+			
+			case 2:
+				mes "[Belka]";
+				mes "The ^6B9C00<Wave Mode-Forest>^000000 memorial";
+				mes "dungeon is available once a day";
+				mes "unlike the forest mode. Similar";
+				mes "to forest mode, keep the monsters";
+				mes "from reaching your side of the map";
+				next;
+				mes "[Belka]";
+				mes "However in this mode the monsters";
+				mes "will attack you as they try to get";
+				mes "past you. But don't worry you will";
+				mes "have some mercenary friends helping you.";
+				next;
+				mes "[Belka]";
+				mes "Feel free to come back with your";
+				mes "party.";
+				goto LWaveGoto1;
+			break;
+			
+			case 3:
+				mes "[Belka]";
+				mes "Thanks for visiting Cool Event Corp, where innovation begins.";
+				close;
+			break;
+		}
+		break;
+	case 2:
+		mes "[Belka]";
+		mes "Which Wave Mode would you like to enter: Forest or Sky?";
+		set .@mapname$,strcharinfo(3);
+		next;
+		switch(select("Enter ^6B9C00<Wave Mode-Forest>^000000.:Enter ^6B9C00<Wave Mode-Sky>^000000:Cancel."))
+		{
+			case 1:
+				switch(instance_enter("Wave Mode Forest")) {
+				case 3:
+					mes "[Belka]";
+					mes "An unknown error has occurred.";
+					close;
+				case 2:
+					mes "[Belka]";
+					mes "The Wave Mode Forest instance does not exist.";
+					mes "You must wait until you are able to enter or find a party leader who can create the instance.";
+					close;
+				case 1:
+					mes "[Belka]";
+					mes "Only party members can participate.";
+					close;
+				case 0:
+					npctalk strcharinfo(0)+" of the party "+getpartyname(getcharid(1))+" is entering Wave Mode Forest.";
+					if(.@mapname$ == "prontera")
+						set wmode_warp,0;
+					else if(.@mapname$ == "payon")
+						set wmode_warp,1;
+					else if((.@mapname$ == "morocc"))
+						set wmode_warp,2;
+					else
+						set wmode_warp,3;
+					end;
+				}
+			
+			case 2:
+				switch(instance_enter("Wave Mode Sky")) {
+				case 3:
+					mes "[Belka]";
+					mes "An unknown error has occurred.";
+					close;
+				case 2:
+					mes "[Belka]";
+					mes "The Wave Mode Sky instance does not exist.";
+					mes "You must wait until you are able to enter or find a party leader who can create the instance.";
+					close;
+				case 1:
+					mes "[Belka]";
+					mes "Only party members can participate.";
+					close;
+				case 0:
+					npctalk strcharinfo(0)+" of the party "+getpartyname(getcharid(1))+" is entering Wave Mode Sky.";
+					end;
+				}
+			
+			case 3:
+				mes "[Belka]";
+				mes "Thanks for visiting Cool Event Corp,";
+				mes "where innovation begins.";
+				close;
+		}
+		break;
+		
+	case 3:
+		switch (instance_create("Wave Mode Forest")) {
+		case -3:
+			dispbottom "Memorial Dungeon, '<Wave Mode-Forest>' is already in progress.",0xFFFFFF;
+			close;
+			break;
+		case -4:
+		case -2:
+		case -1:
+			mes "[Belka]";
+			mes "Something went wrong. Couldn't create the instance ^6B9C00<Wave Mode-Forest>^000000.";
+			close;
+		}
+		mes "[Belka]";		
+		mes "Party name: "+strcharinfo(1);
+		mes "Party leader: "+strcharinfo(0);
+		mes "Memorial Dungeon ^6B9C00<Wave Mode-Forest>^000000 created.";
+		close;
+		break;
+		
+	case 4:
+		mes "[Belka]";
+		mes "The ^6B9C00<Wave Mode-Sky>^000000 memorial";
+		mes "dungeon is not implemented yet.";
+		close;
+		break;
+		
+	case 5:
+		mes "[Belka]";
+		mes "Thanks for visiting Cool Event Corp, where innovation begins.";
+		close;
+		break;
+	
+	}
+
+}
+
+payon,192,112,1	duplicate(Wave Mode Rep)	Wave Mode Rep#payon	831
+morocc,171,107,1	duplicate(Wave Mode Rep)	Wave Mode Rep#morocc	831
+moc_para01,37,19,1	duplicate(Wave Mode Rep)	Wave Mode Rep#moc_para_01	831
+
+1@def01,50,36,1	script	WaveModeForestExit	WARPNPC,2,2,{
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnTouch:
+	debugmes "Char name: "+strcharinfo(0)+"wmode_warp = "+wmode_warp;
+	switch(wmode_warp)
+	{
+		case 0:
+			warp "prontera",150,80;
+			end;
+			break;
+		case 1:
+			warp "payon",195,109;
+			end;
+			break;
+		case 2:
+			warp "morocc",166,102;
+			end;
+			break;
+		case 3:
+			warp "moc_para01",33,17;
+			end;
+			break;
+		default:
+			debugmes "Something went wrong, line 230 WaveMode.txt";
+			warp "prontera",150,80;
+			end;
+			break;
+	}
+
+}
+
+//For debugging purposes, let's you set the wave number so that the upcoming spawns change.
+/*
+1@def01,43,70,1	script	SetWaveNum#WaveForest	831,{
+
+	input .@wnum;
+	if(.@wnum < 0)
+		end;
+	
+	set 'WaveNum,.@wnum;
+	end;
+
+}
+*/
+
+1@def01,50,60,1	script	WaveModeForestWalkTo#0	-1,1,1,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#1"));
+	end;
+
+}
+
+1@def01,50,40,1	script	WaveModeForestWalkTo#1	-1,1,1,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#2"));
+	end;
+
+}
+
+1@def01,50,23,1	script	WaveModeForestWalkTo#2	-1,1,1,{
+
+OnTouchNPC:
+	//misceffect 185; //Doesn't work
+	unitkill 0;
+	'MonsterBreach++;
+	if('MonsterBreach != 1)
+		mapannounce instance_mapname("1@def01"),'MonsterBreach+" monsters have escaped.",bc_map;	
+	else
+		mapannounce instance_mapname("1@def01"),"1 monster has escaped.",bc_map;
+		
+	if('MonsterBreach >= 20)
+	{
+		enablenpc instance_npcname("WaveModeForestExit");
+		donpcevent instance_npcname("WaveModeForestSystem")+"::OnFail";
+		killmonsterall instance_mapname("1@def01");
+		mapannounce instance_mapname("1@def01"),"You have failed the <Wave Mode - Forest> challenge.",bc_map;
+		sleep 3000;
+		mapannounce instance_mapname("1@def01"),"<Wave Mode - Forest> service has closed. You will return to the place you entered if you use the warp to the south.",bc_map;
+		disablenpc instance_npcname(strnpcinfo(0));
+	}
+	end;
+
+}
+
+1@def01,46,64,1	script	WaveModeForestInit	-1,1,1,{
+
+OnTouch:
+	enablenpc instance_npcname("WaveModeForestCountDown");
+	donpcevent instance_npcname("WaveModeForestCountDown")+"::OnStartTimer";
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}
+
+1@def01,1,1,1	script	WaveModeForestCountDown	-1,{
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnStartTimer:
+	initnpctimer;
+	end;
+
+OnTimer500:
+	mapannounce instance_mapname("1@def01"),"We would like to thank all loyal customers of the Cool Event Corporation.",bc_map;
+	end;
+
+OnTimer5500:
+	mapannounce instance_mapname("1@def01"),"<Wave Mode - Forest> Prevent the monsters from reaching the other side of the bridge.",bc_map;
+	end;
+	
+OnTimer10500:
+	mapannounce instance_mapname("1@def01"),"If 20 monsters reach the other side, the game is over.",bc_map;
+	end;
+	
+OnTimer15500:
+	mapannounce instance_mapname("1@def01"),"Okay, here they come.",bc_map;
+	end;
+	
+OnTimer17500:
+	mapannounce instance_mapname("1@def01"),"3",bc_map;
+	end;
+	
+OnTimer18500:
+	mapannounce instance_mapname("1@def01"),"2",bc_map;
+	end;
+	
+OnTimer19500:
+	mapannounce instance_mapname("1@def01"),"1",bc_map;
+	enablenpc instance_npcname("WaveModeForestSystem");
+	donpcevent instance_npcname("WaveModeForestSystem")+"::OnStartTimer";
+	stopnpctimer;
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}
+
+1@def01,1,1,1	script	WaveModeForestSystem	-1,{
+
+OnInstanceInit:
+	set 'WaveNum,1; //Number of waves completed
+	set 'MonsterBreach,0; //Number of monsters that breached the defense
+	set 'GID,0; //GID of monster units to make them walk over the bridge
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnStartTimer:
+	initnpctimer;
+	end;
+
+OnTimer1000:
+	if('WaveNum % 5 == 0)
+		mapannounce instance_mapname("1@def01"),"Champion monsters summoned!",bc_map;
+	else
+		mapannounce instance_mapname("1@def01"),"-- Wave " + 'WaveNum + " --",bc_map;
+	switch('WaveNum % 70)
+	{
+		case 1:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Poring",2401);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 2:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Lunatic",2582);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 3:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Chonchon",2573);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 4:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Rocker",2590);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 5:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Swift Poring",2699);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 6:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Fabre",2577);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 7:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Boa",1747);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 8:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Stainer",2595);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 9:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Creamy",2576);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 10:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elusive Hornet",2798);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 11:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Caramel",2572);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 12:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Bigfoot",1603);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 13:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Poporing",2589);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 14:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Horn",2578);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 15:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elusive Rocker",2680);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 16:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Yoyo",2601);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 17:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Coco",2575);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 18:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Martin",2583);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 19:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Wolf",2600);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 20:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Solid Poison Spore",2705);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 21:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Argos",1430);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 22:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Steel Chonchon",2597);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 23:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Baphomet Jr.",1431);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 24:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Savage",2591);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 25:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elusive Deniro",2857);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 26:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Mantis",1457);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 27:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Boa",1424);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 28:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Argiope",1429);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 29:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Penomena",1441);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 30:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Solid Elder Willow",2840);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 31:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Hunter Fly",1422);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 32:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Holden",2585);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 33:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Siorava",2592);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 34:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Butoijo",2571);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 35:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elusive Raggler",2694);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 36:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Mao Guai",2574);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 37:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Marionette",1459);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 38:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Hermit Plant",1565);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 39:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Zipper Bear",2602);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 40:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Furious Stalactic Golem",2644);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 41:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Pitman",2588);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 42:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Waste Stove",1624);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 43:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Chonchon",2570);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 44:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elder",1573);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 45:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Furious Hunter Fly",2797);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 46:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Ungoliant",2598);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 47:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Baby Hatii",1606);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 48:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Roween",1794);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 49:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Stapo",2596);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 50:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Swift Argiope",2892);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 51:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Anopheles",2569);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 52:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Mineral",2584);	
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 53:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Wild Rider",2599);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 54:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Taoist Hermit",1531);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 55:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Elusive Wood Goblin",2612);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 56:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Obsidian",2587);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 57:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Evil Nymph",1564);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 58:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Nereid",2586);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 59:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Rybio",1483);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 60:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Miyabi Doll Ringleader",2746);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 61:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Siroma",2593);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 62:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Kaho",2580);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 63:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Heater",1600);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 64:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Galion",1791);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 65:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Yao Jun Ringleader",2796);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 66:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Lude",2581);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 67:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Hylozoist",2579);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 68:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Lava Golem",1549);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 69:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Snowier",2594);
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		case 0:
+			for(set .@i,0; .@i < 10; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def01"),50,77,"Solid Novus",2730);
+				setunitdata 'GID,UMOB_MODE,0x4200061;
+				setunitdata 'GID,UMOB_DMOTION,0;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeForestWalkTo#0"));
+				sleep rand(150,500);
+			}
+			break;
+		default:
+			mapannounce instance_mapname("1@def01"),"Something went wrong",bc_map;
+			end;
+			break;
+	}
+	'WaveNum++;
+	end;
+	
+OnTimer16000:
+			mapannounce instance_mapname("1@def01"),"Next wave will begin soon. Get ready.",bc_map;
+			end;
+			
+OnTimer18000:
+			mapannounce instance_mapname("1@def01"),"3",bc_map;
+			end;
+			
+OnTimer19000:
+			mapannounce instance_mapname("1@def01"),"2",bc_map;
+			end;
+			
+OnTimer20000:
+			mapannounce instance_mapname("1@def01"),"1",bc_map;
+			initnpctimer; //Reset the timer.
+			end;
+			
+OnFail:
+	stopnpctimer;
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}

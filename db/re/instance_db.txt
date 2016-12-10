@@ -21,3 +21,4 @@
 14,Sara's Memories,3600,300,1@sara,250,155
 15,Nightmarish Jitterbug,3300,300,1@jtb,16,18
 16,Ghost Palace,3600,300,1@spa,198,188
+17,Wave Mode Forest,3600,300,1@def01,46,64
