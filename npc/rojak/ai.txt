@@ -1,0 +1,456 @@
+//===== rAthena Script =======================================
+//= Rojak Staff
+//===== By: ==================================================
+//= Hurtsky
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Basic Moving Npc
+//===== Additional Comments: =================================
+//= 1.0 Initial script.
+//============================================================
+
+-	script	Rojak Staff	-1,{
+		end;
+
+//===========curse part========================================
+
+	ar1:
+	
+		sleep2 1000;
+		switch(rand(6))
+		{
+			case 0:
+				npctalk "[ Rojak Staff ] That's not polite sir!";
+				break;
+
+			case 1:
+				npctalk "[ Rojak Staff ] Where did you learn that words!";
+				break;
+
+			case 2:
+				npctalk "[ Rojak Staff ] Please, that is bad word";
+				break;
+
+			case 3:
+				npctalk "[ Rojak Staff ] OMG Don't said that boss!";
+				break;
+
+			case 4:
+				npctalk "[ Rojak Staff ] I'm Gonna Report you!";
+				break;
+
+			case 5:
+				npctalk "[ Rojak Staff ] Mind your words sir!";
+				break;
+		}
+		sc_start NPC_CURSEATTACK,100000,5;
+		emotion e_dum;
+		end;
+
+//===========full buff part========================================
+
+	ar2:
+
+		.@Price_buff = 200000;
+		
+		sleep2 1000;
+		if (Zeny < .@Price_buff)
+		{
+			switch(rand(3)) {
+				case 0:
+					npctalk "[ Rojak Staff ]: Fill you pocket first before asking full buff!";
+					break;
+
+				case 1:
+					npctalk "[ Rojak Staff ]: I require "+.@Price_buff+" zeny for full buff.";
+					break;
+
+				case 2:
+					npctalk "[ Rojak Staff ]: Full Buff for free? Get your mind straight please!!";
+					break;
+			}
+			emotion e_scissors;
+			dispbottom "[Rojak Staff] You need "+.@Price_buff+" zeny for Full buff";
+		}
+		
+		if (Zeny > .@Price_buff)
+		{
+			switch(rand(4)) {
+				case 0: npctalk "[ Rojak Staff ]: Here your full buff! Happy doing business with you, bro.";
+					break;
+
+				case 1: npctalk "[ Rojak Staff ]: Wow zenies! thank you! Here your Full Buff";
+					break;
+
+				case 2: npctalk "[ Rojak Staff ]: He He He, Comes my power!!!";
+					break;
+
+				case 3: npctalk "[ Rojak Staff ]: Now youre more strong with my full buff!!";
+					break;
+
+			}
+			Zeny -= .@Price_buff;
+			percentheal 100,100;
+			skilleffect 384,0; sc_start SC_MELTDOWN,360000,5;
+			skilleffect 383,0; sc_start SC_WINDWALK,360000,5;
+			skilleffect 378,0; sc_start SC_EDP,360000,5;
+			skilleffect 465,0; sc_start SC_KAITE,360000,7;
+			skilleffect 464,0; sc_start SC_KAUPE,360000,3;
+			skilleffect 463,0; sc_start SC_KAAHI,360000,7;
+			skilleffect 462,0; sc_start SC_KAIZEL,360000,7;
+			skilleffect 8,0; sc_start SC_ENDURE,360000,10;
+			skilleffect 33,0; sc_start SC_ANGELUS,360000,10;
+			skilleffect 45,0; sc_start SC_CONCENTRATE,360000,10;
+			skilleffect 74,0; sc_start SC_MAGNIFICAT,360000,5;
+			skilleffect 75,0; sc_start SC_GLORIA,360000,5;
+			skilleffect 459,0; sc_start SC_ADRENALINE2,360000,1;
+			skilleffect 66,0; sc_start SC_IMPOSITIO,360000,5;
+			skilleffect 67,0; sc_start SC_SUFFRAGIUM,360000,3;
+			skilleffect 34,0; sc_start SC_BLESSING,360000,10;
+			skilleffect 29,0; sc_start SC_INCREASEAGI,360000,10;
+			skilleffect 112,0; sc_start SC_WEAPONPERFECTION,360000,10;
+			skilleffect 113,0; sc_start SC_OVERTHRUST,360000,5;
+			skilleffect 114,0; sc_start SC_MAXIMIZEPOWER,360000,5;
+			skilleffect 357,0; sc_start SC_CONCENTRATION,360000,5;
+			skilleffect 355,0; sc_start SC_AURABLADE,360000,5;
+			skilleffect 155,0; sc_start SC_LOUD,360000,1;
+			skilleffect 157,0; sc_start SC_ENERGYCOAT,360000,1;
+			sc_start SC_ASPDPOTION2,360000,0;
+			sc_start SC_STRFood,360000,10;
+			sc_start SC_AGIFood,360000,10;
+			sc_start SC_VITFood,360000,10;
+			sc_start SC_INTFood,360000,10;
+			sc_start SC_DEXFood,360000,10;
+			sc_start SC_LUKFood,360000,10;
+			sc_start SC_HitFood,1200000,30;
+			sc_start SC_FleeFood,1200000,30;
+			sc_start SC_BATKFood,1200000,10;
+			sc_start SC_MATKFood,120000,10;
+			skilleffect 380,0; sc_start SC_TRUESIGHT,360000,5;
+			skilleffect 361,0; sc_start SC_ASSUMPTIO,360000,5;
+			switch ( basejob ) {
+			  case Job_Alchemist:	set .@spirit, 445; break;
+			  case Job_Monk:	 set .@spirit, 447; break;
+			  case Job_Star_Gladiator:  set .@spirit, 448; break;
+			  case Job_Sage:	 set .@spirit, 449; break;
+			  case Job_Crusader:	set .@spirit, 450; break;
+			  case Job_SuperNovice:   set .@spirit, 451; break;
+			  case Job_Knight:	set .@spirit, 452; break;
+			  case Job_Wizard:	set .@spirit, 453; break;
+			  case Job_Priest:	set .@spirit, 454; break;
+			  case Job_Bard: case Job_Dancer: set .@spirit, 455; break;
+			  case Job_Rogue:	 set .@spirit, 456; break;
+			  case Job_Assassin:	set .@spirit, 457; break;
+			  case Job_Blacksmith:   set .@spirit, 458; break;
+			  case Job_Hunter:	set .@spirit, 460; break;
+			  case Job_Soul_Linker:   set .@spirit, 461; break;
+			  default:
+			   if ( upper == 1 && baselevel < 70 )
+				set .@spirit, 494;
+			}
+			if ( .@spirit ) {
+				sc_start4 sc_spirit, 360000, 5, .@spirit,0,0;
+				skilleffect .@spirit, 5;
+			}
+			emotion e_lv2;
+		}
+		end;
+		
+//===========FCP part========================================
+
+	ar3:
+
+		.@Price_fcp = 5000;
+		
+		sleep2 1000;
+		if (Zeny < .@Price_fcp)
+		{
+			npctalk "[ Rojak Staff ]: Zeny first before FCP";
+			emotion e_scissors;
+			dispbottom "[Rojak Staff] You need "+.@Price_fcp+" zeny for Full Chemical Protection";
+		}
+		
+		if (Zeny > .@Price_fcp)
+		{
+			switch(rand(3)) {
+				case 0: npctalk "[ Rojak Staff ]: Here your FCP!";
+					break;
+
+				case 1: npctalk "[ Rojak Staff ]: Full Chemical Protection !!!";
+					break;
+
+				case 2: npctalk "[ Rojak Staff ]: Oraite, now you're protected!";
+					break;
+			}
+			Zeny -= .@Price_fcp;
+			specialeffect2 EF_CHEMICALPROTECTION;
+			sc_start SC_CP_WEAPON,600000,5;
+			sc_start SC_CP_ARMOR,600000,5;
+			sc_start SC_CP_SHIELD,600000,5;
+			sc_start SC_CP_HELM,600000,5;
+			emotion e_lv2;
+		}
+		end;
+		
+//===========cure part========================================
+
+	ar4:
+
+		.@Price_cure = 500;
+		
+		sleep2 1000;
+		if (Zeny < .@Price_fcp)
+		{
+			npctalk "[ Rojak Staff ]: You need "+.@Price_cure+" to cure all status effect!";
+			emotion e_scissors;
+			dispbottom "[Rojak Staff] You need "+.@Price_cure+" zeny to cure all ";
+		}
+		
+		if (Zeny > .@Price_fcp)
+		{
+			switch(rand(3)) {
+				case 0: npctalk "[ Rojak Staff ]: Cure! Yeah! Done!";
+					break;
+
+				case 1: npctalk "[ Rojak Staff ]: You're good to go now";
+					break;
+
+				case 2: npctalk "[ Rojak Staff ]: Okay, pufffff.. go away bad status effect!! Done!";
+					break;
+			}
+			Zeny -= .@Price_cure;
+			sc_end sc_stone;
+			sc_end sc_freeze;
+			sc_end sc_sleep;
+			sc_end sc_curse;
+			sc_end sc_silence;
+			sc_end sc_confusion;
+			sc_end sc_blind;
+			sc_end sc_bleeding;
+			sc_end sc_decreaseagi;
+			sc_end sc_poison;
+			sc_end sc_hallucination;
+			sc_end sc_stripweapon;
+			sc_end sc_striparmor;
+			sc_end sc_striphelm;
+			sc_end sc_stripshield;
+			sc_end sc_changeundead;
+			sc_end sc_orcish;
+			sc_end sc_berserk;
+			sc_end sc_ske;
+			sc_end sc_swoo;
+			sc_end sc_ska;
+			emotion e_lv2;
+		}
+		end;
+
+//===========soul part========================================
+
+	ar5:
+
+		.@Price_soul = 10000;
+		
+		sleep2 1000;
+		if (Zeny < .@Price_soul)
+		{
+			switch(rand(3)) {
+				case 0:
+					npctalk "[ Rojak Staff ]: No free soul dude!..";
+					break;
+
+				case 1:
+					npctalk "[ Rojak Staff ]: I require "+.@Price_soul+" zeny for soul.";
+					break;
+
+				case 2:
+					npctalk "[ Rojak Staff ]: Soul is not free, bro!";
+					break;
+			}
+			emotion e_scissors;
+			dispbottom "[Rojak Staff] You need "+.@Price_soul+" zeny for soul";
+		}
+		
+		if (Zeny > .@Price_soul)
+		{
+			switch(rand(3)) {
+				case 0: npctalk "[ Rojak Staff ]: Soul for you~~ Done!";
+					break;
+
+				case 1: npctalk "[ Rojak Staff ]: Stronger soul!!";
+					break;
+
+				case 2: npctalk "[ Rojak Staff ]: Soul that worth for every zenies! Complete!";
+					break;
+			}
+			Zeny -= .@Price_soul;
+			switch ( basejob ) {
+				case Job_Alchemist:
+					set .@spirit, 445;
+					break;
+					
+				case Job_Monk:
+					set .@spirit, 447;
+					break;
+					
+				case Job_Star_Gladiator:
+					set .@spirit, 448;
+					break;
+
+				case Job_Sage:
+					set .@spirit, 449;
+					break;
+					
+				case Job_Crusader:
+					set .@spirit, 450;
+					break;
+				
+				case Job_SuperNovice:
+					set .@spirit, 451;
+					break;
+					
+				case Job_Knight:
+					set .@spirit, 452;
+					break;
+					
+				case Job_Wizard:
+					set .@spirit, 453;
+					break;
+					
+				case Job_Priest:
+					set .@spirit, 454;
+					break;
+					
+				case Job_Bard:
+				case Job_Dancer:
+					set .@spirit, 455;
+					break;
+					
+				case Job_Rogue:	
+					set .@spirit, 456;
+					break;
+					
+				case Job_Assassin:
+					set .@spirit, 457;
+					break;
+					
+				case Job_Blacksmith:
+					set .@spirit, 458;
+					break;
+					
+				case Job_Hunter:
+					set .@spirit, 460;
+					break;
+					
+				case Job_Soul_Linker:
+					set .@spirit, 461;
+					break;
+					
+				default:
+					if ( upper == 1 && baselevel < 70 )
+						set .@spirit, 494;
+			}
+			
+			if ( .@spirit ) {
+				sc_start4 sc_spirit, 360000, 5, .@spirit,0,0;
+				skilleffect .@spirit, 5;
+			}
+			emotion e_lv2;
+		}
+		end;
+
+//===========init part========================================
+
+OnInit:
+	defpattern 1, "([^:]+):.*\\s+(Rojak Staff).*", "ar0";
+//===========bad words collection(english)====================
+	defpattern 1, "([^:]+):.*\\s+(anal|2g1c|2 girls 1 cup|acrotomophilia|alabama hot pocket|alaskan pipeline|anal|anilingus|anus|apeshit|arsehole|ass|asshole|assmunch|auto erotic|autoerotic|babeland|baby batter|baby juice|ball gag|ball gravy|ball kicking|ball licking|ball sack|ball sucking|bangbros|bareback|barely legal|barenaked|bastard|bastardo|bastinado|bbw|bdsm|beaner|beaners|beaver cleaver|beaver lips|bestiality|big black|big breasts|big knockers|big tits|bimbos|birdlock|bitch|bitches|black cock|blonde action|blonde on blonde action|blowjob|blow job|blow your load|blue waffle|blumpkin|bollocks|bondage|boner|boob|boobs|booty call|brown showers|brunette action|bukkake|bulldyke|bullet vibe|bullshit|bung hole|bunghole|busty|butt|buttcheeks|butthole|camel toe|camgirl|camslut|camwhore|carpet muncher|carpetmuncher|chocolate rosebuds|circlejerk|cleveland steamer|clit|clitoris|clover clamps|clusterfuck|cock|cocks|coprolagnia|coprophilia|cornhole|coon|coons|creampie|cum|cumming|cunnilingus|cunt|darkie|date rape|daterape|deep throat|deepthroat|dendrophilia|dick|dildo|dingleberry|dingleberries|dirty pillows|dirty sanchez|doggie style|doggiestyle|doggy style|doggystyle|dog style|dolcett|domination|dominatrix|dommes|donkey punch|double dong|double penetration|dp action|dry hump|dvda|eat my ass|ecchi|ejaculation|erotic|erotism|escort|eunuch|faggot|fecal|felch|fellatio|feltch|female squirting|femdom|figging|fingerbang|fingering|fisting|foot fetish|footjob|frotting|fuck|fuck buttons|fuckin|fucking|fucktards|fudge packer|fudgepacker|futanari|gang bang|gay sex|genitals|giant cock|girl on|girl on top|girls gone wild|goatcx|goatse|god damn|gokkun|golden shower|goodpoop|goo girl|goregasm|grope|group sex|g-spot|guro|hand job|handjob|hard core|hardcore|hentai|homoerotic|honkey|hooker|hot carl|hot chick|how to kill|how to murder|huge fat|humping|incest|intercourse|jack off|jail bait|jailbait|jelly donut|jerk off|jigaboo|jiggaboo|jiggerboo|jizz|juggs|kike|kinbaku|kinkster|kinky|knobbing|leather restraint|leather straight jacket|lemon party|lolita|lovemaking|make me come|male squirting|masturbate|menage a trois|milf|missionary position|motherfucker|mound of venus|mr hands|muff diver|muffdiving|nambla|nawashi|negro|neonazi|nigga|nigger|nig nog|nimphomania|nipple|nipples|nsfw images|nude|nudity|nympho|nymphomania|octopussy|omorashi|one cup two girls|one guy one jar|orgasm|orgy|paedophile|paki|panties|panty|pedobear|pedophile|pegging|penis|phone sex|piece of shit|pissing|piss pig|pisspig|playboy|pleasure chest|pole smoker|ponyplay|poof|poon|poontang|punany|poop chute|poopchute|porn|porno|pornography|prince albert piercing|pthc|pubes|pussy|queaf|queef|quim|raghead|raging boner|rape|raping|rapist|rectum|reverse cowgirl|rimjob|rimming|rosy palm|rosy palm and her 5 sisters|rusty trombone|sadism|santorum|scat|schlong|scissoring|semen|sex|sexo|sexy|shaved beaver|shaved pussy|shemale|shibari|shit|shitblimp|shitty|shota|shrimping|skeet|slanteye|slut|s&m|smut|snatch|snowballing|sodomize|sodomy|spic|splooge|splooge moose|spooge|spread legs|spunk|strap on|strapon|strappado|strip club|style doggy|suck|sucks|suicide girls|sultry women|swastika|swinger|tainted love|taste my|tea bagging|threesome|throating|tied up|tight white|tit|tits|titties|titty|tongue in a|topless|tosser|towelhead|tranny|tribadism|tub girl|tubgirl|tushy|twat|twink|twinkie|two girls one cup|undressing|upskirt|urethra play|urophilia|vagina|venus mound|vibrator|violet wand|vorarephilia|voyeur|vulva|wank|wetback|wet dream|white power|wrapping men|wrinkled starfish|xx|xxx|yaoi|yellow showers|yiffy|zoophilia).*", "ar1";
+//===========bad words collection(malaysia)===================
+	defpattern 1, "([^:]+):.*\\s+(kote|kotey|cilaka|buntut|burit|butuh|cipap|pantat|puki|tetek|kongkek|pukimak|konek|ma hai|cibai|ci bai|cb|chow hai|diu|lj|lanjiao|lancau|pundek|sunni|panni|kunji|lahanat|lakhanat|babi|pig|poen|po en|anak haram|bodoh|sial|lancap|melancap|sohai).*", "ar1";
+//===========bad words collection(malaysia)===================
+	defpattern 1, "([^:]+):.*\\sbuff.*", "ar2";
+	defpattern 1, "([^:]+):.*\\sfcp.*", "ar3";
+	defpattern 1, "([^:]+):.*\\scure.*", "ar4";
+	defpattern 1, "([^:]+):.*\\ssoul.*", "ar5";
+	activatepset 1;
+	initnpctimer;
+	end;
+
+OnTimer30000: //30 seconds
+
+	switch(rand(2))
+	{
+		case 0: 
+			npcwalkto 198,176;
+			break;
+
+		case 1:
+			npcwalkto 201,176;
+			break;
+	}
+	end;
+
+OnTimer60000: //10min 60000
+	switch(rand(6))
+	{
+		case 0: 
+			npctalk "[ Rojak Staff ]: Hi, I'm Rojak Helper. What i can do for you?";
+			sleep2 5000;
+			emotion e_heh;
+			break;
+
+		case 1:
+			npctalk "[ Rojak Staff ]: Just shout buff, fcp, soul, or cure, i will help you!";
+			sleep2 5000;
+			emotion e_ho;
+			break;
+
+		case 2:
+			npctalk "[ Rojak Staff ]: Say what you want! buff? fcp? soul? cure?";
+			sleep2 5000;
+			emotion e_pif;
+			break;
+					
+		case 3:
+			npctalk "[ Rojak Staff ]: Notice for Newbie, just say buff, fcp, soul, or cure. Then I will make it happen but it will cost some zeny ^_^";
+			sleep2 5000;
+			emotion e_gg;
+			break;
+
+		case 4:
+			npctalk "[ Rojak Staff ]: Yeah bro need what? buff? fcp? soul? cure?";
+			sleep2 5000;
+			emotion e_ok;
+			break;
+
+		case 5:
+			npctalk "[ Rojak Staff ]: Hehe, Im so kind.";
+			sleep2 5000;
+			emotion e_rice;
+			break;
+	}
+
+	switch(rand(3))
+	{
+		case 0: 
+			npcwalkto 193,180;
+			break;
+
+		case 1:
+			npcwalkto 206,180;
+			break;
+
+		case 2:
+			npcwalkto 199,168;
+			break;
+	}
+	stopnpctimer;
+	initnpctimer;
+	end;
+}
+
+//Duplicates
+//===========================================================
+dewata,199,174,3	duplicate(Rojak Staff)	Rojak Staff#prt	10029
