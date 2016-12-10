@@ -417,13 +417,13 @@
 1924,467,100	// Brave Battlefield Guitar
 1977,467,100	// Valorous Battle Lariat
 1978,467,100	// Brave Battle Lariat
-2376,467,100	// Assaulter Plate
-2377,467,100	// Elite Engineer Armor
+2376,467,100	// Assaulter_Plate
+2377,467,100	// Elite_Engineer_Armor
 2378,467,100	// Assassin Robe
 2379,467,100	// Warlock's Battle Robe
-2380,467,100	// Medic's Robe
-2381,467,100	// Elite Archer Suit
-2382,467,100	// Elite Shooter Suit
+2380,467,100	// Medic_Robe
+2381,467,100	// Elite_Archer_Suit
+2382,467,100	// Elite_Shooter_Suit
 2435,467,100	// Battle Greaves
 2436,467,100	// Combat Boots
 2437,467,100	// Battle Boots
@@ -1454,7 +1454,7 @@
 1749,499,100	// Tourist Bow
 1928,507,100	// Spirited Guitar
 2003,475,100	// Staff of Destruction
-2398,475,100	// Sniping Suit
+2398,475,100	// Sniping_Suit_M
 2449,475,100	// Variant Shoes
 2551,475,100	// Crest of the Rider
 2552,475,100	// Mithril Magic Manteau
