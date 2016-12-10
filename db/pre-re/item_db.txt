@@ -5,12 +5,12 @@
 //
 // Healing Items
 //=============================================================
-501,Red_Potion,Red Potion,0,50,,70,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(45,65),0; },{},{}
-502,Orange_Potion,Orange Potion,0,200,,100,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(105,145),0; },{},{}
-503,Yellow_Potion,Yellow Potion,0,550,,130,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(175,235),0; },{},{}
-504,White_Potion,White Potion,0,1200,,150,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(325,405),0; },{},{}
-505,Blue_Potion,Blue Potion,0,5000,,150,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal 0,rand(40,60); },{},{}
-506,Green_Potion,Green Potion,0,40,,70,,,,,0xFFFFFFFF,7,2,,,,,,{ sc_end SC_Poison; sc_end SC_Silence; sc_end SC_Blind; sc_end SC_Confusion; },{},{}
+501,Red_Potion,Red Potion,0,50,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 10,0; },{},{}
+502,Orange_Potion,Orange Potion,0,200,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 10,15; },{},{}
+503,Yellow_Potion,Yellow Potion,0,550,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 15,20; },{},{}
+504,White_Potion,White Potion,0,1200,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 25,0; },{},{}
+505,Blue_Potion,Blue Potion,0,5000,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 0,25; },{},{}
+506,Green_Potion,Green Potion,0,40,,1,,,,,0xFFFFFFFF,7,2,,,,,,{ sc_end SC_Poison; sc_end SC_Silence; sc_end SC_Blind; sc_end SC_Confusion; },{},{}
 507,Red_Herb,Red Herb,0,18,,30,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(18,28),0; },{},{}
 508,Yellow_Herb,Yellow Herb,0,40,,50,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(38,58),0; },{},{}
 509,White_Herb,White Herb,0,120,,70,,,,,0xFFFFFFFF,7,2,,,,,,{ itemheal rand(75,115),0; },{},{}
@@ -110,8 +110,8 @@
 604,Branch_Of_Dead_Tree,Dead Branch,2,50,,50,,,,,0xFFFFFFFF,7,2,,,,,,{ monster "this",-1,-1,"--ja--",-1,1,""; },{},{}
 605,Anodyne,Anodyne,11,2000,,100,,,,,0xFFFFFFFF,7,2,,,,,,{ itemskill "SM_ENDURE",1; },{},{}
 606,Aloebera,Aloevera,11,1500,,100,,,,,0xFFFFFFFF,7,2,,,,,,{ itemskill "SM_SELFPROVOKE",1; },{},{}
-607,Yggdrasilberry,Yggdrasil Berry,0,5000,,300,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 100,100; },{},{}
-608,Seed_Of_Yggdrasil,Yggdrasil Seed,0,5000,,300,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 50,50; },{},{}
+607,Yggdrasilberry,Yggdrasil Berry,0,5000,,30,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 100,100; },{},{}
+608,Seed_Of_Yggdrasil,Yggdrasil Seed,0,5000,,30,,,,,0xFFFFFFFF,7,2,,,,,,{ percentheal 50,50; },{},{}
 609,Amulet,Amulet,2,100,,100,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
 610,Leaf_Of_Yggdrasil,Yggdrasil Leaf,11,4000,,100,,,,,0xFFFFFFFF,7,2,,,,,,{ itemskill "ALL_RESURRECTION",1; },{},{}
 611,Spectacles,Magnifier,11,40,,50,,,,,0xFFFFFFFF,7,2,,,,,,{ itemskill "MC_IDENTIFY",1; },{},{}
@@ -3574,7 +3574,7 @@
 7138,Mini_Bottle,Marine Sphere Bottle,3,200,,10,,,,,,,,,,,,,{},{},{}
 7139,Coating_Bottle,Glistening Coat,3,200,,10,,,,,,,,,,,,,{},{},{}
 7140,Seed_Of_Life,Seed of Life,3,60000,,10,,,,,,,,,,,,,{},{},{}
-7141,Yggdrasilberry_Dew,Morning Dew of Yggdrasil,3,20000,,10,,,,,,,,,,,,,{},{},{}
+7141,berry_Dew,Morning Dew of Yggdrasil,3,20000,,10,,,,,,,,,,,,,{},{},{}
 7142,Germination_Breed,Embryo,3,10,,10,,,,,,,,,,,,,{},{},{}
 7143,Life_Force_Pot,Glass Tube,3,5000,,10,,,,,,,,,,,,,{},{},{}
 7144,Normal_Potion_Book,Potion Creation Guide,3,100000,,10,,,,,,,,,,,,,{},{},{}
@@ -5094,7 +5094,7 @@
 12532,Royal_Jelly_Box2,Royal Jelly Box2,2,0,,0,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
 12533,Blue_Herb_Box2,Blue Herb Box2,2,0,,0,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
 12534,Yggdrasil_Seed_Box,Yggdrasil Seed Box,2,0,,0,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
-12535,Iggdrasilberry_Box,Iggdrasilberry Box,2,0,,0,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
+12535,Iggdrasilberry_Box,Iggdrasilberry Box,2,0,,0,,,,,0xFFFFFFFF,7,2,,,,,,{ getitem 607,100; },{},{}
 12536,NY_Rice_Cake_Soup,NY Rice Cake Soup,2,20,,100,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
 12537,Solo_Gift_Basket,Solo Gift Basket,2,1000,,10,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
 12538,Couple_Event_Basket,Couple Event Basket,2,2000,,10,,,,,0xFFFFFFFF,7,2,,,,,,{},{},{}
