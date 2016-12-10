@@ -11,7 +11,7 @@
 //= Stores stat builds into a single character variable.
 //============================================================
 
-dewata,195,192,6	script	Build Manager	930,{
+dewata,197,190,6	script	Build Manager	930,{
 function Get_Menu; function Save_Build; function Load_Build;
 
 	set .@BuildCount,5;	// Number of builds to use
