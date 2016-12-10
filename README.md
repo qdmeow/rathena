@@ -1,7 +1,9 @@
 rAthena
 =======
 
-Build Status: [![Build Status](https://travis-ci.org/rathena/rathena.png?branch=master)](https://travis-ci.org/rathena/rathena) [![Build status](https://ci.appveyor.com/api/projects/status/8574b8nlwd57loda/branch/master?svg=true)](https://ci.appveyor.com/project/rAthenaAPI/rathena/branch/master)
+Build Status RojakRO-Renewal: [![Build Status](https://travis-ci.org/hurtsky/rathena.svg?branch=rojakro)](https://travis-ci.org/hurtsky/rathena) [![Build status](https://ci.appveyor.com/api/projects/status/11f868pxpuy220v2/branch/rojakro?svg=true)](https://ci.appveyor.com/project/hurtsky/rathena/branch/rojakro)
+
+Build Status RojakRO-PreRenewal: [![Build Status](https://travis-ci.org/hurtsky/rathena.svg?branch=rojakro-PK)](https://travis-ci.org/hurtsky/rathena) [![Build status](https://ci.appveyor.com/api/projects/status/11f868pxpuy220v2/branch/rojakro?svg=true)](https://ci.appveyor.com/project/hurtsky/rathena/branch/rojakro-PK)
 
 Table of Contents
 ---------
