@@ -59,3 +59,4 @@
 50055,1,100	// Crow_Wings
 50056,1,100	// Holy_Angel_Wings
 50057,1,100	// Elemental_Glasses
+50058,265,100	// Event_coin

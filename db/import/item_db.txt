@@ -119,3 +119,4 @@
 50055,Crow_Wings,Crow Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10038,{ bonus2 bSubEle,Ele_Poison,10; bonus2 bSubEle,Ele_Undead,5; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50056,Holy_Angel_Wings,Holy Angel Wings,4,0,,,,10,,1,0xFFFFFFFF,63,2,1,,,1,10060,{ bonus2 bSubEle,Ele_Neutral,10; bonus2 bSubEle,Ele_Holy,5; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
 50057,Elemental_Glasses,Elemental Glasses,4,0,,,,5,,1,0xFFFFFFFF,63,2,512,,,1,915,{ bonus2 bSubEle,Ele_All,(getrefine()*1); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50058,Event_coin,Event Coin,3,0,,0,,,,,,,,,,,,,{},{},{}
