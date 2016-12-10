@@ -481,7 +481,7 @@
 
 //****
 // NPC Skills
-337,9,6,1,-1,0,0,1,1,no,0,0x2,0,weapon,0,0x0,	ITM_TOMAHAWK,Throw Tomahawk
+337,9,6,1,-2,0x140,0,10,1,no,0,0x2,0,weapon,0,0x0,	ITM_TOMAHAWK,Throw Tomahawk
 338,-1,8,1,7,0,0,10,-2,no,0,0x2,0,weapon,0,0x0,	NPC_DARKCROSS,Cross of Darkness
 339,5,6,4,7,0x48,0,10,1,no,0,0x102,0,magic,0,0x0,	NPC_GRANDDARKNESS,Grand cross of Darkness
 340,9,8,1,7,0,0,10,1:1:2:2:3:3:4:4:5:5,yes,0,0x2,0,magic,0,0x0,	NPC_DARKSTRIKE,Soul Strike of Darkness
