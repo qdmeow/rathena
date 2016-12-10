@@ -7,7 +7,7 @@
 
 
 // Leave this alone...
--	shop	Emistry_Shop#1	-1,512:100
+-	shop	Emistry_Shop	-1,512:100
 
 
 dali03,79,108,5	script	Rare Dealer	757,{
@@ -23,7 +23,7 @@ mes "^00FF00____________________________^000000";
 mes "Consist same item, but different currency. Please choose:";
 next;
 // Menu Selection
-select("Rojak Mithril","Medal of Hunter");
+select("Rojak Gold Coins","Rojak Mithril Coins","Medal of Hunter");
 
 ClearData();
 ShopSettings( @menu );
@@ -43,14 +43,22 @@ end;
 function	ShopSettings	{
 	switch( getarg(0) ){
 		Case 1:
+			// Currency [ Rojak Gold ]
+			set @Currency$,"50008";
+			// Item ID Lists
+			setarray @ItemLists[0],6417;
+			// Item Price
+			setarray @ItemCost[0],50;
+			break;
+		Case 2:
 			// Currency [ Rojak Mithril ]
 			set @Currency$,"50010";
 			// Item ID Lists
 			setarray @ItemLists[0],4047,4302,4143;
 			// Item Price
-			setarray @ItemCost[0],4,4,2;
+			setarray @ItemCost[0],5,5,3;
 			break;
-		Case 2:
+		Case 3:
 			// Currency [ Medal of Hunter ]
 			set @Currency$,"50028";
 			// Item ID Lists
