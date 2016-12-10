@@ -1,0 +1,54 @@
+//===== rAthena Script ======================================= 
+//= Nightmarish Jitterbug Instance
+//===== By: ================================================== 
+//= Initial by ocelote = v1.0
+//===== Current Version: ===================================== 
+//= v1.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Additional Comments: ================================= 
+//= v1.1 = cleanup and fixes = hurtsky
+//============================================================ 
+
+dali03,50,107,6	script	Test	100,{
+
+	mes "Hello Rojak Player!";
+	mes "I am Rojak Limited Items Seller";
+	mes "Item that been sell here only have limited quantity";
+    for(set .@i,0; .@i < getarraysize(.TradeID); set .@i, .@i +1){
+		if(.TradeID[.@i] != 0) {
+			set .@menu$, .@menu$ + "^0000FF"+getitemname(.TradeID[.@i])+"^000000 [Left ^880000"+.TradeCount[.@i]+"^000000 units]";
+			set .@menu$, .@menu$ + ":";    
+		}
+	}        
+	set .@Select, select(.@menu$) - 1;
+	if(.TradeCount[.@Select] < 1) {
+		mes "Currently that item is out of stock";
+		mes "You're too late, sad~";
+		close;
+	}
+	next;
+	mes "Do you want to buy it?";
+	mes "I required this item ~ ";
+	mes "^880000"+.TradeItemsAmm[.@Select]+"^000000 units of ~";
+	mes "^880000"+getitemname(.TradeItemsReq[.@Select])+"^000000";
+	mes "Please make sure you have it enough!";
+	next;
+	if(countitem(.TradeItemsReq[.@Select]) < .TradeItemsAmm[.@Select]) {
+		mes "You don't have enough ~";
+		mes "^880000"+getitemname(.TradeItemsReq[.@Select])+"^000000";
+		mes "Hurry up get it, or you might won't have a chance anymore to get this items";
+		close;
+	}
+	delitem .TradeItemsReq[.@Select], .TradeItemsAmm[.@Select];
+	getitem .TradeID[.@Select], 1;
+	.TradeCount[.@Select] -= 1;
+	close;
+	
+OnInit:
+	setarray .TradeID[0], 31100,31101,31102,31103; //your cards id
+	setarray .TradeCount[0], 5,5,5,5; //card count
+	setarray .TradeItemsReq[0], 50028,50028,50028,50028; // required item
+	setarray .TradeItemsAmm[0], 5,5,5,5; // amount of ^ items
+	end;
+}
