@@ -364,6 +364,7 @@ enum {
 	MF_NOCOSTUME,
 	MF_GVG_TE_CASTLE,
 	MF_GVG_TE,
+	MF_HIDEMOBHPBAR,
 };
 
 const char* script_op2name(int op)
@@ -11891,6 +11892,7 @@ BUILDIN_FUNC(getmapflag)
 			case MF_NOCOSTUME:			script_pushint(st,map[m].flag.nocostume); break;
 			case MF_GVG_TE_CASTLE:		script_pushint(st,map[m].flag.gvg_te_castle); break;
 			case MF_GVG_TE:				script_pushint(st,map[m].flag.gvg_te); break;
+			case MF_HIDEMOBHPBAR:		script_pushint(st,map[m].flag.hidemobhpbar); break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -12014,6 +12016,7 @@ BUILDIN_FUNC(setmapflag)
 				map[m].flag.gvg_te = 1;
 				clif_map_property_mapall(m, MAPPROPERTY_AGITZONE);
 				break;
+			case MF_HIDEMOBHPBAR:		map[m].flag.hidemobhpbar = 1; break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -12121,6 +12124,7 @@ BUILDIN_FUNC(removemapflag)
 				map[m].flag.gvg_te = 0;
 				clif_map_property_mapall(m, MAPPROPERTY_NOTHING);
 				break;
+			case MF_HIDEMOBHPBAR:		map[m].flag.hidemobhpbar = 0; break;
 #ifdef ADJUST_SKILL_DAMAGE
 			case MF_SKILL_DAMAGE:
 				{
@@ -19175,24 +19179,27 @@ BUILDIN_FUNC(instance_destroy)
 /*==========================================
  * Warps player to instance
  * Results:
- *	0: Success
- *	1: Character not in party/guild (for party/guild type instances)
- *	2: Character/Party/Guild doesn't have instance
- *	3: Other errors (instance not in DB, instance doesn't match with character/party/guild, etc.)
+ *	IE_OK: Success
+ *	IE_NOMEMBER: Character not in party/guild (for party/guild type instances)
+ *	IE_NOINSTANCE: Character/Party/Guild doesn't have instance
+ *	IE_OTHER: Other errors (instance not in DB, instance doesn't match with character/party/guild, etc.)
  *------------------------------------------*/
 BUILDIN_FUNC(instance_enter)
 {
 	struct map_session_data *sd = NULL;
 	int x = script_hasdata(st,3) ? script_getnum(st, 3) : -1;
 	int y = script_hasdata(st,4) ? script_getnum(st, 4) : -1;
+	unsigned short instance_id;
+
+	if (script_hasdata(st, 6))
+		instance_id = script_getnum(st, 6);
+	else
+		instance_id = script_instancegetid(st);
 
 	if (!script_charid2sd(5,sd))
 		return SCRIPT_CMD_FAILURE;
 
-	if (x != -1 && y != -1)
-		script_pushint(st, instance_enter_position(sd, script_instancegetid(st), script_getstr(st, 2), x, y));
-	else
-		script_pushint(st, instance_enter(sd, script_instancegetid(st), script_getstr(st, 2)));
+	script_pushint(st, instance_enter(sd, instance_id, script_getstr(st, 2), x, y));
 
 	return SCRIPT_CMD_SUCCESS;
 }
@@ -22540,7 +22547,7 @@ struct script_function buildin_func[] = {
 	BUILDIN_DEF(instance_create,"s??"),
 	BUILDIN_DEF(instance_destroy,"?"),
 	BUILDIN_DEF(instance_id,""),
-	BUILDIN_DEF(instance_enter,"s???"),
+	BUILDIN_DEF(instance_enter,"s????"),
 	BUILDIN_DEF(instance_npcname,"s?"),
 	BUILDIN_DEF(instance_mapname,"s?"),
 	BUILDIN_DEF(instance_warpall,"sii?"),

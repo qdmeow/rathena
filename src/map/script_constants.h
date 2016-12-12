@@ -412,6 +412,7 @@
 	export_constant(MF_NOCOSTUME);
 	export_constant(MF_GVG_TE_CASTLE);
 	export_constant(MF_GVG_TE);
+	export_constant(MF_HIDEMOBHPBAR);
 
 	/* setcell types */
 	export_constant(CELL_WALKABLE);
@@ -3184,6 +3185,12 @@
 	export_constant(STOR_MODE_NONE);
 	export_constant(STOR_MODE_GET);
 	export_constant(STOR_MODE_PUT);
+	
+	/* instance enter */
+	export_constant(IE_OK);
+	export_constant(IE_NOMEMBER);
+	export_constant(IE_NOINSTANCE);
+	export_constant(IE_OTHER);
 
 	#undef export_constant
 
