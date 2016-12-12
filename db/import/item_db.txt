@@ -93,4 +93,4 @@
 40028,Rojak_Skateboard,Rojak Skateboard,4,10,,10,,,,,0xFFFFFFFF,63,2,1,,,1,1545,{ bonus bSpeedRate,35; },{},{}
 40029,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,10,,,,,,4,0xFFFFFFFF,63,2,256,,,1,1546,{ bonus bAllStats,3; },{},{}
 40030,Rojak_Card,Rojak Card,6,20,,10,,,,,,,,769,,,,,{ bonus bAllStats,5; },{},{}
-40031,Castle_Box,Castle Box,18,20,,10,,,,,0xFFFFFFFF,7,2,,,,,,{ getitem 607,100; getitem 610,100; getitem 678,100; },{},{}
+40031,Castle_Box,Castle Box,18,20,,10,,,,,0xFFFFFFFF,7,2,,,,,,{ getitem 607,100; getitem 610,100; getitem 678,100; getitem 12103,100; },{},{}
