@@ -1,0 +1,29 @@
+//mapflag for custom map
+
+//guild_vs3 pvp room 1
+guild_vs3	mapflag	pvp
+guild_vs3	mapflag	partylock
+guild_vs3	mapflag	guildlock
+guild_vs3	mapflag	nogo
+guild_vs3	mapflag	noteleport
+guild_vs3	mapflag	noreturn
+guild_vs3	mapflag	nosave
+guild_vs3	mapflag	nomemo
+guild_vs3	mapflag	nopenalty
+guild_vs3	mapflag	novending
+guild_vs3	mapflag	nobranch
+guild_vs3	mapflag	nocommand	4
+
+//guild_vs2 pvp room 2
+guild_vs2	mapflag	pvp
+guild_vs2	mapflag	partylock
+guild_vs2	mapflag	guildlock
+guild_vs2	mapflag	nogo
+guild_vs2	mapflag	noteleport
+guild_vs2	mapflag	noreturn
+guild_vs2	mapflag	nosave
+guild_vs2	mapflag	nomemo
+guild_vs2	mapflag	nopenalty
+guild_vs2	mapflag	novending
+guild_vs2	mapflag	nobranch
+guild_vs2	mapflag	nocommand	4
