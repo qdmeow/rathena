@@ -1,0 +1,658 @@
+// ==============================================================================================
+//								  	  P v P   S Y S T E M
+// ==============================================================================================
+//						  Created by Eradicate [ sro.eradicate@live.ca ]
+// ==============================================================================================
+//						  			  Current Version: 1.6
+// ==============================================================================================
+//										   Version 1.0+
+// ----------------------------------------------------------------------------------------------
+// -	Kills, deaths, streaks ladder (script & SQL)
+//		Sorted by kills, deaths, then streaks
+// -	In-Game Ranker
+// -	Point System (w/ streaks, dota sounds)
+// -	Rewards Shop
+// -	Double/Triple/Etc Kill
+// ----------------------------------------------------------------------------------------------
+//										   Version 1.5+
+// ----------------------------------------------------------------------------------------------
+// -	Anti Cheat
+// -	Level Restriction
+// ==============================================================================================
+
+// Anti-Cheat Announcement. (Should match up with the maps in "setarray .maptrigger$[0]" in the Config)
+// <mapname>%TAB%mapflag%TAB%loadevent
+pvp_y_2-2	mapflag	loadevent
+
+prtg_cas01	mapflag	loadevent
+prtg_cas02	mapflag	loadevent
+prtg_cas03	mapflag	loadevent
+prtg_cas04	mapflag	loadevent
+payg_cas05	mapflag	loadevent
+
+aldeg_cas05	mapflag	loadevent
+payg_cas04	mapflag	loadevent
+
+gefg_cas01	mapflag	loadevent
+gefg_cas02	mapflag	loadevent
+gefg_cas03	mapflag	loadevent
+gefg_cas04	mapflag	loadevent
+gefg_cas05	mapflag	loadevent
+
+-	script	PVPladder	-1,{
+OnInit:
+//	--- C O N F I G ------------------------------------------------------------------------------------------------
+//	Is the points character or account wide? (0=Character, 1=Account) [Default: Character]
+	set $@pvptype, 0;
+//	How many points does the player recieve on a regular kill? (0=Disable) [Default: 10]
+	set .regpoints, 1;
+//	How many points loss when player dies? (0=Disable) [Default: 2]
+	set .losepoints, 0;
+//	How many bonus points per increase in streak? (2-10+)
+//	Streaks:					2	3	4	5	6	7	8	9	10	10+
+	setarray .streakbonus[2],	1,	1,	1,	1,	1,	1,	1, 1,	1,	1;
+//	How many seconds till player has to kill another to increase in Mutliple Kills? [Default: 5]
+	set .killtime, 5;
+//	How many bonus points per increase in Multiple Kill? (2-10+)
+	setarray .multikill$[2],		"Double",	"TRIPLE",	"QUADRUPLE",	"QUINTUPLE";
+	setarray .multikillbonus[2],	1,			1,			1,				1;
+	
+//	Does this PvP System only happen in certain maps? (0=No, 1=Yes) [Default: 0]
+	set .maprestrict, 1;
+//	If above is Yes (.maprestrict = 1). Which maps can it happen too?
+	setarray .maptrigger$[0],	"pvp_y_2-2","prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05","aldeg_cas05","payg_cas04","gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05";
+//	What level does the player killed have to be in range of the player who is killing? (0=Disable) [Default: 0]
+//	Eg. If set to 10. A lv80 player will only get announcements & points if kills a level 70-90 player
+	set .lvrange, 0;
+//	How many players to show on the Top PvP Ladder? [Default: 10]
+	set .players, 10;
+//	Rewards Shop: Item ID
+	setarray $@reward_item[1],	12424,12903,12904,12905,12906,12907,12908,12912,12917, 30504,30505,30506,30507,30508;
+//	Rewards Shop: Item Cost
+	setarray $@reward_cost[1],	20,20,50,50,50,50,50,50,50, 500,500,500,500,500;
+//	Rewards Shop: Redundant.. but basically its itemid1,cost1,itemid2,cost2 .. etc
+	npcshopitem "pvprewardshop",	12424,20,14145,20,12903,50,12904,50,12905,50,12906,50,12907,50,12908,50,12912,50,12917,50,30504,500,30505,500,30506,500,30507,500,30508,500;
+
+//	--- Version 1.5 ------------------------------------------------------------------------------------------------
+//	How many times does a player have to kill the same person until penalized?
+	set .penkill, 5;
+//	How many points lost when a player kills the same person several times (.penkill) in one minute?
+	set .penlose, 2;
+//	What is the minimum level before they gain/lose points?
+	set .minlevel, 90;
+//	Edit the mapflags at the beginning of this script for the anti-cheat announcement.
+
+//	--- End of Config ----------------------------------------------------------- Do Not Edit Below This Line ------
+	setarray .multikillsound$[2],	"doublekill.wav",	"triplekill.wav",	"triplekill.wav",	"triplekill.wav";
+	end;
+
+	
+	
+OnPCKillEvent:
+//	if(getgmlevel() >= 20 || killerrid == killedrid) end;
+
+	if(.maprestrict){
+		getmapxy .@m$,.@x,.@y,0;
+		for(set .@i, 0; .@i < getarraysize(.maptrigger$); set .@i,.@i+1) {
+			if(.@m$ == .maptrigger$[.@i]) break;
+		}
+		if (.@i == getarraysize(.maptrigger$)) end;
+	}
+
+		set @KillStreak, @KillStreak +1;
+		set .@Killer$, strcharinfo(0);
+		set .@Level, BaseLevel;
+		
+	attachrid(killedrid);
+		if(@Killed$ == strcharinfo(0))
+			set .@anticheat, 1;
+		set @Killed$, strcharinfo(0);
+		
+		if(((BaseLevel < (.@Level - .lvrange) || BaseLevel > (.@Level + .lvrange)) && .lvrange != 0) || (BaseLevel < .minlevel)) end;
+		
+		if (@KillStreak==3)
+			announce ""+@Killed$+"'s killing spree has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==4)
+			announce ""+@Killed$+"'s dominating streak has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==5)
+			announce ""+@Killed$+"'s mega kill streak has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==6)
+			announce ""+@Killed$+"'s wicked sick streak has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==7)
+			announce ""+@Killed$+"'s monster kill streak has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==8)
+			announce ""+@Killed$+"'s unstoppable streak has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak==9)
+			announce ""+@Killed$+"'s godlike has been ended by "+.@Killer$+" !!",bc_self;
+		if (@KillStreak>=10)
+			announce ""+@Killed$+"'s beyond godlike streak has been ended by "+.@Killer$+" !!",bc_self;
+		set @KillStreak, 0;
+		
+		query_sql "SELECT `char_id` FROM `pvpladder` WHERE `char_id` = '"+getcharid(0)+"'", .@Exist;
+		if(.@Exist)
+			query_sql "UPDATE pvpladder SET deaths = deaths + 1 WHERE char_id = "+getcharid(0)+"";
+		else
+			query_sql "INSERT INTO `pvpladder` (`char_id`, `name`, `kills`, `deaths`, `streaks`) VALUES ('"+getcharid(0)+"', '"+strcharinfo(0)+"', '0', '1', '0')";
+		setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") - .losepoints;
+		
+		if(getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") < 0)
+			setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", 0;
+		
+	attachrid(killerrid);
+		if(BaseLevel < .minlevel) end;
+
+		if(.@anticheat)
+			set @anticheat, @anticheat + 1;
+		
+		if(@anticheat < .penkill){
+			if (@KillStreak==3) {
+				soundeffectall "killingspree.wav",0,.@m$;
+				announce ""+.@Killer$+" is on a killing spree !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==4) {
+				soundeffectall "dominating.wav",0,.@m$;
+				announce ""+.@Killer$+" is dominating !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==5) {
+				soundeffectall "megakill.wav",0,.@m$;
+				announce ""+.@Killer$+" has a mega kill !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==6) {
+				soundeffectall "wickedsick.wav",0,.@m$;
+				announce ""+.@Killer$+" is wicked sick !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==7) {
+				soundeffectall "monsterkill.wav",0,.@m$;
+				announce ""+.@Killer$+" has a monster kill !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==8) {
+				soundeffectall "unstoppable.wav",0,.@m$;
+				announce ""+.@Killer$+" is unstoppable !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak==9) {
+				soundeffectall "godlike.wav",0,.@m$;
+				announce ""+.@Killer$+" is godlike !! ["+@KillStreak+"]",bc_self;
+			}
+			if (@KillStreak>=10) {
+				soundeffectall "holyshit.wav",0,.@m$;
+				announce ""+.@Killer$+" is beyond godlike !! Somebody kill him! ["+@KillStreak+"]",bc_self;
+			}
+	
+			query_sql "SELECT `char_id`, `streaks` FROM `pvpladder` WHERE `char_id` = '"+getcharid(0)+"'", .@Exist, .@Streak;
+			if(.@Exist){
+				query_sql "UPDATE pvpladder SET kills = kills + 1 WHERE char_id = "+getcharid(0)+"";
+				if(.@Streak < @KillStreak)
+					query_sql "UPDATE pvpladder SET streaks = "+@KillStreak+" WHERE char_id = "+getcharid(0)+"";
+			}
+			else
+				query_sql "INSERT INTO `pvpladder` (`char_id`, `name`, `kills`, `deaths`, `streaks`) VALUES ('"+getcharid(0)+"', '"+strcharinfo(0)+"', '1', '0', '1')";
+			
+			if(@KillStreak > 10)
+				set .@streak, 10;
+			else
+				set .@streak, @KillStreak;
+				
+			set @mkill, @mkill + 1;
+			deltimer "PVPladder::OnMKillReset";
+			addtimer (.killtime*1000),"PVPladder::OnMKillReset";
+			if(@mkill >= 6)
+				set @mkill, 5;
+
+			setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") + .regpoints + .streakbonus[.@streak] + .multikillbonus[@mkill];
+			
+			sleep2 1500;
+			if(@mkill >= 2){
+				announce ""+.@Killer$+"'s just got a "+.multikill$[@mkill]+" Kill !!",bc_self;
+				soundeffectall .multikillsound$[@mkill],0,.@m$;
+			}
+		}
+		else {
+			setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") - .penlose;
+			if(getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") < 0) setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", 0;
+		}
+		end;
+
+OnMKillReset:
+	set @mkill, 0;
+	end;
+
+OnPenReset:
+	set @anticheat, 0;
+	deltimer "PVPladder::OnPenReset";
+	addtimer 60000,"PVPladder::OnPenReset";
+	end;
+
+OnPCLoadMapEvent:
+	getmapxy .@m$,.@x,.@y,0;
+	if(.maprestrict){
+		for(set .@i, 0; .@i < getarraysize(.maptrigger$); set .@i,.@i+1) {
+			if(.@m$ == .maptrigger$[.@i]) break;
+		}
+		if (.@i == getarraysize(.maptrigger$)) end;
+	}
+	if(BaseLevel >= .minlevel){
+		//mapannounce .@m$,"Anti Cheat protection is ON! Killing the same player more than "+.penkill+" times per minute will result in you losing points and the kills being disregarded!",bc_self;
+		deltimer "PVPladder::OnPenReset";
+		addtimer 60000,"PVPladder::OnPenReset";
+	}
+	end;
+}
+
+-	shop	pvprewardshop	-1,501:50
+
+maintown,196,197,5	script	PVP REWARD POINT	835,{
+	cleararray @bought_nameid[0],0,128;
+	cleararray @bought_quantity[0],0,128;
+	mes "[^0066CC PvP Rewards Shop ^000000]";
+	mes "Your GvG/PvP Points: "+getd(""+(($@pvptype == 0)?"":"#")+"pvppoints")+"";
+	mes " ";
+	mes "Please note:";
+	mes "- It takes GvG/PvP Points, not Zeny.";
+	mes "- Listed price is actual. Discount does not work.";
+	next;
+	callshop "pvprewardshop",1;
+	npcshopattach "pvprewardshop";
+	end;
+	
+OnBuyItem:
+	mes "[^0066CC PvP Rewards Shop ^000000]";
+	for(set .@i, 0; .@i < getarraysize(@bought_nameid); set .@i, .@i + 1){
+		if(@bought_quantity[.@i] <= 0){
+			mes "omgh4x!";
+			close;
+		}
+		for(set .@z, 0; .@z < getarraysize($@reward_item); set .@z, .@z + 1)
+			if($@reward_item[.@z] == @bought_nameid[.@i])
+				set .@totalprice, .@totalprice + ($@reward_cost[.@z] * @bought_quantity[.@i]);
+	}
+
+	if(getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") < .@totalprice){
+		mes "Sorry, but you have insufficient PvP Points. The transaction has failed.";
+		deletearray @bought_quantity, getarraysize(@bought_quantity);
+		deletearray @bought_nameid, getarraysize(@bought_nameid);
+		close;
+	}
+	else if(.@totalprice <= 0){
+		mes "omgh4x!";
+		close;
+	}
+
+	setd ""+(($@pvptype == 0)?"":"#")+"pvppoints", getd(""+(($@pvptype == 0)?"":"#")+"pvppoints") - .@totalprice;
+	for(set .@i,0; .@i < getarraysize(@bought_nameid); set .@i, .@i + 1) 
+		getitem @bought_nameid[.@i], @bought_quantity[.@i];
+
+	deletearray @bought_quantity, getarraysize(@bought_quantity);
+	deletearray @bought_nameid, getarraysize(@bought_nameid);
+
+	mes "Exchange completed.";
+	close;
+	
+	
+}
+
+
+-	script	DOTAPVP	-1,{
+OnInit:
+// Config
+	set .sound, 1; // soundeffect : 0 - disable, 1 - play soundeffect to all players on map, 2 - play soundeffect to an area around the killer, 3 - play soundeffect to killer only
+	set .ownage, 2; // ownage announcement : 0 - disable, 1 - party owns, 2 - guild owns
+	set .announce, 1; // make announce to : 0 - global, 1 - map
+	set .announcemap, 1; // announce the map name in the announcement ? : 0 - off, 1 - on
+
+	set .announcekill, 1; // announce who pawn who's head : 0 - off, 1- on
+	set .msg_die, 0; // show message who kill you when die : 0 - off, 1- on
+	set .msg_kill, 0; // show message you kill who when killed someone : 0 - off, 1- on
+
+	set .gmnokill, 0; // GMs are not suppose to kill players. A GM with <this number> level or higher will do nothing. IF set to 60, GM60 and above kill any player will not get anything : 0 - off
+
+	set .killingspree, 3;
+	set .dominating, 4;
+	set .megakill, 5;
+	set .unstoppable, 6;
+	set .wickedsick, 7;
+	set .monsterkill, 8;
+	set .godlike, 9;
+	set .holyshit, 10;
+	set .continue, 1; // after beyond-godlike, every <this number> kills will make announcement again
+
+	set .owned, 5; // how many times the party/guild has to kill to announce ownage
+	set .owncontinue, 1; // after ownage, every <this number> party/guild cumulative kills will make ownage announce again
+
+	setarray .maptrigger$, // only these maps will trigger this script
+		"all", // comment this line to only trigger this script on these listed maps
+		"pvp_y_2-2",
+		"prtg_cas01",
+		"prtg_cas02",
+		"prtg_cas03",
+		"prtg_cas04",
+		"prtg_cas05",
+		"aldeg_cas05",
+		"payg_cas04";
+
+	// anti-sit-killer system
+	// a player must kill another player with this minimum <this number> level to get the announcement and in the ladder.
+	// Otherwise only have streak ended announcement and killed player's streak reset.
+	// Its possible for a level 1 novice to kill a level 55 player and he/she will still get in the ladder
+	// but a level 55 kill a level 1 player will get nothing
+	// 0 - off this system ( default is 55, pk setting )
+	set .lvltokill, 0;
+
+	// when a player kill another same player <this number> times in a row, the player is warp back to save point.
+	// and the player's streak and ownage count will deduct accordingly
+	// 0 - off this system
+	set .counttopunish, 6;
+
+	// minimum level range to kill another player
+	// eg. when set to 20, player level 99 needs to kill another player with minimum level of 79 to get announcement and increase the kill rank.
+	// but a player with base level 50 kills a level 99 will also get the announcement
+	// higher base level cannot kill lower level, but lower level can kill higher level
+	// 0 - off this system
+	set .minlvlrange, 0;
+
+// Config ends ------------------------------------------------------------------------------------------
+
+//	to prevent bug happen
+	if ( .ownage < 0 || .ownage > 2 ) set .ownage, 0;
+	if ( .announce < 0 || .announce > 1 ) set .announce,0;
+	if ( .continue < 1 ) set .continue, 1;
+	if ( .owncontinue < 1 ) set .owncontinue, 1;
+	if ( .gmnokill <= 0 ) set .gmnokill, 100;
+	if ( .lvltokill <= 1 ) set .lvltokill, 0;
+	if ( .counttopunish <= 1 ) set .counttopunish, 0;
+	set .maptriggersize, getarraysize(.maptrigger$);
+	end;
+
+//	script start
+OnPCKillEvent:
+	if ( getgmlevel() >= .gmnokill ) end;
+	getmapxy .@map$, .@x, .@y, 0;
+	if ( .maptrigger$ != "all" ) {
+		for ( set .@i, 0; .@i < .maptriggersize; set .@i, .@i +1 ) {
+			if ( .@map$ == .maptrigger$[.@i] ) break;
+		}
+		if ( .@i == .maptriggersize ) end;
+	}
+	attachrid killedrid;
+		if ( killerrid != getcharid(3) && ( .msg_die || .msg_kill ) ) {
+			if ( .msg_die ) message strcharinfo(0),"You have been killed by "+ rid2name(killerrid);
+			if ( .msg_kill ) message rid2name(killerrid),"You just killed "+ strcharinfo(0);
+		}
+		if ( @PlayersKilledStreak >= .holyshit )
+			set .@streakname$,"Beyond Godlike";
+		else if ( @PlayersKilledStreak >= .godlike )
+			set .@streakname$,"Godlike";
+		else if ( @PlayersKilledStreak >= .monsterkill )
+			set .@streakname$,"Monster Kill";
+		else if ( @PlayersKilledStreak >= .wickedsick )
+			set .@streakname$,"Wicked Sick";
+		else if ( @PlayersKilledStreak >= .unstoppable )
+			set .@streakname$,"Unstoppable";
+		else if ( @PlayersKilledStreak >= .megakill )
+			set .@streakname$,"Mega-kill";
+		else if ( @PlayersKilledStreak >= .dominating )
+			set .@streakname$,"Dominating";
+		else if ( @PlayersKilledStreak >= .killingspree )
+			set .@streakname$,"Killing Spree";
+	if ( @PlayersKilledStreak >= .killingspree && killerrid == getcharid(3) )
+		announce strcharinfo(0) +" has ended "+( (sex)?"him":"her" )+" own "+ .@streakname$ +"["+ @PlayersKilledStreak +"] streak "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	else if ( @PlayersKilledStreak >= .killingspree )
+		announce rid2name(killerrid) +" has ended "+ strcharinfo(0) +"'s "+ .@streakname$ +"["+ @PlayersKilledStreak +"] streak "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	else if ( .announcekill && killerrid != getcharid(3) )
+		announce rid2name(killerrid) +" has pawned "+ strcharinfo(0) +"'s head "+( (.announcemap)?("at "+ .@map$):""),16|.announce;
+	set @PlayersKilledStreak,0;
+	set @dota_multikills,0;
+	if ( .ownage && getcharid(.ownage) ) {
+		setd ".dotaown_"+ getcharid(.ownage), 0;
+		set .@killedgroup, getcharid(.ownage);
+	}
+	if ( killerrid == getcharid(3) || baselevel < .lvltokill ) end;
+	if ( .minlvlrange ) set .@killedlvl, baselevel;
+	attachrid killerrid;
+	if ( .minlvlrange && .@killedlvl + .minlvlrange < baselevel ) end;
+	if ( .counttopunish ) {
+		if ( @sitkillminute != gettime(2) ) {
+			deletearray @sitkillid, 128;
+			deletearray @sitkilltimes, 128;
+			set @sitkillminute, gettime(2);
+		}
+		set .@sitkillsize, getarraysize(@sitkillid);
+		for ( set .@i,0; .@i < .@sitkillsize; set .@i, .@i +1 ) {
+			if ( @sitkillid[.@i] != killedrid ) continue;
+			else {
+				set @sitkilltimes[.@i], @sitkilltimes[.@i] +1 ;
+				if ( @sitkilltimes[.@i] >= .counttopunish ) {
+					warp "SavePoint",0,0;
+					announce strcharinfo(0) +" , Stop killing "+ rid2name(killedrid) + " !!!",0;
+					debugmes strcharinfo(0) +" is sit-killing "+ rid2name(killedrid) +" for "+ @sitkilltimes[.@i] + " times";
+					logmes "is sit-killing "+ rid2name(killedrid) +" for "+ @sitkilltimes[.@i] +" times";
+					set @PlayersKilledStreak, @PlayersKilledStreak +1 - .counttopunish;
+					set PlayersKilled, PlayersKilled +1 - .counttopunish;
+					if ( .ownage && getcharid(.ownage) )
+						setd ".dotaown_"+ getcharid(.ownage), getd(".dotaown_"+ getcharid(.ownage) ) +1 - .counttopunish;
+					end;
+				}
+				break;
+			}
+		}
+		if ( .@i == .@sitkillsize ) {
+			set @sitkillid[.@i], killedrid;
+			set @sitkilltimes[.@i], 1;
+		}
+	}
+	set @PlayersKilledStreak, @PlayersKilledStreak + 1;
+	set PlayersKilled, PlayersKilled + 1;
+		if ( @PlayersKilledStreak == .killingspree )
+			setarray .@streakname$,"killingspree.wav","is on a KILLING SPREE","!";
+		else if ( @PlayersKilledStreak == .dominating )
+			setarray .@streakname$,"dominating.wav","is DOMINATING","!";
+		else if ( @PlayersKilledStreak == .megakill )
+			setarray .@streakname$,"megakill.wav","has a MEGA KILL","!";
+		else if ( @PlayersKilledStreak == .unstoppable )
+			setarray .@streakname$,"unstoppable.wav","is UNSTOPPABLE","!!";
+		else if ( @PlayersKilledStreak == .wickedsick )
+			setarray .@streakname$,"wickedsick.wav","is WICKED SICK","!!";
+		else if ( @PlayersKilledStreak == .monsterkill )
+			setarray .@streakname$,"monsterkill.wav","has a MONSTER KILL","!!";
+		else if ( @PlayersKilledStreak == .godlike )
+			setarray .@streakname$,"godlike.wav","is GODLIKE","!!!";
+		else if ( @PlayersKilledStreak >= .holyshit && ( (@PlayersKilledStreak - .holyshit) % .continue == 0 ) )
+			setarray .@streakname$,"holyshit.wav","is BEYOND GODLIKE",". Someone KILL "+( (sex)?"HIM":"HER" ) +"!!!!!!";
+	if ( .@streakname$[1] != "" ) {
+		announce strcharinfo(0) +" "+ .@streakname$[1] +"["+ @PlayersKilledStreak +"] "+( (.announcemap)?("at "+ .@map$):"") + .@streakname$[2],16|.announce;
+		if ( .sound == 1 ) soundeffectall .@streakname$[0],0,.@map$;
+		else if ( .sound == 2 ) soundeffectall .@streakname$[0],0;
+		else if ( .sound == 3 ) soundeffect .@streakname$[0],0;
+	}
+	set @dota_multikills, @dota_multikills + 1;
+	deltimer "DOTAPVP::OnStreakReset";
+	addtimer 18000,"DOTAPVP::OnStreakReset";
+	if ( .ownage ) {
+		set .@sideid, getcharid(.ownage);
+		if ( .@sideid != .@killedgroup ) setd ".dotaown_"+ .@sideid, getd(".dotaown_"+ .@sideid ) + 1;
+	}
+	set .@dota_multikills, @dota_multikills;
+	set .@origin, getcharid(3);
+	sleep 1500;
+	if ( .@sideid && .ownage && .@sideid != .@killedgroup && getd(".dotaown_"+ .@sideid) >= .owned && ( ( getd(".dotaown_"+ .@sideid) - .owned ) % .owncontinue == 0 ) ) {
+		if ( .announce ) mapannounce .@map$, "The "+( (.ownage == 1)?"party":"guild" )+" ["+( (.ownage == 1)?getpartyname(.@sideid):getguildname(.@sideid) )+"] is OWNING["+ getd(".dotaown_"+ .@sideid) +"] !!!",16;
+		else announce "The "+( (.ownage == 1)?"party":"guild" )+" ["+( (.ownage == 1)?getpartyname(.@sideid):getguildname(.@sideid) )+"] is OWNING["+ getd(".dotaown_"+ .@sideid) +"] !!!",16;
+		if ( .sound == 1 ) soundeffectall "ownage.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "ownage.wav",0;
+		else if ( .sound == 3 && attachrid(.@origin) ) soundeffect "ownage.wav",0;
+	}
+	sleep 1250;
+	if ( !attachrid(.@origin) ) end;
+	if ( .@dota_multikills == 2 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Double Kill !",16;
+		else announce strcharinfo(0) +" just got a Double Kill !",16;
+		if ( .sound == 1 ) soundeffectall "doublekill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "doublekill.wav",0;
+		else if ( .sound == 3 ) soundeffect "doublekill.wav",0;
+	}
+	else if ( .@dota_multikills == 3 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Triple Kill !!!",16;
+		else announce strcharinfo(0) +" just got a Triple Kill !!!",16;
+		if ( .sound == 1 ) soundeffectall "triplekill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "triplekill.wav",0;
+		else if ( .sound == 3 ) soundeffect "triplekill.wav",0;
+	}
+	else if ( .@dota_multikills == 4 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" just got a Ultra Kill !!!",16;
+		else announce strcharinfo(0) +" just got a Ultra Kill !!!",16;
+		if ( .sound == 1 ) soundeffectall "ultrakill.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "ultrakill.wav",0;
+		else if ( .sound == 3 ) soundeffect "ultrakill.wav",0;
+	}
+	else if ( .@dota_multikills >= 5 ) {
+		if ( .announce ) mapannounce .@map$, strcharinfo(0) +" is on a Rampage !!!",16;
+		else announce strcharinfo(0) +" is on a Rampage !!!",16;
+		if ( .sound == 1 ) soundeffectall "rampage.wav",0,.@map$;
+		else if ( .sound == 2 ) soundeffectall "rampage.wav",0;
+		else if ( .sound == 3 ) soundeffect "rampage.wav",0;
+	}
+	end;
+OnWhisperGlobal:
+	dispbottom "Your current Streak : "+ @PlayersKilledStreak;
+	dispbottom "Your total Kills		  : "+ PlayersKilled;
+	if ( .ownage && getcharid(.ownage) )
+		dispbottom "Your "+( (.ownage ==1)?"party":"guild" )+" Own		: "+ getd(".dotaown_"+ getcharid(.ownage) );
+	end;
+OnStreakReset:
+	set @dota_multikills, 0;
+	end;
+}
+
+
+maintown,219,180,2	script	PVP LADDER	110,{
+L_Ladder:
+	query_sql "SELECT name, kills, deaths, streaks FROM pvpladder ORDER BY kills DESC, deaths ASC, streaks DESC LIMIT "+getvariableofnpc(.players,"PVPladder")+"", .@name$, .@kills, .@deaths, .@streaks;
+	mes "[^0065DFTop "+getvariableofnpc(.players,"PVPladder")+" PvP Players^000000]";	
+	mes "(Name [Kills - Deaths - Streaks])";
+	for(set .@i, 0; .@i < getarraysize(.@name$); set .@i, .@i + 1){
+		mes .@i+1+". "+.@name$[.@i]+"  [ ^312EE8"+.@kills[.@i]+"^000000  -  ^fb0000"+.@deaths[.@i]+"^000000  -  ^312EE8"+.@streaks[.@i]+"^000000 ]";
+	}
+	next;	
+	
+	switch(select("Check My Stats:Claim My Reward:TOP 10 Prize For The Week:Close"))
+	{
+	case 1:
+			{
+			query_sql "SELECT kills, deaths, streaks FROM pvpladder WHERE char_id = "+getcharid(0)+"", .@kills1, .@deaths1, .@streaks1;
+			mes "[^0065DFPvP Stats^000000]";
+			mes "Kills: "+.@kills1;
+			mes "Deaths: "+.@deaths1;
+			mes "Highest Streak: "+.@streaks1;	
+			next;
+			goto L_Ladder;
+			}
+	case 2:
+			{
+			.@cid = getcharid(0);	
+			query_sql( "SELECT `pvpreward` FROM `char` WHERE `char_id` = "+.@cid[.@i]+" LIMIT 1",.@pvpreward );	
+			query_sql( "UPDATE `char` SET `pvpreward` = 0 WHERE `char_id` = "+.@cid[.@i]+" LIMIT 1" );
+			
+			// ITEM LISTED PRIZE
+			switch ( .@pvpreward ) {
+				case 1: getitem 22111,50; break;
+				case 2: getitem 22111,25; break;
+				case 3: getitem 22111,15; break;
+				case 4: getitem 22111,10; break;
+				case 5: getitem 22111,5; break;
+				case 6: getitem 22110,5; break;
+				case 7: getitem 22110,4; break;
+				case 8: getitem 22110,3; break;
+				case 9: getitem 22110,2; break;
+				case 10: getitem 22110,1; break;
+				default:
+					mes "[PVP Gate Keeper]";
+					mes "You're not top pvp for this week. or you already claimed the rewards.";
+					close;
+			}
+			mes "[PVP Gate Keeper]";
+			mes "You gained reward as top "+.@pvpreward+" PVP.";
+			close;
+			
+			OnInit:
+			// INITIATE THE LIMIT OF LADDER LISTED PRIZE
+				.limit = 10;
+				end;
+			
+			//DATE TIME ASSIGN
+			OnSun2200:
+			// **************************************************************
+			// FIRST EMISTRY SCRIPT	
+			// **************************************************************	
+				for ( .@i = 5; .@i > 0; .@i-- ) {
+				announce "Top 10 PVP Rewards will be given in "+.@i+" minutes, please login your characters to get the auto assigned rewards.",bc_all;
+				sleep 60000;
+			}
+			
+			//ITEM NAME ANNOUNCE ON THE DAY OF CLAIMING PRIZE
+				// item id reward for top 5 pvp
+			setarray .@itemid,30940,30940,22110,22110,22110,22110,22110,22110,22110,22110;
+				// item quantity reward for top 5 pvp
+			setarray .@itemid_qty,25,20,15,10,5,5,5,5,4,3;
+			.@itemid_size = getarraysize( .@itemid );
+			
+			query_sql ( "SELECT c.`account_id`,c.`char_id` FROM `pvpladder` pvp INNER JOIN `char` c ON c.`char_id` = pvp.`char_id` WHERE pvp.`kills` > 0 ORDER BY pvp.`kills` DESC,pvp.`deaths` LIMIT "+.@itemid_size ,.@aid,.@cid );
+			.@cid_size = getarraysize( .@cid );
+				
+			for ( .@i = 0; .@i < .@cid_size; .@i++ )
+				if ( .@aid[.@i] && isloggedin( .@aid[.@i],.@cid[.@i] ) ) {
+					attachrid( .@aid[.@i] );
+					announce "Top "+( .@i+1 )+" PVP Rewards - "+strcharinfo(0)+" obtained "+.@itemid_qty[.@i]+"x "+getitemname( .@itemid[.@i] ),bc_all;
+				}
+			detachrid;
+			
+			// **************************************************************
+			// SECOND EMISTRY SCRIPT	
+			// **************************************************************	
+				query_sql( "SELECT `char_id` FROM `pvpladder` WHERE `kills` > 0 ORDER BY `kills` DESC,`deaths` LIMIT "+.limit,.@cid );
+				.@cid_size = getarraysize( .@cid );
+				for ( .@i = 0; .@i < .@cid_size; .@i++ )
+					query_sql( "UPDATE `char` SET `pvpreward` = "+( .@i+1 )+" WHERE `char_id` = "+.@cid[.@i]+" LIMIT 1" );
+				announce "Top 10 PVP Reward - "+.@cid_size+" players is selected as winner.",bc_all;
+				
+			
+				//AUTO TRUNCATE DB
+				//query_sql( "TRUNCATE `pvpladder`" );
+				announce "PVP Ladder Will Reset in Monday 12PM +8GMT. Claim your prize immediately",bc_all;	
+				end;	
+			
+			//next;
+			//goto L_Ladder;
+			}
+	case 3:
+	{
+	mes "[PVP Gate Keeper]";
+	mes "Top 5 PVP Prize";
+	mes "~ Top 1: 50x VRO Card";
+	mes "~ Top 2: 25x VRO Card";
+	mes "~ Top 3: 15x VRO Card";
+	mes "~ Top 4: 10x VRO Card";
+	mes "~ Top 5: 5x VRO Card";
+	mes "~ Top 6: 5x Credit";
+	mes "~ Top 7: 4x Credit";
+	mes "~ Top 8: 3x Credit";
+	mes "~ Top 9: 2x Credit";
+	mes "~ Top 10: 1x Credit";
+	}
+	case 4:
+		close;			
+	
+	}
+	
+}
+
+
+/*
+	ALTER TABLE `char` ADD `pvpreward` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' AFTER `fame`;
+*/
+
+-	script	PVPRESETLADDER#disable1	-1,{
+//OnInit:
+OnMon1200:
+		query_sql( "TRUNCATE `pvpladder`" );
+		announce "PVP Ladder completely reset.",bc_all;	
+end;
+}
