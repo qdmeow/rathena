@@ -2,8 +2,8 @@
 
 //guild_vs3 pvp room 1
 guild_vs3	mapflag	pvp
-guild_vs3	mapflag	partylock
-guild_vs3	mapflag	guildlock
+guild_vs3	mapflag	pvp_noguild
+guild_vs3	mapflag	pvp_noparty
 guild_vs3	mapflag	nogo
 guild_vs3	mapflag	noteleport
 guild_vs3	mapflag	noreturn
