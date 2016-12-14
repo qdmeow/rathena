@@ -14,17 +14,17 @@
 //    6: Usables
 //    7: Other
 //
-// Price:
-//    Item cost, in cash points (#CASHPOINTS).
+// E.g:
+//    ItemType, ItemID, ItemPrice(#CASHPOINTS)
 
 //New 0
-0,50049,60
-0,50051,60
-0,50052,60
-0,50053,60
-0,50054,60
-0,50055,60
-0,50056,60
+0,50049,60	//red angel wings
+0,50051,60	//dark blue angel wings
+0,50052,60	//green angel wings
+0,50053,60	//golden angel wings
+0,50054,60	//wraith devil wings
+0,50055,60	//crow wings
+0,50056,60	//holy angel wings
 
 //Headgear 1
 1,50000,60	//andro wings
@@ -52,10 +52,10 @@
 //Scrolls 5
 
 //Usables 6
-7,17441,20	//Halter Lead Box
+6,17441,20	//Halter Lead Box
 
 //Other 7
-7,50032,40	//Caster (custom card)
+7,50032,40	//Caster Card(custom card)
 7,4302,30	//tao gun ka
 7,4047,30	//ghostring
 7,4146,30	//maya
