@@ -11553,7 +11553,7 @@
 31049,C_Marin_Hat,Costume Marin Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,948,{},{},{}
 31050,C_Golden_Poring_Hat,Costume Golden Poring Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,1236,{},{},{}
 31051,C_Poring_Sun_Visor,Costume Poring Sun Visor,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,1496,{},{},{}
-31052,C_Alchemist_Mask,Costume Alchemist Mask,4,0,,0,,,,0,0xFFFFFFFF,63,2,7168,,1,0,1496,{},{},{}
+31052,C_Alchemist_Mask,Costume Alchemist Mask,4,0,,0,,,,0,0xFFFFFFFF,63,2,7168,,1,0,917,{},{},{}
 31053,C_Drooping_Eddga,Costume Drooping Eddga,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,495,{},{},{}
 31054,C_Sting_Hat,Costume Sting Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,504,{},{},{}
 31055,C_Poring_Soap_Pipe,Costume Poring Soap Pipe,4,0,,0,,,,0,0xFFFFFFFF,63,2,4096,,1,0,1499,{},{},{}
@@ -11591,7 +11591,7 @@
 31088,C_Mad_Hatter,Costume Mad Hatter,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,1421,{},{},{}
 31089,C_Exploding_Crimson_Flame,Costume Exploding Crimson Flame,4,0,,0,,,,0,0xFFFFFFFF,63,2,2048,,1,0,1500,{},{},{}
 31090,C_Angelring_Hat,Costume Angelring Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,348,{},{},{}
-31091,C_Show_Me_The_Zeny,Costume Show Me The Zeny,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,915,{},{},{}
+31091,C_Show_Me_The_Zeny,Costume Show Me The Zeny,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,916,{},{},{}
 31092,C_Rabbit_Ribbon_Hat,Costume Bunny Ribbon Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,845,{},{},{}
 31093,C_Under_Lamp,Costume Under Lamp,4,0,,0,,,,0,0xFFFFFFFF,63,2,4096,,1,0,1531,{},{},{}
 31094,C_Dice_Hat,Costume Dice Hairband,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,0,494,{},{},{}
