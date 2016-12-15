@@ -19,6 +19,7 @@
 // 1024 - restricted in zone 6
 // 2048 - restricted in zone 7
 // 4096 - restricted in zone 8
+// 8192 - restricted in zone 9 - custom
 //
 // Passing negative value as flag will unset the flag instead.
 //
@@ -280,3 +281,6 @@
 20703,8175	// TE_Woe_Manteau
 20704,8175	// TE_Woe_Magic_Manteau
 21006,8175	// TE_Woe_Two_Hand_Sword
+
+607,8192	// Yggdrasil berry
+608,8192	// yggdrasil seed
