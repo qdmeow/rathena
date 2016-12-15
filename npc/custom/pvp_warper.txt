@@ -5,7 +5,7 @@
 |	------------------------------------
 |		  current version: 1.0
 |	------------------------------------
-|	  Hercules (ONLY) compatible script
+|	  Hercules/rAthena compatible script
 |	------------------------------------
 |	Description:
 |	* Allows you to select different PVP modes
@@ -15,28 +15,13 @@
 |	* Added restricted item name recognition
 |	------------------------------------
 |	------------------------------------
-| NOTE!
-| Add this on your map_zone_db.conf so mapflag would take effect:
------
-
-{
-	name: "PKRestrict"
-
-	disabled_skills: {
-		AL_HEAL: "PLAYER"
-	}
-}
-
------
-|	------------------------------------
-|	------------------------------------
 */
 
 // --- script proper -----------------
 dewata,196,162,4	script	PVP Warper	4_M_ROKI2,{
 	mes .npcname$;
 	mes "Select which mode you wanted to enter";
-	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No Pots/Heal PVP:["+getmapusers(.pkmap_3$)+"] Assassin Cross vs Assassin Cross PVP:["+getmapusers(.pkmap_4$)+"] Champion vs Champion PVP")){
+	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No Pots/Heal PVP){
 		case 1:
 			announce strcharinfo(0)+" just entered the Normal PVP Map",bc_all,0xFF0000;
 			warp .pkmap_1$,0,0;
@@ -54,33 +39,6 @@ dewata,196,162,4	script	PVP Warper	4_M_ROKI2,{
 			announce strcharinfo(0)+" just entered the No Pots/Heal PVP Map",bc_all,0xFF0000;
 			warp .pkmap_2$,0,0;
 			end;
-		case 3:
-			if(Class != Job_Assassin_Cross)
-			{
-				close2;
-				message strcharinfo(0), "You are not an Assassin's Cross.";
-				end;
-			}
-			else 
-			{
-				announce strcharinfo(0)+" just entered the Assassin's PVP Map",bc_all,0xFF0000;
-				warp .pkmap_3$,0,0;
-				end;
-			}
-			
-		case 4:
-			if(Class != Job_Champion)
-			{
-				close2;
-				message strcharinfo(0), "You are not a Champion.";
-				end;
-			}
-			else 
-			{
-				announce strcharinfo(0)+" just entered the Champ PVP Map",bc_all,0xFF0000;
-				warp .pkmap_4$,0,0;
-				end;
-			}
 		end;
 	}
 	
@@ -89,10 +47,8 @@ end;
 OnInit:
 // ------ CONFIGURATION ---------
 // -------- PVP maps ------------
-	.pkmap_1$ = "2@tower";
-	.pkmap_2$ = "3@tower";
-	.pkmap_3$ = "4@tower";
-	.pkmap_4$ = "5@tower";
+	.pkmap_1$ = "arena_4";
+	.pkmap_2$ = "guild_vs3";
 	
 // -------- NPC NAME ------------
 	.npcname$ = "[PVP Warper]";
@@ -109,12 +65,6 @@ while( 1 )
 		sleep2 5000;
 		delwaitingroom;
 		waitingroom "["+getmapusers(.pkmap_2$)+"] Users-No Pots/Heal PVP Map",0;
-		sleep2 5000;
-		delwaitingroom;
-		waitingroom "["+getmapusers(.pkmap_3$)+"] Users-SinX PVP Map",0; 
-		sleep2 5000;
-		delwaitingroom;
-		waitingroom "["+getmapusers(.pkmap_4$)+"] Users-Champ PVP Map",0; 
 		sleep2 5000;
 	}
 end;
