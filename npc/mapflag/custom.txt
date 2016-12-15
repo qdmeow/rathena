@@ -14,7 +14,24 @@ arena_4	mapflag	novending
 arena_4	mapflag	nobranch
 arena_4	mapflag	nocommand	4
 
+//guild_vs3 pvp room 1
+guild_vs3	mapflag	pvp
+guild_vs3	mapflag	partylock
+guild_vs3	mapflag	guildlock
+guild_vs3	mapflag	nogo
+guild_vs3	mapflag	noteleport
+guild_vs3	mapflag	noreturn
+guild_vs3	mapflag	nosave
+guild_vs3	mapflag	nomemo
+guild_vs3	mapflag	nopenalty
+guild_vs3	mapflag	novending
+guild_vs3	mapflag	nobranch
+guild_vs3	mapflag	nocommand	4
+
 //enable weather
 dewata	mapflag	leaves
 dali03	mapflag	clouds
 arena_4	mapflag	sakura
+
+// Pvp Map custom restricted no==
+guild_vs3	mapflag	restricted	9
