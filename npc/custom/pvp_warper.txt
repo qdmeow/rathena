@@ -21,13 +21,13 @@
 dewata,196,162,4	script	PVP Warper	4_M_ROKI2,{
 	mes .npcname$;
 	mes "Select which mode you wanted to enter";
-	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No Pots/Heal PVP")){
+	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No YGG Berry/Seed PVP")){
 		case 1:
 			announce strcharinfo(0)+" just entered the Normal PVP Map",bc_all,0xFF0000;
 			warp .pkmap_1$,0,0;
 			end;
 		case 2:
-			announce strcharinfo(0)+" just entered the No Pots/Heal PVP Map",bc_all,0xFF0000;
+			announce strcharinfo(0)+" just entered the No YGG Berry/Seed PVP",bc_all,0xFF0000;
 			warp .pkmap_2$,0,0;
 			end;
 		end;
