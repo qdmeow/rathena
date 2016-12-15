@@ -1552,6 +1552,9 @@ int64 battle_calc_damage(struct block_list *src,struct block_list *bl,struct Dam
 		
 	if (skill_id == NJ_ISSEN )
 		damage = min(damage,250000);
+	
+	if (skill_id == PR_TURNUNDEAD )
+		damage = min(damage,250000);
 
 	return damage;
 }
