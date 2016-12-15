@@ -1105,6 +1105,11 @@ void initChangeTables(void)
 	StatusIconChangeTable[SC_CROSSBOWCLAN] = SI_CROSSBOWCLAN;
 	StatusIconChangeTable[SC_JUMPINGCLAN] = SI_JUMPINGCLAN;
 
+	// Extra unofficial status icons
+	StatusIconChangeTable[SC_ENCHANTARMS] = SI_ENCHANTARMS;
+	StatusIconChangeTable[SC_ARMOR_ELEMENT] = SI_ARMOR_ELEMENT;
+	StatusIconChangeTable[SC_ARMOR_RESIST] = SI_ARMOR_RESIST;
+
 	/* Other SC which are not necessarily associated to skills */
 	StatusChangeFlagTable[SC_ASPDPOTION0] |= SCB_ASPD;
 	StatusChangeFlagTable[SC_ASPDPOTION1] |= SCB_ASPD;

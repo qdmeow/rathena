@@ -1736,6 +1736,10 @@ enum si_type {
 	SI_GLOOM_CARD = 988,
 	SI_PHARAOH_CARD = 989,
 	SI_KIEL_CARD = 990,
+// Extra unofficial status icons
+	SI_ENCHANTARMS = 2000, // Elemental Converter
+	SI_ARMOR_ELEMENT = 2001, // Resist Potion
+	SI_ARMOR_RESIST = 2002, // Undead Scroll
 	SI_MAX,
 };
 
