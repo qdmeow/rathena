@@ -107,7 +107,7 @@
 50043,Goblini_Mask_Lvl_1,Goblin Mask Lvl 1,4,20,,100,,1,,0,0xFFFFFFFE,63,2,512,,0,1,84,{ bonus bInt,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50044,Thanatos_Mal_Mask_Lvl_1,Thanatos Mal Mask Lvl 1,4,20,,100,,5,,1,0xFFFFFFFF,63,2,512,,1,1,667,{ bonus bVit,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50045,Wings_of_Purity,Wings of Purity,4,0,,100,,5,,,0xFFFFFFFF,63,2,1,,,1,10013,{ bonus bAddMaxWeight,(getrefine()*1000); bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
-50046,Falcon_Mask_Lvl_1,Falcon Mask Lvl 1,4,10,,30,,0,,0,0xFFFFFFFF,63,2,512,,1,0,480,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
+50046,Falcon_Mask_Lvl_1,Falcon Mask Lvl 1,4,10,,30,,0,,1,0xFFFFFFFF,63,2,512,,1,0,480,{ bonus bLuk,5; bonus bSpeedRate,(getrefine()*2); bonus bMaxHPrate,(getrefine()*3); },{},{}
 50047,Archangel_Wing,Sealed Archangel Wings,4,0,,200,,18,,1,0xFFFFFFFF,63,2,4,,0,1,1,{ bonus bAllStats,1; bonus bAtk,readparam(bStr)/20; bonus bMatk,readparam(bInt)/20; bonus2 bSubEle,Ele_Neutral,readparam(bVit)/20; bonus bLongAtkRate,readparam(bDex)/20; bonus bCritAtkRate,readparam(bLuk)/20; },{},{}
 50048,Fallen_Angel_Wing,Sealed Fallen Angel Wing,4,0,,200,,18,,1,0xFFFFFFFF,63,2,4,,0,1,3,{ bonus bAllStats,1; bonus bAtk,readparam(bStr)/20; bonus bMatk,readparam(bInt)/20; bonus2 bSubEle,Ele_Neutral,readparam(bVit)/20; bonus bLongAtkRate,readparam(bDex)/20; bonus bCritAtkRate,readparam(bLuk)/20; },{},{}
 50049,Red_Angel_Wings,Red Angel Wings,4,0,,0,,10,,1,0xFFFFFFFF,63,2,1,,,1,10073,{ bonus2 bSubEle,Ele_Fire,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); },{},{}
