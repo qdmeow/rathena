@@ -1,181 +1,145 @@
-// Made by iTouch
-// ----------------------------------------------------------------------------
-// Ultimate PvP Warper ver. 1
-// Features:
-// Baby PvP Room
-// PvP Square(Every 2 days Random PvP Room)
-// PvP Nightmare
-// PvP Lowlvl( Supports 1 - 150 Lvl)
-// PvP No Potion (Berrys , Ygg seed , Any potions , etc. are restricted)
-// PvP Non Donator (Got Items are restricted here)
-// -----------------------------------------------------------------------------
-// ver. 2 update idea:
-// Adding a PvP Room that removes the buffs of the player when entering the room
-// Adding a PvP Room for GM's Only so GM's will have fun
-// -----------------------------------------------------------------------------
-// Special thanks to:
-// icescope of eAthena for helping me configuring the error at PvP Square
-// -----------------------------------------------------------------------------
+/*
+|	------------------------------------
+|		- Simple PVP Warper - 
+|			 [Legend]
+|	------------------------------------
+|		  current version: 1.0
+|	------------------------------------
+|	  Hercules (ONLY) compatible script
+|	------------------------------------
+|	Description:
+|	* Allows you to select different PVP modes
+|	* Added restricted skills & items for No Pots/Heal PVP mode
+|	* Added waitingroom that updates every 5 seconds to check current users on different modes
+|	* Added announcer when player enters the map
+|	* Added restricted item name recognition
+|	------------------------------------
+|	------------------------------------
+| NOTE!
+| Add this on your map_zone_db.conf so mapflag would take effect:
+-----
 
-prontera,163,171,6	script	Ultimate PvP Warper	753,{
-	if (.pvp_square$=="") donpcevent "Ultimate PVP warper::OnClock0000";
- 
-	mes "[PvP Warper]";
-	mes "Which arena do you want to go to?";
-	switch(select("PVP Square ["+getmapusers(.pvp_square$)+"/100]:PVP Nightmare ["+getmapusers("guild_vs3")+"/100]:PVP LowLevel ["+getmapusers("guild_vs1")+"/100]:PVP NoPotion ["+getmapusers("pvp_y_8-2")+"/100]:Non Donator PVP ["+getmapusers("1@orcs")+"/100]:Baby PvP Room ["+getmapusers("pvp_y_1-2")+"/100]")) {
+{
+	name: "PKRestrict"
 
-	case 1:    // PVP Square
-        if (getmapusers(.pvp_square$) > 99) callsub S_full;
-        warp .pvp_square$,0,0;
-        announce strcharinfo(0)+ " enter " +.pvp_square$+ "",0;
-        end;
-    case 2:    // PVP Nightmare
-        if (getmapusers("guild_vs3") > 99) callsub S_full;
-        warp "guild_vs3",0,0;
-        announce strcharinfo(0)+ " enter guild_vs3",0;
-        end;
-    case 3:    // PVP LowLevel
-        if (getmapusers("guild_vs1") > 99) callsub S_full;
-        if (BaseLevel > 99) { // Edit 150 to any maximum Lvl of a player can enter this room
-            mes "only Base Level 1 - 99 may enter.";
-            close;
-        }
-        warp "guild_vs1",0,0;
-        announce strcharinfo(0)+ " enter guild_vs1",0;
-        end;
-    case 4:    // PVP NoPotion
-        if (getmapusers("pvp_y_8-2") > 99) callsub S_full;
-        for( set .@i,0; .@i<getarraysize(.NoPotion_ids); set .@i,.@i+1 ) {
-            if (countitem(.NoPotion_ids[.@i])) {
-                mes "You can not bring potions in this pvp.";
-                close;
-            }
-        }
-        warp "pvp_y_8-2",0,0;
-        announce strcharinfo(0)+ " enter pvp_y_8-2",0;
-        end;
-    case 5:    // Non Donator PVP
-        if (getmapusers("1@orcs") > 99) callsub S_full;
-        for( set .@i,0; .@i<getarraysize(.NoDonator_ids); set .@i,.@i+1 ) {
-            if (countitem(.NoDonator_ids[.@i])) {
-                mes "You can not bring God items in this pvp.";
-                close;
-            }
-        }
-        callsub S_payment;
-        warp "1@orcs",0,0;
-        announce strcharinfo(0)+ " enter 1@orcs",0;
-        end;
-    Case 6: // Baby PvP Room
-        if (getmapusers("pvp_y_1-2") > 99) callsub S_full;
-        if (class < 4023 || class > 4045) goto L_NotBaby;
-        warp "pvp_y_1-2",0,0;
-        announce strcharinfo(0)+ " enter pvp_y_1-2",0;
-        end;
-L_NotBaby:
-        mes "Only baby can enter this room";
-        close;    
- 
-    }
- 
-S_full:
-	mes " ";
-	mes "I'm sorry, this arena is full.  Please try again later...";
-	close;
-
-OnPCKillEvent:
-	if( strcharinfo(3) == prontera ){
-                announce "["+strcharinfo(0)+"] has killed ["+rid2name(killedrid)+"] in "+strcharinfo(3),0;
+	disabled_skills: {
+		AL_HEAL: "PLAYER"
 	}
-	end;
-
- 
-OnInit:
-	   waitingroom "PvP Warper",0;
-    end;
-OnClock0000:
-	// set the "PVP Square" map, based on day of the weeek
-	switch(gettime(4)) {
-	case 0:	// Sunday
-	case 1:	// Monday
-		set .pvp_square$, "guild_vs2";
-		break;
-	case 2:	// Tuesday
-	case 3:	// Wednesday
-		set .pvp_square$, "guild_vs5";
-		break;
-	case 4:	// Thursday
-	case 5:	// Friday
-		set .pvp_square$, "guild_vs4";
-		break;
-	case 6:	// Saturday
-		set .pvp_square$, "guild_vs1-2";
-		break;
-	}
- 
-	// items not allowed in PVP NoPotion
-	setarray .NoPotion_ids[0], 607, 608;
- 
-	// items not allowed in Non Donator PVP
-	setarray .NoDonator_ids[0], 2410, 1530;
-	end;
 }
- 
-moscovia.gat,226,198,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#1	871
-//askydun.gat,96,113,3	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#2	871 // Kliwa
-alberta.gat,110,140,3	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#3	871 // Kliwa
-aldebaran.gat,147,115,1	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#4	871 // Kliwa
-amatsu.gat,207,86,3	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#5	871 // Kliwa
-ayothaya.gat,155,117,2	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#6	871 // Kliwa
-comodo.gat,206,80,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#7	871 // Kliwa
-einbech.gat,198,83,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#8	871 // Taas Kaliwa
-einbroch.gat,174,172,5	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#9	871 // Taas Kaliwa
-geffen.gat,125,71,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#10	871
-gonryun.gat,162,120,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#11	871
-hugel.gat,89,151,5	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#12	871
-izlude.gat,134,90,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#13	871
-lighthalzen.gat,166,101,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#14	871
-louyang.gat,214,120,5	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#15	871
-xmas.gat,154,136,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#16	871
-morocc.gat,160,97,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#17	871
-payon.gat,148,226,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#18	871
-rachel.gat,135,115,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#19 	871
-veins.gat,219,127,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#20	871
-yuno.gat,163,170,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#21	871
-umbala.gat,106,159,3	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#22	871
-poring_c02,139,81,4	duplicate(Ultimate PvP Warper)	Ultimate PvP Warper#23	871
- 
-// Mapflags (No commands)
-pvp_y_1-2	mapflag	nocommand	99
-guild_vs2	mapflag	nocommand	99
-guild_vs3	mapflag	nocommand	99
- 
-// Will disable players using @go
-pvp_y_1-2	mapflag	nowarpto
-guild_vs2	mapflag	nowarpto
-guild_vs3	mapflag	nowarpto
- 
-// disable warp
-pvp_y_1-2	mapflag	nowarp
-guild_vs2	mapflag	nowarp
-guild_vs3	mapflag	nowarp
- 
-// enable kill party member
-pvp_y_1-2	mapflag	pvp_noparty
-guild_vs2	mapflag	pvp_noparty
-guild_vs3	mapflag	pvp_noparty
- 
-// disable branch
-pvp_y_1-2	mapflag	nobranch
-guild_vs2	mapflag	nobranch
-guild_vs3	mapflag	nobranch
- 
-// Will disable players using @go
-pvp_y_1-2	mapflag	nomemo
-guild_vs2	mapflag	nomemo
-guild_vs3	mapflag	nomemo
- 
-// Will disable players using @go
-// pvp_y_1-2	mapflag	pvp
-// guild_vs2	mapflag	pvp
-// guild_vs3	mapflag	pvp
+
+-----
+|	------------------------------------
+|	------------------------------------
+*/
+
+// --- script proper -----------------
+dewata,196,162,4	script	PVP Warper	4_M_ROKI2,{
+	mes .npcname$;
+	mes "Select which mode you wanted to enter";
+	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No Pots/Heal PVP:["+getmapusers(.pkmap_3$)+"] Assassin Cross vs Assassin Cross PVP:["+getmapusers(.pkmap_4$)+"] Champion vs Champion PVP")){
+		case 1:
+			announce strcharinfo(0)+" just entered the Normal PVP Map",bc_all,0xFF0000;
+			warp .pkmap_1$,0,0;
+			end;
+		case 2:
+				for( .@i = 0; .@i < .Rsize; .@i++ )
+				{
+					if (countitem(.Ritems[.@i]))
+					{
+						close2;
+						message strcharinfo(0),"You are carrying a restricted item ["+getitemname(.Ritems[.@i])+"]";
+						end;
+					}
+				}
+			announce strcharinfo(0)+" just entered the No Pots/Heal PVP Map",bc_all,0xFF0000;
+			warp .pkmap_2$,0,0;
+			end;
+		case 3:
+			if(Class != Job_Assassin_Cross)
+			{
+				close2;
+				message strcharinfo(0), "You are not an Assassin's Cross.";
+				end;
+			}
+			else 
+			{
+				announce strcharinfo(0)+" just entered the Assassin's PVP Map",bc_all,0xFF0000;
+				warp .pkmap_3$,0,0;
+				end;
+			}
+			
+		case 4:
+			if(Class != Job_Champion)
+			{
+				close2;
+				message strcharinfo(0), "You are not a Champion.";
+				end;
+			}
+			else 
+			{
+				announce strcharinfo(0)+" just entered the Champ PVP Map",bc_all,0xFF0000;
+				warp .pkmap_4$,0,0;
+				end;
+			}
+		end;
+	}
+	
+end;
+
+OnInit:
+// ------ CONFIGURATION ---------
+// -------- PVP maps ------------
+	.pkmap_1$ = "2@tower";
+	.pkmap_2$ = "3@tower";
+	.pkmap_3$ = "4@tower";
+	.pkmap_4$ = "5@tower";
+	
+// -------- NPC NAME ------------
+	.npcname$ = "[PVP Warper]";
+	
+// --- restricted item array ----
+	setarray .Ritems[0], 501, 502, 503, 504, 505;
+	.Rsize = getarraysize( .Ritems ); // DO NOT TOUCH THIS
+
+// -- setting up waiting room --
+while( 1 )
+	{
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_1$)+"] Users-Normal PVP Map",0;
+		sleep2 5000;
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_2$)+"] Users-No Pots/Heal PVP Map",0;
+		sleep2 5000;
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_3$)+"] Users-SinX PVP Map",0; 
+		sleep2 5000;
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_4$)+"] Users-Champ PVP Map",0; 
+		sleep2 5000;
+	}
+end;
+}
+
+// -- NPC DUPLICATES --
+moscovia,226,198,4	duplicate(PVP Warper)	PVP Warper#1	4_M_ROKI2
+alberta,110,140,3 	duplicate(PVP Warper)	PVP Warper#3	4_M_ROKI2
+aldebaran,147,115,1	duplicate(PVP Warper)	PVP Warper#4	4_M_ROKI2
+amatsu,207,86,3	duplicate(PVP Warper)	PVP Warper#5	4_M_ROKI2
+ayothaya,155,117,2	duplicate(PVP Warper)	PVP Warper#6	4_M_ROKI2
+comodo,206,80,4	duplicate(PVP Warper)	PVP Warper#7	4_M_ROKI2
+einbech,198,83,4	duplicate(PVP Warper)	PVP Warper#8	4_M_ROKI2
+einbroch,174,172,5	duplicate(PVP Warper)	PVP Warper#9	4_M_ROKI2
+geffen,125,71,4	duplicate(PVP Warper)	PVP Warper#10	4_M_ROKI2
+gonryun,162,120,4	duplicate(PVP Warper)	PVP Warper#11	4_M_ROKI2
+hugel,89,151,5	duplicate(PVP Warper)	PVP Warper#12	4_M_ROKI2
+izlude,134,90,4	duplicate(PVP Warper)	PVP Warper#13	4_M_ROKI2
+lighthalzen,166,101,4	duplicate(PVP Warper)	PVP Warper#14	4_M_ROKI2
+louyang,214,120,5	duplicate(PVP Warper)	PVP Warper#15	4_M_ROKI2
+xmas,154,136,4	duplicate(PVP Warper)	PVP Warper#16	4_M_ROKI2
+morocc,160,97,4	duplicate(PVP Warper)	PVP Warper#17	4_M_ROKI2
+payon,148,226,4	duplicate(PVP Warper)	PVP Warper#18	4_M_ROKI2
+rachel,135,115,4	duplicate(PVP Warper)	PVP Warper#19	4_M_ROKI2
+veins,219,127,4	duplicate(PVP Warper)	PVP Warper#20	4_M_ROKI2
+yuno,163,170,4	duplicate(PVP Warper)	PVP Warper#21	4_M_ROKI2
+umbala,106,159,3	duplicate(PVP Warper)	PVP Warper#22	4_M_ROKI2
+poring_c02,139,81,4	duplicate(PVP Warper)	PVP Warper#23	4_M_ROKI2
