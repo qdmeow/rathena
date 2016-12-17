@@ -23,7 +23,7 @@ mes "^00FF00____________________________^000000";
 mes "Consist same item, but different currency. Please choose:";
 next;
 // Menu Selection
-select("Rojak Gold Coins","Rojak Mithril Coins");
+select("Rojak Gold Coins","Rojak Mithril Coins","Event Coins","AFKPoints");
 
 ClearData();
 ShopSettings( @menu );
@@ -57,6 +57,22 @@ function	ShopSettings	{
 			setarray @ItemLists[0],4302,4047,4146,4198,4318,4135,4168,4143,4305,4330,4147;
 			// Item Price
 			setarray @ItemCost[0],30,30,30,30,30,30,10,10,10,10,10;
+			break;
+		Case 3:
+			// Currency [ Event Coins ]
+			set @Currency$,"50008";
+			// Item ID Lists
+			setarray @ItemLists[0],50028;
+			// Item Price
+			setarray @ItemCost[0],50;
+			break;
+		Case 4:
+			// Currency [ AFKPoints ]
+			set @Currency$,#AFKPOINTS;
+			// Item ID Lists
+			setarray @ItemLists[0],50058;
+			// Item Price
+			setarray @ItemCost[0],500;
 			break;
 		// Case 4,5,6.....etc...
 		default:
