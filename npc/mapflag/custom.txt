@@ -35,3 +35,6 @@ arena_4	mapflag	sakura
 
 // Pvp Map custom restricted no==
 guild_vs3	mapflag	restricted	9
+
+// Enable autotrade at prontera only
+prontera	mapflag	autotrade
