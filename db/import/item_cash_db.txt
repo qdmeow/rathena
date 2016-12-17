@@ -56,12 +56,12 @@
 
 //Other 7
 7,50032,40	//Caster (custom card)
-7,4302,30	//tao gun ka
-7,4047,30	//ghostring
-7,4146,30	//maya
-7,4198,30	//maya purple
-7,4318,30	//stormy knight
-7,4135,30	//Orc Lord
+7,4302,20	//tao gun ka
+7,4047,20	//ghostring
+7,4146,20	//maya
+7,4198,20	//maya purple
+7,4318,20	//stormy knight
+7,4135,20	//Orc Lord
 7,4168,10	//dark lord
 7,4143,10	//Orc Hero
 7,4305,10	//turtle general
