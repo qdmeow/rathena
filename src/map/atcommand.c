@@ -5890,7 +5890,7 @@ ACMD_FUNC(autotrade) {
 	nullpo_retr(-1, sd);
 
 	if( map[sd->bl.m].flag.autotrade != battle_config.autotrade_mapflag ) {
-		clif_displaymessage(fd, msg_txt(sd,1179)); // Autotrade is not allowed on this map.
+		clif_displaymessage(fd, "Autotrade only allowed on Prontera!"); // Autotrade is not allowed on this map.
 		return -1;
 	}
 
@@ -9900,7 +9900,7 @@ ACMD_FUNC(afk) {
 	nullpo_retr(-1, sd);
 
 	if(sd->bl.m == map_mapname2mapid("dewata")) {
-		clif_displaymessage(fd, "@afk is not allowed on this map.");
+		clif_displaymessage(fd, "@afk only allowed on Prontera!");
 		return 0;
 	}
 
@@ -9927,7 +9927,7 @@ ACMD_FUNC(afk) {
 		sd->state.monster_ignore = 1;
 		clif_authfail_fd(fd, 15);
 	} else
-		clif_displaymessage(fd, "@afk is not allowed on this map.");
+		clif_displaymessage(fd, "@afk only allowed on Prontera!");
 
 	return 0;
 }
