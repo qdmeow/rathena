@@ -1,0 +1,9 @@
+dewata,194,146,5	script	Vendor Sign Board	858,{
+	end;
+
+OnInit:
+	waitingroom	"Vending Area",0;
+	end;
+}
+
+dewata,205,146,5	duplicate(Vendor Sign Board)	Vendor Sign Board#2	858
