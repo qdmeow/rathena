@@ -18,7 +18,7 @@
 */
 
 // --- script proper -----------------
-dewata,196,162,4	script	PVP Warper	4_M_ROKI2,{
+dewata,193,172,4	script	PVP Warper	4_M_ROKI2,{
 	mes .npcname$;
 	mes "Select which mode you wanted to enter";
 	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No YGG Berry/Seed PVP")){

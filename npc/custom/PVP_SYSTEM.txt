@@ -555,7 +555,7 @@ OnRollback:
 	freeloop(0);
 }
 
-dewata,199,162,3	script	PvP Ladder[Loki]	467,{
+dewata,193,168,3	script	PvP Ladder[Loki]	467,{
 	if(getgmlevel() >= $icaGMLevel)
 	{
 		mes "[Loki]"; mes "Here are The Current Settings of your PvP System";
