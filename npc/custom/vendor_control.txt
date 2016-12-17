@@ -1,5 +1,5 @@
 
-prontera,156,188,4	script	Vending Helper	757,{
+prontera,155,178,4	script	Vending Helper	757,{
 for( set .@i,1; .@i <= .count; set .@i,.@i + 1 ){
 	getmapxy( .@map$,.@x,.@y,1,"#vend_slot"+.@i );
 	if( !getareausers( .map$,.@x,.@y,.@x,.@y ) && .@x > 1 && .@y > 1 ){

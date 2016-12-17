@@ -35,7 +35,7 @@
 //= [Stolao] 
 //= Email: Taingram11@gmail.com
 //============================================================
-prontera,164,171,4	script	Event Information	835,{
+prontera,151,192,4	script	Event Information	835,{
 	function Func_Countdown;
 	function Func_Add_Time;
 	function Func_Prizes;
