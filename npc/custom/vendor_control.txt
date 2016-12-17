@@ -29,6 +29,7 @@ prontera,155,178,4	script	Vending Helper	757,{
 	close;
 
 OnInit:
+	waitingroom "Vending Helper Here!",0;
 	sleep 1000;
 	// Map for vending
 	set .map$,"prontera";
