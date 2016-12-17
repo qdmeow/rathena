@@ -10,7 +10,7 @@
 //= v1.1 = cleanup and fixes = hurtsky
 //============================================================ 
 
-dali03,50,107,6	script	Test	100,{
+dali03,50,117,6	script	Limited Offer	100,{
 
 	mes "Hello Rojak Player!";
 	mes "I am Rojak Limited Items Seller";
@@ -46,9 +46,9 @@ dali03,50,107,6	script	Test	100,{
 	close;
 	
 OnInit:
-	setarray .TradeID[0], 31100,31101,31102,31103; //your cards id
-	setarray .TradeCount[0], 5,5,5,5; //card count
-	setarray .TradeItemsReq[0], 50028,50028,50028,50028; // required item
-	setarray .TradeItemsAmm[0], 5,5,5,5; // amount of ^ items
+	setarray .TradeID[0], 50059; //your cards id
+	setarray .TradeCount[0], 5; //card count
+	setarray .TradeItemsReq[0], 50028; // required item
+	setarray .TradeItemsAmm[0], 50; // amount of ^ items
 	end;
 }
