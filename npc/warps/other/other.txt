@@ -33,3 +33,8 @@
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
 //guild_vs5,0,0,0	warp	warp4	0,0,hoge,0,0
+
+//rainbow track
+r_road,209,359,0	warp	road00	1,1,r_road,67,374
+r_road,83,336,0	warp	road01	1,1,r_road,41,323
+r_road,75,88,0	warp	road02	1,1,r_road,185,73

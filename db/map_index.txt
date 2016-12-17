@@ -1055,6 +1055,17 @@ ghosthunter
 fishingboat
 storehouse
 desert
+lunashop
+maze
+1@zombie
+wolfmap1
+vend_zone
+sm_pri
+r_road
+mall01
+Investigation
+event_01
+celestiaj
 
 //duplicated map
 dali03
