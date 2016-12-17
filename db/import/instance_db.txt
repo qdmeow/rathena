@@ -4,3 +4,5 @@
 // ID,Name,LimitTime,IdleTimeOut,EnterMap,EnterX,EnterY,Map2,Map3,...,Map255
 //
 // EnterMap is considered as Map1
+
+30,Emp Breaker,900,300,sword_1-1,215,206

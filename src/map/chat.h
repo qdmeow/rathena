@@ -13,7 +13,7 @@ extern "C" {
 struct map_session_data;
 struct chat_data;
 
-#define MAX_CHAT_USERS 20
+#define MAX_CHAT_USERS 50
 
 struct chat_data {
 	struct block_list bl;            // data for this map object
