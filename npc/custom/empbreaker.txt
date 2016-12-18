@@ -122,6 +122,5 @@ OnBreaked:
 }
 
 prt_in	mapflag	gvg	on
-prt_in	mapflag	gvg_castle
 prt_in	mapflag	monster_noteleport
 prt_in	mapflag	nosave	SavePoint
