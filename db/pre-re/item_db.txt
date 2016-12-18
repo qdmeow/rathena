@@ -569,7 +569,7 @@
 1225,Mail_Breaker,Mailbreaker,5,20,,1000,70,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{ bonus bBreakArmorRate,500; },{},{}
 1226,Damascus_,Damascus,5,49000,,800,118,,1,2,0x028F5EEE,7,2,2,3,24,1,1,{ bonus bUnbreakableWeapon,0; },{},{}
 1227,Weeder_Knife,Weeder Knife,5,20,,400,80,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{ bonus bIgnoreDefRace,RC_Plant; bonus2 bAddRace,RC_Plant,15; bonus2 bSubRace,RC_Plant,15; },{},{}
-1228,Combat_Knife,Combat Knife,5,20,,400,80,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{ bonus bIgnoreDefRace,RC_DemiHuman; bonus bIgnoreDefRace,RC_Player; bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_Player,10; bonus2 bSubRace,RC_Demon,-10; },{},{}
+1228,Combat_Knife,Combat Knife,5,20,,400,80,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{},{},{}
 1229,Mama's_Knife,Kitchen Knife,5,20,,500,75,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{ bonus bCritical,30; bonus3 bAddMonsterDropItem,517,RC_Brute,5000; },{},{}
 1230,House_Auger,Ice Pick,5,20,,600,80,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{},{},{}
 1231,Bazerald,Bazerald,5,20,,500,70,,1,0,0x028F5EEE,7,2,2,4,36,1,1,{ bonus bAtkEle,Ele_Fire; bonus bInt,5; bonus bMatkRate,10; },{},{}
