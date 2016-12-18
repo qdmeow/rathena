@@ -27,19 +27,19 @@
 				break;
 
 			case 1:
-				npctalk "[ Rojak Staff ] Where did you learn that words!";
+				npctalk "[ Rojak Staff ] Where did you learn those words!";
 				break;
 
 			case 2:
-				npctalk "[ Rojak Staff ] Please, that is bad word";
+				npctalk "[ Rojak Staff ] Please, that is a bad word!";
 				break;
 
 			case 3:
-				npctalk "[ Rojak Staff ] OMG Don't said that boss!";
+				npctalk "[ Rojak Staff ] OMG! Don't said that!!";
 				break;
 
 			case 4:
-				npctalk "[ Rojak Staff ] I'm Gonna Report you!";
+				npctalk "[ Rojak Staff ] I'm gonna report you!!";
 				break;
 
 			case 5:
@@ -370,7 +370,7 @@ OnInit:
 //===========bad words collection(malaysia)===================
 	defpattern 1, "([^:]+):.*\\s+(kote|kotey|cilaka|buntut|burit|butuh|cipap|pantat|puki|tetek|kongkek|pukimak|konek|ma hai|cibai|ci bai|cb|chow hai|diu|lj|lanjiao|lancau|pundek|sunni|panni|kunji|lahanat|lakhanat|babi|pig|poen|po en|anak haram|bodoh|sial|lancap|melancap|sohai).*", "ar1";
 //===========bad words collection(malaysia)===================
-	defpattern 1, "([^:]+):.*\\sbuff.*", "ar2";
+	//defpattern 1, "([^:]+):.*\\sbuff.*", "ar2";
 	defpattern 1, "([^:]+):.*\\sfcp.*", "ar3";
 	defpattern 1, "([^:]+):.*\\scure.*", "ar4";
 	defpattern 1, "([^:]+):.*\\ssoul.*", "ar5";
@@ -396,31 +396,31 @@ OnTimer60000: //10min 60000
 	switch(rand(6))
 	{
 		case 0: 
-			npctalk "[ Rojak Staff ]: Hi, I'm Rojak Helper. What i can do for you?";
+			npctalk "[ Rojak Staff ]: Hi, I'm Rojak Staff. What i can do for you?";
 			sleep2 5000;
 			emotion e_heh;
 			break;
 
 		case 1:
-			npctalk "[ Rojak Staff ]: Just shout buff, fcp, soul, or cure, i will help you!";
+			npctalk "[ Rojak Staff ]: Just shout FCP, Soul, or Cure, and you'll have it!";
 			sleep2 5000;
 			emotion e_ho;
 			break;
 
 		case 2:
-			npctalk "[ Rojak Staff ]: Say what you want! buff? fcp? soul? cure?";
+			npctalk "[ Rojak Staff ]: Say what you want! FCP? Soul? Cure?";
 			sleep2 5000;
 			emotion e_pif;
 			break;
 					
 		case 3:
-			npctalk "[ Rojak Staff ]: Notice for Newbie, just say buff, fcp, soul, or cure. Then I will make it happen but it will cost some zeny ^_^";
+			npctalk "[ Rojak Staff ]: Notice for Newbies, just say FCP, Soul, or Cure. I'll make it happen but it will cost some zeny ^_^";
 			sleep2 5000;
 			emotion e_gg;
 			break;
 
 		case 4:
-			npctalk "[ Rojak Staff ]: Yeah bro need what? buff? fcp? soul? cure?";
+			npctalk "[ Rojak Staff ]: Yeah, what do you need bro? FCP? Soul? Cure?";
 			sleep2 5000;
 			emotion e_ok;
 			break;

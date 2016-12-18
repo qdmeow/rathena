@@ -6217,6 +6217,8 @@ BUILDIN_FUNC(copyarray)
 BUILDIN_FUNC(getarraysize)
 {
 	struct script_data* data;
+	const char* name;
+	struct map_session_data* sd = NULL;
 
 	data = script_getdata(st, 2);
 	if( !data_isreference(data) )
@@ -6228,7 +6230,15 @@ BUILDIN_FUNC(getarraysize)
 		return SCRIPT_CMD_FAILURE;// not a variable
 	}
 
-	script_pushint(st, script_array_highest_key(st, st->rid ? script_rid2sd(st) : NULL, reference_getname(data), reference_getref(data)));
+	name = reference_getname(data);
+
+	if( not_server_variable(*name) ){
+		sd = script_rid2sd(st);
+		if (sd == NULL)
+			return SCRIPT_CMD_SUCCESS;// no player attached
+	}
+
+	script_pushint(st, script_array_highest_key(st, sd, reference_getname(data), reference_getref(data)));
 	return SCRIPT_CMD_SUCCESS;
 }
 
@@ -7781,6 +7791,7 @@ BUILDIN_FUNC(disableitemuse)
  * Returns a character's specified stat.
  * Check pc_readparam for available options.
  * readparam <param>{,"<nick>"}
+ * readparam <param>{,<char_id>}
  *------------------------------------------*/
 BUILDIN_FUNC(readparam)
 {
@@ -7788,8 +7799,18 @@ BUILDIN_FUNC(readparam)
 	struct script_data *data = script_getdata(st, 2);
 	TBL_PC *sd;
 
-	if (!script_nick2sd(3,sd)) {
-		script_pushint(st,-1);
+	if( script_hasdata(st, 3) ){
+		if( script_isint(st, 3) ){
+			script_charid2sd(3, sd);
+		}else{
+			script_nick2sd(3, sd);
+		}
+	}else{
+		sd = script_rid2sd(st);
+	}
+	
+	if( !sd ){
+		script_pushint(st, -1);
 		return SCRIPT_CMD_FAILURE;
 	}
 
@@ -21265,6 +21286,15 @@ BUILDIN_FUNC(getvar) {
 	}
 
 	name = reference_getname(data);
+
+	if (reference_toparam(data)) {
+		ShowError("buildin_getvar: '%s' is a parameter - please use readparam instead\n", name);
+		script_reportdata(data);
+		script_pushnil(st);
+		st->state = END;
+		return SCRIPT_CMD_FAILURE;
+	}
+
 	if (name[0] == '.' || name[0] == '$' || name[0] == '\'') { // Not a PC variable
 		ShowError("buildin_getvar: Invalid scope (not PC variable)\n");
 		script_reportdata(data);
