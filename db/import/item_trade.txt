@@ -23,7 +23,7 @@
 40007,1,99	// omega_wings
 40008,1,99	// alpha_wings
 40009,1,99	// archangel_wings
-40011,1,99	// Lord_Knife
+40011,1,99	// Lords_Knife
 40028,475,99	// Rojak_Skateboard
 40029,475,99	// Red_Cat_Ears_Beret
 40030,479,90	// Rojak_Card
