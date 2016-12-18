@@ -1,4 +1,4 @@
-prontera,140,182,5	script	Emperium Breaker	743,{
+prontera,141,169,5	script	Emperium Breaker	743,{
 
 // What Map will be used
 set .Map$,"prt_in";
