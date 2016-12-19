@@ -60,4 +60,13 @@
 50056,1,100	// Holy_Angel_Wings
 50057,1,100	// Elemental_Glasses
 50058,265,100	// Event_coin
-50059,393,100	// Saiyan_Hair
+50059,1,100	// Saiyan_Hair
+50060,1,100	// Blue_Black_Valkyrie_Helm
+50061,1,100	// Red_Black_Valkyrie_Helm
+50062,1,100	// Dark_Valkyrie_Helm
+50063,1,100	// Black_White_Valkyrie_Helm
+50064,1,100	// Brown_Valkyrie_Helm
+50065,1,100	// Cyan_Valkyrie_Helm
+50066,1,100	// Pink_Valkyrie_Helm
+50067,1,100	// White_Valkyrie_Helm
+50068,1,100	// Wings_of_Condemnation
