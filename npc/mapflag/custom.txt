@@ -13,6 +13,7 @@ guild_vs3	mapflag	nopenalty
 guild_vs3	mapflag	novending
 guild_vs3	mapflag	nobranch
 guild_vs3	mapflag	nocommand	4
+guild_vs3	mapflag	restricted	9
 
 //guild_vs2 pvp room 2
 guild_vs2	mapflag	pvp
