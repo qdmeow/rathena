@@ -1,0 +1,86 @@
+/*
+|	------------------------------------
+|		- Simple PVP Warper - 
+|			 [Legend]
+|	------------------------------------
+|		  current version: 1.0
+|	------------------------------------
+|	  Hercules/rAthena compatible script
+|	------------------------------------
+|	Description:
+|	* Allows you to select different PVP modes
+|	* Added restricted skills & items for No Pots/Heal PVP mode
+|	* Added waitingroom that updates every 5 seconds to check current users on different modes
+|	* Added announcer when player enters the map
+|	* Added restricted item name recognition
+|	------------------------------------
+|	------------------------------------
+*/
+
+// --- script proper -----------------
+prontera,143,178,5	script	PVP Warper	4_M_ROKI2,{
+	mes .npcname$;
+	mes "Select which mode you wanted to enter";
+	switch(select("["+getmapusers(.pkmap_1$)+"] Normal PVP:["+getmapusers(.pkmap_2$)+"] No YGG Berry/Seed PVP")){
+		case 1:
+			announce strcharinfo(0)+" just entered the Normal PVP Map",bc_all,0xFF0000;
+			warp .pkmap_1$,0,0;
+			end;
+		case 2:
+			announce strcharinfo(0)+" just entered the No YGG Berry/Seed PVP",bc_all,0xFF0000;
+			warp .pkmap_2$,0,0;
+			end;
+		end;
+	}
+	
+end;
+
+OnInit:
+// ------ CONFIGURATION ---------
+// -------- PVP maps ------------
+	.pkmap_1$ = "guild_vs2";
+	.pkmap_2$ = "guild_vs3";
+	
+// -------- NPC NAME ------------
+	.npcname$ = "[PVP Warper]";
+	
+// --- restricted item array ----
+	setarray .Ritems[0], 501, 502, 503, 504, 505;
+	.Rsize = getarraysize( .Ritems ); // DO NOT TOUCH THIS
+
+// -- setting up waiting room --
+while( 1 )
+	{
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_1$)+"] Users-Normal PVP Map",0;
+		sleep2 5000;
+		delwaitingroom;
+		waitingroom "["+getmapusers(.pkmap_2$)+"] Users-No Pots/Heal PVP Map",0;
+		sleep2 5000;
+	}
+end;
+}
+
+// -- NPC DUPLICATES --
+moscovia,226,198,4	duplicate(PVP Warper)	PVP Warper#1	4_M_ROKI2
+alberta,110,140,3 	duplicate(PVP Warper)	PVP Warper#3	4_M_ROKI2
+aldebaran,147,115,1	duplicate(PVP Warper)	PVP Warper#4	4_M_ROKI2
+amatsu,207,86,3	duplicate(PVP Warper)	PVP Warper#5	4_M_ROKI2
+ayothaya,155,117,2	duplicate(PVP Warper)	PVP Warper#6	4_M_ROKI2
+comodo,206,80,4	duplicate(PVP Warper)	PVP Warper#7	4_M_ROKI2
+einbech,198,83,4	duplicate(PVP Warper)	PVP Warper#8	4_M_ROKI2
+einbroch,174,172,5	duplicate(PVP Warper)	PVP Warper#9	4_M_ROKI2
+geffen,125,71,4	duplicate(PVP Warper)	PVP Warper#10	4_M_ROKI2
+gonryun,162,120,4	duplicate(PVP Warper)	PVP Warper#11	4_M_ROKI2
+hugel,89,151,5	duplicate(PVP Warper)	PVP Warper#12	4_M_ROKI2
+izlude,134,90,4	duplicate(PVP Warper)	PVP Warper#13	4_M_ROKI2
+lighthalzen,166,101,4	duplicate(PVP Warper)	PVP Warper#14	4_M_ROKI2
+louyang,214,120,5	duplicate(PVP Warper)	PVP Warper#15	4_M_ROKI2
+xmas,154,136,4	duplicate(PVP Warper)	PVP Warper#16	4_M_ROKI2
+morocc,160,97,4	duplicate(PVP Warper)	PVP Warper#17	4_M_ROKI2
+payon,148,226,4	duplicate(PVP Warper)	PVP Warper#18	4_M_ROKI2
+rachel,135,115,4	duplicate(PVP Warper)	PVP Warper#19	4_M_ROKI2
+veins,219,127,4	duplicate(PVP Warper)	PVP Warper#20	4_M_ROKI2
+yuno,163,170,4	duplicate(PVP Warper)	PVP Warper#21	4_M_ROKI2
+umbala,106,159,3	duplicate(PVP Warper)	PVP Warper#22	4_M_ROKI2
+poring_c02,139,81,4	duplicate(PVP Warper)	PVP Warper#23	4_M_ROKI2
