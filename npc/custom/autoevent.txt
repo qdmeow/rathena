@@ -224,12 +224,7 @@ function Func_Countdown {
 
 function Func_Prizes {
 	announce "Congrats "+strcharinfo(0,getarg(0))+", a winner in the "+getarg(1)+" Event.",bc_all|bc_blue;
-	query_sql("INSERT INTO `mail` (send_name,dest_id,title,message,nameid,amount,identify,zeny,time) VALUES ("+
-		"'no-reply',"+getarg(0)+",'** "+getarg(1)+" **',"+
-		"'Congratulations!% You have won % in the "+getarg(1)+" Event% % % % % % % %   [ Your reward is attached. ]',"+
-		$@RewardID+","+$@RewardQNT+",1,"+$@RewardZeny+",UNIX_TIMESTAMP(NOW()))");
-	announce "Rewards hava been sent via mail.",bc_self|bc_blue;
-	query_sql("UPDATE `mail` SET message = REPLACE(message,'%',CHAR(13)) WHERE send_name = 'no-reply'");
+	getitem $@RewardID,$@RewardQNT;
 }
 
 //==================================
@@ -706,9 +701,9 @@ OnInit:		//-- Config
 
 	// Does not support multiple item rewards
 	// Rewards are Mailed to winners
-	$@RewardID = 33001;
-	$@RewardQNT = 1;
-	$@RewardZeny = 10000;
+	$@RewardID = 50058;
+	$@RewardQNT = 5;
+	//$@RewardZeny = 10000;
 
 // -------------------
 //  At Commands
@@ -859,13 +854,8 @@ maze,369,162,4	script	Event_Agent#Maze	405,4,4,{
 
 OnTouch_:
 	announce "Congrats "+strcharinfo(0)+", a winner in the Maze Event.",bc_all|bc_blue;
-	query_sql("INSERT INTO `mail` (send_name,dest_id,title,message,nameid,amount,identify,zeny,time) VALUES ("+
-		"'no-reply',"+getcharid(0)+",'** Maze Event **',"+
-		"'Congratulations!% You have won % in the Maze Event% % % % % % % %   [ Your reward is attached. ]',"+
-		$@RewardID+","+$@RewardQNT+",0,"+$@RewardZeny+",UNIX_TIMESTAMP(NOW()))");
-	announce "Rewards hava been sent via mail.",bc_self|bc_blue;
+	getitem $@RewardID,$@RewardQNT;
 	mapwarp "maze","prontera",155,181;
-	query_sql("UPDATE `mail` SET message = REPLACE(message,'%',CHAR(13)) WHERE send_name = 'no-reply'");
 	$@CurrentEvent = 0;
 	end;
 }
@@ -897,12 +887,7 @@ prontera,155,227,4	script	Cluckers	800,{
 					npctalk "WOOF!...........";
 					specialeffect2 EF_SPHERE;
 					announce "Congrats "+strcharinfo(0)+", a winner in the Cluckers Event.",bc_all|bc_blue;
-					query_sql("INSERT INTO `mail` (send_name,dest_id,title,message,nameid,amount,identify,zeny,time) VALUES ("+
-						"'no-reply',"+getcharid(0)+",'** Cluckers **',"+
-						"'Congratulations!% You have won % in the Cluckers Event% % % % % % % %   [ Your reward is attached. ]',"+
-						$@RewardID+","+$@RewardQNT+",0,"+$@RewardZeny+",UNIX_TIMESTAMP(NOW()))");
-					announce "Rewards hava been sent via mail.",bc_self|bc_blue;
-					query_sql("UPDATE `mail` SET message = REPLACE(message,'%',CHAR(13)) WHERE send_name = 'no-reply'");
+					getitem $@RewardID,$@RewardQNT;
 					$@CurrentEvent = 0;
 				} else {
 					npctalk "Cluck! CLUUUCK!!";
