@@ -290,7 +290,7 @@ OnInit:
 	end;
 }
 
-ghosthunter,52,73,4	duplicate(Castle Manager)	Castle Manager#prt	418
+ghosthunter,52,73,4	duplicate(Castle Manager)	Castle Manager#gm	418
 prt_gld,166,80,4	duplicate(Castle Manager)	Castle Manager#prt	418
 pay_gld,208,167,4	duplicate(Castle Manager)	Castle Manager#pay	418
 gef_fild13,179,202,6	duplicate(Castle Manager)	Castle Manager#gef	418
