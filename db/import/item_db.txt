@@ -130,3 +130,6 @@
 50066,Pink_Valkyrie_Helm,Pink Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10020,{ bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_DemiHuman,(getrefine()*1); bonus2 bSubEle,Ele_Poison,(getrefine()*2); },{},{}
 50067,White_Valkyrie_Helm,White Valkyrie Helm,4,0,,100,,5,,1,0xFFFFFFFF,63,2,256,,,1,10021,{ bonus2 bSubRace,RC_DemiHuman,10; bonus2 bSubRace,RC_DemiHuman,(getrefine()*1); bonus2 bSubEle,Ele_Neutral,(getrefine()*2); },{},{}
 50068,Wings_of_Condemnation,Wings of Condemnation,4,0,,100,,10,,1,0xFFFFFFFF,63,2,1,,,1,10022,{ bonus2 bSubRace,RC_DemiHuman,15; bonus bMaxHPrate,(getrefine()*3); bonus bAddMaxWeight,(getrefine()*1000); bonus bSpeedRate,35; },{},{}
+50069,Small_Trading_Ticket,Small Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),8,50069;},{},{}
+50070,Medium_Trading_Ticket,Medium Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),12,50070;},{},{}
+50071,Large_Trading_Ticket,Large Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),24,50071;},{},{}

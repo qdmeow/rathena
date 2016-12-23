@@ -1,0 +1,1140 @@
+//===== rAthena Script ============================================================================================
+//= auto shop
+//===== By: =================================================================================================================
+//= Kuro 
+//===== Current Version: ====================================================================================================
+//= 2.0
+//===== Compatible With: ====================================================================================================
+//= rAthena (old versions)
+//= client version 2013-12-23 or newer (you can disable the ItemLink option to use older clients)
+//===== Description: ========================================================================================================
+//= Allows players to create and manage a shop while playing
+//===== Additional Comments: ================================================================================================
+//= 1.0 :
+//	-player creates his shop by using the '@shop' command
+//	-possibility to add a cost to the shop creation and a tax to the items sold
+//	-if you are the owner of a shop and buy an item in it, you won't have to pay the tax
+//	-player can manage his shop by using the '@shop' command
+//	-any owner of any shop can log in and out at any moment, he'll always get his money and items(on relog) in case he sold something and/or his shop was deleted
+//
+//	-you can set the maximum amount of shops to be available but DON'T EXCEED 100 SHOPS UNLESS YOU REFER TO THE "ADDING SHOPS" PART
+//
+//= 2.0 :
+//	-players can now shop any kind of item (refined, slotted, unidentified, broken) apart from bound and time-limit items
+//	-the whole display has been modified according to item specificities
+//	-all shop variables are now stored via SQL but the player variables are still the same
+//	-added an easy-to-use shop restriction zone with signs
+//	-added a 'mode type' and trading items:
+//	 Modes available : 1 & 2
+//		Mode = 1 >> players can open a shop using the '@shop' command with a cost and a tax
+//		Mode = 2 >> players have to use an item to open a shop (without cost but with a tax)
+//		Mode = 3 >> players can use both system
+//===========================================================================================================================
+
+/*=============================================ADDING SHOPS==================================================================
+						*if you want to add more shops, please refer to this part:*
+
+1)copy paste this >> -	shop	Subshop<NUMBER OF YOUR SHOP>	-1,512:-1
+
+2)copy paste this V V (you can place the shop wherever you want since it'll be warped on player location)
+<LOCATION>,<X>,<Y>,4	script	Shop#<NUMBER OF YOUR SHOP>	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+
+3)edit the '.ShopAmount' var in the player setup >> .Shopamount = <AMOUNT OF SHOPS>
+
+===========================================END OF ADDING SHOPS=============================================================*/
+
+//=============================================================Shop signs==============================================================
+sec_pri,40,66,4	script	Sign#0	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,40,66,4	script	Sign#1	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,41,66,4	script	Sign#2	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,42,66,4	script	Sign#3	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,43,66,4	script	Sign#4	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,44,66,4	script	Sign#5	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,45,66,4	script	Sign#6	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,46,66,4	script	Sign#7	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,47,66,4	script	Sign#8	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,48,66,4	script	Sign#9	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,49,66,4	script	Sign#10	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,50,66,4	script	Sign#11	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,51,66,4	script	Sign#12	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,52,66,4	script	Sign#13	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,53,66,4	script	Sign#14	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,54,66,4	script	Sign#15	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,55,66,4	script	Sign#16	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,56,66,4	script	Sign#17	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,57,66,4	script	Sign#18	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,58,66,4	script	Sign#19	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,59,66,4	script	Sign#20	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,40,67,4	script	Sign#21	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,41,67,4	script	Sign#22	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,42,67,4	script	Sign#23	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,43,67,4	script	Sign#24	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,44,67,4	script	Sign#25	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,45,67,4	script	Sign#26	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,46,67,4	script	Sign#27	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,47,67,4	script	Sign#28	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,48,67,4	script	Sign#29	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,49,67,4	script	Sign#30	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,50,67,4	script	Sign#31	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,51,67,4	script	Sign#32	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,52,67,4	script	Sign#33	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,53,67,4	script	Sign#34	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,54,67,4	script	Sign#35	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,55,67,4	script	Sign#36	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,56,67,4	script	Sign#37	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,57,67,4	script	Sign#38	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,58,67,4	script	Sign#39	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,59,67,4	script	Sign#40	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,40,68,4	script	Sign#41	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,41,68,4	script	Sign#42	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,42,68,4	script	Sign#43	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,43,68,4	script	Sign#44	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,44,68,4	script	Sign#45	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,45,68,4	script	Sign#46	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,46,68,4	script	Sign#47	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,47,68,4	script	Sign#48	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,48,68,4	script	Sign#49	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,49,68,4	script	Sign#50	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,50,68,4	script	Sign#51	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,51,68,4	script	Sign#52	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,52,68,4	script	Sign#53	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,53,68,4	script	Sign#54	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,54,68,4	script	Sign#55	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,55,68,4	script	Sign#56	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,56,68,4	script	Sign#57	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,57,68,4	script	Sign#58	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,58,68,4	script	Sign#59	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,59,68,4	script	Sign#60	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,40,69,4	script	Sign#61	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,41,69,4	script	Sign#62	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,42,69,4	script	Sign#63	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,43,69,4	script	Sign#64	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,44,69,4	script	Sign#65	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,45,69,4	script	Sign#66	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,46,69,4	script	Sign#67	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,47,69,4	script	Sign#68	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,48,69,4	script	Sign#69	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,49,69,4	script	Sign#70	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,50,69,4	script	Sign#71	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,51,69,4	script	Sign#72	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,52,69,4	script	Sign#73	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,53,69,4	script	Sign#74	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,54,69,4	script	Sign#75	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,55,69,4	script	Sign#76	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,56,69,4	script	Sign#77	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,57,69,4	script	Sign#78	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,58,69,4	script	Sign#79	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,59,69,4	script	Sign#80	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,40,70,4	script	Sign#81	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,41,70,4	script	Sign#82	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,42,70,4	script	Sign#83	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,43,70,4	script	Sign#84	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,44,70,4	script	Sign#85	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,45,70,4	script	Sign#86	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,46,70,4	script	Sign#87	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,47,70,4	script	Sign#88	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,48,70,4	script	Sign#89	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,49,70,4	script	Sign#90	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,50,70,4	script	Sign#91	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,51,70,4	script	Sign#92	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,52,70,4	script	Sign#93	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,53,70,4	script	Sign#94	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,54,70,4	script	Sign#95	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,55,70,4	script	Sign#96	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,56,70,4	script	Sign#97	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,57,70,4	script	Sign#98	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,58,70,4	script	Sign#99	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+sec_pri,59,70,4	script	Sign#100	858,{end;OnInit:disablenpc strnpcinfo(0);end;OnEnable:enablenpc strnpcinfo(0);unitwarp getnpcid(0) , .map$,.x,.y;waitingroom "[Shop Zone]",0;end;}
+//sorry I had to put these before so that it could be loaded before the calling of 'AddZone'
+
+//=============================================================* Core *==============================================================
+
+-	script	ShopManager	-1,{
+function SetNumber ; function GetShop ; function CheckOwner ; function CheckNumber ; function GetName ; function SetShop ; function AddToShop ; function CheckShopBound ; function GiveItemsBack ; function AddZone ; function CheckShopName;
+
+OnInit:
+//===========================user setup=========================
+	.Mode = 3;
+	/*Modes available : 1 & 2
+		Mode = 1 >> players can open a shop using the '@shop' command with a cost and a tax
+		Mode = 2 >> players have to use an item to open a shop (without cost)
+		Mode = 3 >> players can use both system
+	*/
+	.ItemLink = 1;
+	/*The script uses an item link system which is only available on recent (more or lesss) recent clients
+	  I know for sure the link system doesn't work on 2013-08-07 clients and works on 2013-12-23 clients
+	  So if you don't have a recent enough client please set this variable to 0 to disable the link system
+	*/
+	.ShopAmount = 100; //amount of shops availables (remember not to set it above 100 unless refering to the "adding shop" part)
+	.TimeDelay = 24; //amount of time a shop will last (in hours) in Mode 1. Set it to 0 if you don't want a time limit
+	.Cost = 10000; //Cost to create a shop (in Mode 1)
+	.Tax1 = 20; //tax deducted from sales (in percent) in mode 1
+	.Tax2 = 10; //tax in mode 2
+	AddZone("prontera",148,146,163,137); //map and zone (x1,y1,x2,y2) where players can open a shop
+	AddZone("morocc");
+	//when this function is used, it automatically warps sign NPCs on the corners of the zones which display [Shop Zone]
+	/*Some sample :
+		AddZone("prontera",148,146,163,137) //players can shop in this zone of prontera
+		//the order of x1,x2 and y1,y2 doesn't matter
+		AddZone("morocc") //players can shop anywhere in morocc
+	*/
+//========================end of user setup=====================
+	query_sql ("CREATE  TABLE IF NOT EXISTS`autoshop` (`shopID` BIGINT UNSIGNED NOT NULL ,`enable` TINYINT NOT NULL DEFAULT 0 ,`last_name` VARCHAR(45) NOT NULL DEFAULT 'none' ,`last_owner` VARCHAR(30) NOT NULL DEFAULT 'none' ,`last_map` VARCHAR(45) NOT NULL DEFAULT 'none' ,`last_x` SMALLINT UNSIGNED NOT NULL DEFAULT 0 ,`last_y` SMALLINT UNSIGNED NOT NULL DEFAULT 0 ,PRIMARY KEY (`shopID`) ,UNIQUE INDEX `shopID_UNIQUE` (`shopID` ASC) )COMMENT = 'autoshop main table.';");
+	query_sql ("CREATE  TABLE IF NOT EXISTS`autoshop_items` (`dupID` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT ,`autoshopID_ext` BIGINT(20) UNSIGNED NOT NULL DEFAULT '0' ,`itemid` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,`amount` INT(10) UNSIGNED NOT NULL DEFAULT '1' ,`identify` TINYINT(3) UNSIGNED NOT NULL DEFAULT '1' COMMENT 'autoshop items' ,`refine` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' ,`attribute` TINYINT(3) UNSIGNED NOT NULL DEFAULT '0' ,`card1` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,`card2` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,`card3` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,`card4` INT(10) UNSIGNED NOT NULL DEFAULT '0' ,`unit_price` BIGINT(20) UNSIGNED NOT NULL DEFAULT '1' ,PRIMARY KEY (`dupID`) )COMMENT = 'autoshop items in shops';");
+	bindatcmd "shop",strnpcinfo(3)+"::OnShop";
+	for(.@i = 1 ; .@i <= getvariableofnpc(.ShopAmount,"ShopManager") ; .@i++) setd "$Shop"+.@i+"time" , 0;
+	initnpctimer;
+	GiveItemsBack();
+
+	bindatcmd "delall",strnpcinfo(3)+"::OnDelall",99,99;
+	/*In case you have problems I recommend you to uncomment this command and to execute it. It will erase all the data of every shop and every player.
+	I myself experienced some issues not directly related to the script but to unexpected events so reseting data should temporarly solve the problem.
+	Please contact me on rA (Kurofly) if you experience any bug*/
+	end;
+
+OnShop2:
+	attachrid(.playertoattach);
+OnShop:
+	if (.DataErased) {
+		if (ShopMode == 2) { getitem ShopItem,1 ; ShopMode = 0 ; ShopDuration = 0 ; ShopItem = 0; }
+		mes "Sorry but all the data has been erased and the script needs to be reloaded before using this system.","Contact your administrator for more details.";
+		close;
+	}
+	@shop = CheckOwner(strcharinfo(0));
+	if (@shop != -1) {
+		mes "               ^993300[Your shop]^000000";
+		mes "Time left before deletion :";
+		mes "^0000ff"+(getd("$Shop"+@shop+"time")/60)+" hours "+(getd("$Shop"+@shop+"time")%60)+" minutes^000000";
+		mes "";
+		mes "What do you want to do?";
+		switch(select("Add items:Change prices:Rename Shop:Delete shop:Leave")) {next;
+		case 1:
+			mes "        ^993300[Shop Manager]^000000";
+			mes "^ff0000Please sell all of the items you want to add here.^000000";
+			@SellingShopSpec = 2;
+			callshop "SellingShop",2;
+			npcshopattach "SellingShop";
+			end;
+		case 2:
+			mes "        ^993300[Shop Manager]^000000";
+			mes "^ff0000Please buy all of the items you want to change prices here.^000000";
+			@BuyingShopSpec = 2;
+			callshop "Subshop"+@shop,1;
+			end;
+		case 3:
+				@ok = 0;
+				while (!@ok) {
+				mes "        ^993300[Shop Manager]^000000";
+				mes "Please input the new name for your shop.";
+				input @shopname$;
+				next;
+				mes "        ^993300[Shop Manager]^000000";
+				mes "Shop name : ^0000ff"+@shopname$+"^000000";
+				mes "";
+				mes "Are you okay with this name?";
+				next;
+				if (select("Yes:No") == 1) @ok = 1;
+			}
+			delwaitingroom "Shop#"+@shop;
+			query_sql ("UPDATE`autoshop` SET `last_name` = '"+@shopname$+"' WHERE `shopID` = '"+@shop+"'");
+			donpcevent "Shop#"+@shop+"::OnEnable";
+			end;
+		case 4:
+			mes "        ^993300[Shop Manager]^000000";
+			mes "Are you sure you want to erase your shop?";
+			if (select("No:Yes") == 1) end;
+			callfunc "DelShop",@shop,0;
+			end;
+		case 5:
+			end;
+		}
+	}
+	if (ShopMode != 2 && .Mode == 2) {mes "        ^993300[Shop Manager]^000000","You don't have a shop." ; close; }
+	if (!GetShop()) { 
+		if (ShopMode == 2) { getitem ShopItem,1 ; ShopMode = 0 ; ShopDuration = 0 ; ShopItem = 0; }
+		mes "        ^993300[Shop Manager]^000000","All of the shops are already taken.";
+		close;
+	}
+	if (ShopMode != 2 && .Mode != 2 && Zeny < .Cost) { mes "        ^993300[Shop Manager]^000000","You need ^0000ff"+.Cost+" zeny^000000 in order to create a shop." ; close; }
+	getmapxy(.@map$,.@x,.@y,0);
+	.@map = 0;
+	for (.@i = 0 ; .@i < .WholeMapZonesCount ; .@i++)
+		if (.@map$ == .WholeMapZones$[.@i]) .@map = 1;
+	.@zone = 0;
+	for (.@i = 0 ; .@i < .MapZonesCount ; .@i += 4) {
+		if (.@map$ == .MapZones$[.@i] && (((.MapZones[.@i+1] <= .@x && .@x <= .MapZones[.@i+3]) || (.MapZones[.@i+3] <= .@x && .@x <= .MapZones[.@i+1])) && ((.MapZones[.@i+2] <= .@y && .@y <= .MapZones[.@i+4]) || (.MapZones[.@i+4] <= .@y && .@y <= .MapZones[.@i+2])))) .@zone = 1;
+	}
+	if (!.@map && !.@zone) {
+		mes "You can't open a shop here.";
+		next;
+		if (select("View shop zone"+((.WholeMapZonesCount+.MapZonesCount > 1)?"s":"")+":Leave") == 2) end;
+		mes "          ^993300[Shop Zones]^000000";
+		for (.@i = 0 ; .@i < .WholeMapZonesCount ; .@i++)
+			mes "^990099"+.WholeMapZones$[.@i]+"^000000 >> ^0000ffwhole map^000000";
+		for (.@i = 0 ; .@i < .MapZonesCount ; .@i++)
+			mes "^990099"+.MapZones$[.@i]+"^000000 >> ^3366ffzone^000000";
+		close;
+	}
+	mes "        ^993300[Shop Manager]^000000";
+	mes "^ff0000Please sell all of the items you want to shop here.^000000";
+	mes "";
+	if (ShopMode != 2 && .Cost && !.Tax1) mes "Please note that creating a shop ^0000ffwill cost you "+.Cost+" zeny^000000.";
+	if (ShopMode != 2 && !.Cost && .Tax1) mes "Please note that a ^0000fftax of "+.Tax1+"%^000000 will be dedcuted from your sales.";
+	if (ShopMode == 2 && .Tax2) mes "Please note that a ^0000fftax of "+.Tax2+"%^000000 will be dedcuted from your sales.";
+	if (ShopMode != 2 && .Cost && .Tax1) mes "Please note that creating a shop ^0000ffwill cost you "+.Cost+" zeny^000000 and a ^0000fftax of "+.Tax1+"%^000000 will be dedcuted from your sales.";
+	@SellingShopSpec = 1;
+	callshop "SellingShop",2;
+	npcshopattach "SellingShop";
+	end;
+	
+OnSellItem:
+	getinventorylist;
+	for(@j = 0 ; @j < @inventorylist_count ; @j++) {
+		if ((@inventorylist_bound[@j] || @inventorylist_expire[@j]) && !@inventorylist_equip[@j]) {
+			for(@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) {
+				if (@sold_nameid[@i] == @inventorylist_id[@j] && @sold_refine[@i] == @inventorylist_refine[@j] && @sold_identify[@i] == @inventorylist_identify[@j] && @sold_attribute[@i] == @inventorylist_attribute[@j] && @sold_card1[@i] == @inventorylist_card1[@j] && @sold_card2[@i] == @inventorylist_card2[@j] && @sold_card3[@i] == @inventorylist_card3[@j] && @sold_card4[@i] == @inventorylist_card4[@j]) {
+					if (ShopMode == 2) { getitem ShopItem,1 ; ShopMode = 0 ; ShopDuration = 0 ; ShopItem = 0; }
+					mes "        ^993300[Shop Manager]^000000";
+					mes "One of the item you want to sell seems to be bound or has a time-limit.";
+					mes "You can't shop those kind of items.";
+					mes "Please store or equip your bound/time-limit items before opening a shop.";
+					next;
+					switch(select("View Item:Learn more..:Leave")) {
+					case 1:
+						mes "        ^993300[Item Description]^000000";
+						setarray .@types , 4,5,12;
+						.@equip = 0;
+						for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+							if (getiteminfo(@sold_nameid[@i],2) == .@types[.@i]) .@equip = 1;
+						mes"Item : ^ff6600"+(@sold_refine[@i]?"+"+@sold_refine[@i]+" ":"")+getitemname(@sold_nameid[@i])+(getiteminfo(@sold_nameid[@i],10)?"["+getiteminfo(@sold_nameid[@i],10)+"]":"")+((.@equip &&@sold_attribute[@i])?" (broken)":"")+((.@equip && !@sold_identify[@i])?" (unidentified)":"")+"^000000";
+						mes "Amount : ^0000ff"+SetNumber(@sold_quantity[@i])+"^000000";
+						if (@sold_card1[@i]) mes "cards :";
+						for (.@i = 1 ; .@i <= 4 ; .@i++) {
+							if (getd("@sold_card"+.@i+"["+@i+"]")) {
+								if (.ItemLink) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@sold_card"+.@i+"["+@i+"]"))+"<INFO>"+.@sold_nameid[@i]+"</INFO></ITEMLINK>";
+								else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@i+"]"));
+							}
+						}
+						if (@inventorylist_bound[@j] && !@inventorylist_expire[@j]) mes "^ff0000This item has a bound on it.^000000";
+						if (!@inventorylist_bound[@j] && @inventorylist_expire[@j]) mes "^ff0000This item has a time-limit.^000000";
+						if (@inventorylist_bound[@j] && @inventorylist_expire[@j]) mes "^ff0000This item has a bound and a time-limit.^000000";
+						next;
+						if (select("Learn more..:Leave") == 2) end;
+					case 2:
+						mes "        ^993300[Shop Manager]^000000";
+						mes "If you are not trying to sell a bound/time-limit item, it may be that you have exactly the same not bound item in your inventory.";
+						next;
+						mes "        ^993300[Shop Manager]^000000";
+						mes "In this case, I can only recommend you to store or equip this bound item before opening a shop.";
+						next;
+						mes "        ^993300[Shop Manager]^000000";
+						mes "Or you can refine, break or slot a card in this bound item to make it different from the others.";
+					case 3:
+						close;
+					}
+				}
+			}
+		}
+	}
+	if (@SellingShopSpec == 1 && .Mode == 1 && Zeny < .Cost) { mes "[Not enough zeny]" ; mes "You need "+.Cost+" zeny in order to create a shop." ; close; }
+	for(@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) {
+		mes "        ^993300[Price selection]^000000";
+		setarray .@types , 4,5,12;
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@sold_nameid[@i],2) == .@types[.@i]) .@equip = 1;
+		mes"Item : ^ff6600"+(@sold_refine[@i]?"+"+@sold_refine[@i]+" ":"")+getitemname(@sold_nameid[@i])+(getiteminfo(@sold_nameid[@i],10)?"["+getiteminfo(@sold_nameid[@i],10)+"]":"")+((.@equip &&@sold_attribute[@i])?" (broken)":"")+((.@equip && !@sold_identify[@i])?" (unidentified)":"")+"^000000";
+		mes "Amount : ^0000ff"+SetNumber(@sold_quantity[@i])+"^000000";
+		if (@sold_card1[@i]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@sold_card"+.@i+"["+@i+"]")) {
+				if (.ItemLink) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@sold_card"+.@i+"["+@i+"]"))+"<INFO>"+.@sold_nameid[@i]+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@i+"]"));
+			}
+		}
+		mes " ";
+		PriceSelect:
+		mes "^ff0000Input the price of the item.^000000";
+		input @input$;
+		if (CheckNumber(@input$)) { mes @input$+" is not a number sir.." ; goto PriceSelect;  }
+		if (atoi(@input$) == 0) {
+			mes "Are you sure you want to sell this item for free !?";
+			if (select("No:Yes") == 1) goto PriceSelect;
+		}
+		setarray @price[@i] , atoi(@input$);
+		next;
+		mes "        ^993300[Price selection]^000000";
+		mes"Item : ^ff6600"+(@sold_refine[@i]?"+"+@sold_refine[@i]+" ":"")+getitemname(@sold_nameid[@i])+(getiteminfo(@sold_nameid[@i],10)?"["+getiteminfo(@sold_nameid[@i],10)+"]":"")+((.@equip &&@sold_attribute[@i])?" (broken)":"")+((.@equip && !@sold_identify[@i])?" (unidentified)":"")+"^000000";
+		mes "Amount : ^0000ff"+SetNumber(@sold_quantity[@i])+"^000000";
+		if (@sold_card1[@i]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@sold_card"+.@i+"["+@i+"]")) {
+				if (.ItemLink) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@sold_card"+.@i+"["+@i+"]"))+"<INFO>"+getd("@sold_card"+.@i+"["+@i+"]")+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@i+"]"));
+			}
+		}
+		mes "";
+		mes "Price : ^336600"+SetNumber(@price[@i])+" zeny^000000";
+		.@menu$ = ((@i+1) != getarraysize(@sold_nameid)?"Next item":"Recap")+":Change price";
+		if (select(.@menu$) == 2) goto PriceSelect;
+		next;
+	}
+	mes "               ^993300[Recap]^000000";
+	for(@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) {
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@sold_nameid[@i],2) == .@types[.@i]) .@equip = 1;
+		.@cards = 0;
+		for (.@i = 1 ; .@i <= 4 ; .@i++)
+			if (getd("@sold_card"+.@i+"["+@i+"]")) .@cards++;
+		mes ""+SetNumber(@sold_quantity[@i])+" ^ff6600"+(@sold_refine[@i]?"+"+@sold_refine[@i]+" ":"")+getitemname(@sold_nameid[@i])+(getiteminfo(@sold_nameid[@i],10)?"["+getiteminfo(@sold_nameid[@i],10)+"]":"")+((.@equip &&@sold_attribute[@i])?" (broken)":"")+((.@equip && !@sold_identify[@i])?" (unidentified)":"")+(.@cards?" ("+.@cards+" card"+(.@cards>1?"s":"")+")":"")+"^000000";
+		mes "     >> ^336600"+SetNumber(@price[@i])+" zeny.^000000";
+	}
+	if (select((@SellingShopSpec == 1?"Shop it":"Add it")+":Leave") == 2) {
+		if (ShopMode == 2 && @SellingShopSpec == 2) { getitem ShopItem,1 ; end; }
+	}
+	next;
+	if (@SellingShopSpec == 1) {
+		.@ok = 0;
+		while (!.@ok) {
+			mes "[Name choice]";
+			mes "Last step :";
+			mes "^ff0000Give a name to your shop.^000000";
+			input @shopname$;
+			next;
+			if (CheckShopName(@shopname$)) mes "Sorry but you can't use ' and ` characters because of the SQL queries..";
+			else .@ok = 1;
+		}
+		SetShop(GetShop(),strcharinfo(0));
+	}
+	else {
+		AddToShop(@shop,strcharinfo(0));
+		dispbottom "You successfully added "+getarraysize(@sold_nameid)+" items to your shop";
+	}
+	end;
+
+
+OnTimer60000:
+	for(.@i = 1 ; .@i <= .ShopAmount ; .@i++) {
+		if (getd("$Shop"+.@i+"time")) {
+			setd "$Shop"+.@i+"time" , getd("$Shop"+.@i+"time") - 1;
+			if (!getd("$Shop"+.@i+"time")) callfunc "DelShop",.@i,0;
+		}
+	}
+	initnpctimer;
+	end;
+
+OnPCLoginEvent:
+	CheckShopBound(strcharinfo(0));
+	end;
+
+OnDelall:
+	query_sql ("drop table`autoshop`");
+	query_sql ("drop table`autoshop_items`");
+	for (.@i = 0 ; .@i < getarraysize($playernames) ; .@i++) { deletearray getd("$"+$playernames[.@i]+"amount[0]") , getarraysize(getd("$"+$playernames[.@i]+"amount")); }
+	dispbottom "All data has been erased !";
+	dispbottom "Don't forget to reload the scripts to re-create the sql tables !",0xffff00;
+	.DataErased = 1;
+	end;
+
+function	SetNumber	{
+	.@number$ = getarg(0);
+	for (.@i = getstrlen(.@number$)-3 ; .@i > 0 ; .@i -= 3) {
+		.@number$ = insertchar(.@number$,",",.@i-.@n) ; @n++;
+	}
+	return .@number$;
+}
+
+function GetShop	{
+	query_sql ("SELECT `shopID` FROM`autoshop` ORDER BY `shopID` DESC",.@n);
+	if (.@n == -1) return 1;
+	if ((.@n+1) > getvariableofnpc(.ShopAmount,"ShopManager")) return 0;
+	return (.@n+1);
+}
+
+function	CheckOwner	{
+	return query_sql ("SELECT `shopID` FROM`autoshop` WHERE `last_owner` = '"+getarg(0)+"' AND `enable` = '1'",.@n);
+}
+
+function CheckNumber	{
+	setarray .@numbers$ , "0","1","2","3","4","5","6","7","8","9";
+	for (.@i = 0 ; .@i < getstrlen(getarg(0)) ; .@i++) {
+		.@ok = 0;
+		for (.@j = 0 ; .@j < getarraysize(.@numbers$) ; .@j++) {
+			if (charat(getarg(0),.@i) == .@numbers$[.@j]) .@ok = 1;
+		}
+		if (!.@ok) return 1;
+	}
+	return 0;
+}
+
+function	GetName	{
+	for (.@i = 0 ; .@i < getarraysize($playernames) ; .@i++) {
+		if (getarg(0) == $playernames[.@i]) return;
+	}
+	setarray $playernames[getarraysize($playernames)] , getarg(0);
+}
+
+function	SetShop	{
+	attachrid(getcharid(3,getarg(1)));
+	if (!getarg(0)) { mes "Sorry but the last shop has was taken during your set up.." ; close; }
+	npcshopitem "Subshop"+getarg(0),@sold_nameid[0],@price[0];
+	delitem @sold_nameid[0],@sold_quantity[0];
+	if (ShopMode != 2) Zeny = Zeny - getvariableofnpc(.Cost,"ShopManager");
+	for(@i = 1 ; @i < getarraysize(@sold_nameid) ; @i++) { delitem @sold_nameid[@i],@sold_quantity[@i] ; npcshopadditem "Subshop"+getarg(0),@sold_nameid[@i],@price[@i]; }
+	GetName(getarg(1));
+	for (@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) {
+		query_sql ("INSERT INTO`autoshop_items` (`autoshopID_ext` , `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price`) VALUES ('"+getarg(0)+"' , '"+@sold_nameid[@i]+"' , '"+@sold_quantity[@i]+"' , '"+@sold_identify[@i]+"' , '"+@sold_refine[@i]+"' , '"+@sold_attribute[@i]+"' , '"+@sold_card1[@i]+"' , '"+@sold_card2[@i]+"' , '"+@sold_card3[@i]+"' , '"+@sold_card4[@i]+"' , '"+@price[@i]+"');");
+		query_sql ("SELECT `dupID` FROM`autoshop_items` ORDER BY `dupID` DESC",@dupID);
+		setarray getd("$"+strcharinfo(0)+"amount["+(@i*2)+"]") , @dupID , @sold_quantity[@i];
+	}
+	setd "$Shop"+getarg(0)+"time" , (ShopMode==2?ShopDuration*60:getvariableofnpc(.TimeDelay,"ShopManager")*60);
+	getmapxy(@map$,@x,@y,0);
+	query_sql ("INSERT INTO `autoshop` (`shopID` , `enable`, `last_name`, `last_owner`, `last_map`, `last_x`, `last_y`) VALUES ('"+getarg(0)+"' , '1', '"+@shopname$+"', '"+strcharinfo(0)+"', '"+@map$+"', '"+@x+"', '"+@y+"')");
+	donpcevent "Shop#"+getarg(0)+"::OnEnable";
+	dispbottom "Remember that you can manage your shop using the '@shop' command.";
+	return;
+}
+
+function	AddToShop	{
+	attachrid(getcharid(3,getarg(1)));
+	for(@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) { delitem @sold_nameid[@i],@sold_quantity[@i] ; npcshopadditem "Subshop"+getarg(0),@sold_nameid[@i],@price[@i]; }
+	@num = query_sql ("SELECT `itemid` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(0)+"'",@dup);
+	for (@i = 0 ; @i < getarraysize(@sold_nameid) ; @i++) {
+		query_sql ("INSERT INTO`autoshop_items` (`autoshopID_ext` , `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price`) VALUES ('"+getarg(0)+"' , '"+@sold_nameid[@i]+"' , '"+@sold_quantity[@i]+"' , '"+@sold_identify[@i]+"' , '"+@sold_refine[@i]+"' , '"+@sold_attribute[@i]+"' , '"+@sold_card1[@i]+"' , '"+@sold_card2[@i]+"' , '"+@sold_card3[@i]+"' , '"+@sold_card4[@i]+"' , '"+@price[@i]+"');");
+		query_sql ("SELECT `dupID` FROM`autoshop_items` ORDER BY `dupID` DESC",@dupID);
+		setarray getd("$"+strcharinfo(0)+"amount["+(@num+(@i*2))+"]") , @dupID , @sold_quantity[@i];
+	}
+	return;
+}
+
+function	CheckShopBound	{ 
+	attachrid(getcharid(3,getarg(0)));
+	@n = query_sql ("SELECT `shopID`,`last_owner`,`enable` FROM`autoshop`",@shopID,@owner$,@enable);
+	for (@i = 0 ; @i < @n ; @i++) {
+		if (@owner$[@i] == getarg(0)) {
+			@n2 = query_sql ("SELECT `dupID` , `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+@shopID[@i]+"'",@dupID,@itemid,@amount,@identify,@refine,@attribute,@card1,@card2,@card3,@card4,@price);
+			for (@j = 0 ; @j < @n2 ; @j++) {
+				for (@k = 0 ; @k < getarraysize(getd("$"+getarg(0)+"amount")) ; @k += 2) {
+					if (@dupID[@j] == getd("$"+strcharinfo(0)+"amount["+@k+"]") && @amount[@j] != getd("$"+strcharinfo(0)+"amount["+(@k+1)+"]")) {
+						.@amount = getd("$"+strcharinfo(0)+"amount["+(@k+1)+"]") - @amount[@j] ; .@price = @price[@j];
+						@tax = (ShopMode==2?getvariableofnpc(.Tax1,"ShopManager"):getvariableofnpc(.Tax1,"ShopManager"));
+						Zeny = Zeny + (.@amount*.@price*(100-@tax)/100);
+						dispbottom "You sold "+.@amount+" "+getitemname(@itemid[@j])+" and earned "+(.@amount*.@price*(100-@tax)/100)+" zeny "+(@tax?"("+@tax+"% tax).":"");
+						setd "$"+strcharinfo(0)+"amount["+(@k+1)+"]" , @amount[@j];
+					}
+				}
+			}
+			if (!@enable[@i]) {
+				for (@j = 0 ; @j < @n2 ; @j++) getitem2 @itemid[@j],@amount[@j],@identify[@j],@refine[@j],@attribute[@j],@card1[@j],@card2[@j],@card3[@j],@card4[@j];
+				query_sql ("DELETE FROM`autoshop` WHERE `shopID`='"+@shopID[@i]+"'");
+				query_sql ("DELETE FROM`autoshop_items` WHERE `autoshopID_ext`='"+@shopID[@i]+"'");
+				deletearray getd("$"+strcharinfo(0)+"amount[0]") , getarraysize(getd("$"+strcharinfo(0)+"amount"));
+				ShopMode = 0 ; ShopDuration = 0 ; ShopItem = 0;
+			}
+		}
+	}
+	return;
+}
+
+function	GiveItemsBack	{
+	.@n = query_sql ("SELECT `shopID`,`last_owner` FROM`autoshop`",.@shopID,.@owner$);
+	for (.@i = 0 ; .@i < .@n ; .@i++) {
+		if (attachrid(getcharid(3,.@owner$[.@i]))) {
+			@n = query_sql ("SELECT `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+.@shopID[.@i]+"'",@itemid,@amount,@identify,@refine,@attribute,@card1,@card2,@card3,@card4,@price);
+			for (@i = 0 ; @i < @n ; @i++) getitem2 @itemid[@i],@amount[@i],@identify[@i],@refine[@i],@attribute[@i],@card1[@i],@card2[@i],@card3[@i],@card4[@i];
+			dispbottom "Your shop has been erased due to a reloadscript.";
+			if (getvariableofnpc(.Cost,"ShopManager")) {
+				Zeny = Zeny + getvariableofnpc(.Cost,"ShopManager");
+				dispbottom "Here are your "+getvariableofnpc(.Cost,"ShopManager")+" zeny you spent to create it.";
+			}
+			if (ShopMode == 2) { getitem ShopItem,1 ; dispbottom "Here is the ticket you used to create it."; }
+			query_sql ("DELETE FROM`autoshop` WHERE `shopID`='"+.@shopID[.@i]+"'");
+			query_sql ("DELETE FROM`autoshop_items` WHERE `autoshopID_ext`='"+.@shopID[.@i]+"'");
+			deletearray getd("$"+strcharinfo(0)+"amount[0]") , getarraysize(getd("$"+strcharinfo(0)+"amount"));
+			ShopMode = 0 ; ShopDuration = 0 ; ShopItem = 0;
+		}
+	}
+	return;
+}
+
+function	AddZone	{
+	if (getargcount() == 1) {
+		setarray getvariableofnpc(.WholeMapZones$[getvariableofnpc(.WholeMapZonesCount,"ShopManager")],"ShopManager") , getarg(0);
+		set getvariableofnpc(.WholeMapZonesCount,"ShopManager") , getvariableofnpc(.WholeMapZonesCount,"ShopManager") + 1;
+	}
+	else if (getargcount() == 5) {
+		setarray getvariableofnpc(.MapZones$[getvariableofnpc(.MapZonesCount,"ShopManager")],"ShopManager") , getarg(0);
+		for (.@i = 0 ; .@i < 4 ; .@i++)
+			setarray getvariableofnpc(.MapZones[getvariableofnpc(.MapZonesCount,"ShopManager")*4+.@i+1],"ShopManager") , getarg(.@i+1);
+		set getvariableofnpc(.MapZonesCount,"ShopManager") , getvariableofnpc(.MapZonesCount,"ShopManager") + 1;
+		set getvariableofnpc(.map$,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager"))) , getarg(0);
+		set getvariableofnpc(.x,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager"))) , getarg(1);
+		set getvariableofnpc(.y,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager"))) , getarg(2);
+		set getvariableofnpc(.map$,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+1)) , getarg(0);
+		set getvariableofnpc(.x,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+1)) , getarg(1);
+		set getvariableofnpc(.y,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+1)) , getarg(4);
+		set getvariableofnpc(.map$,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+2)) , getarg(0);
+		set getvariableofnpc(.x,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+2)) , getarg(3);
+		set getvariableofnpc(.y,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+2)) , getarg(2);
+		set getvariableofnpc(.map$,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+3)) , getarg(0);
+		set getvariableofnpc(.x,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+3)) , getarg(3);
+		set getvariableofnpc(.y,"Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+3)) , getarg(4);
+		donpcevent "Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager"))+"::OnEnable";
+		donpcevent "Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+1)+"::OnEnable";
+		donpcevent "Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+2)+"::OnEnable";
+		donpcevent "Sign#"+(getvariableofnpc(.MapZonesCount,"ShopManager")+3)+"::OnEnable";
+	}
+	else {
+		debugmes "[Autoshop] : wrong use of Addzone, need 1 or 5 arguments. Zone skipped...";
+	}
+	return;
+}
+
+function	CheckShopName	{
+	setarray .@chars$ , "'","`";
+	for (.@i = 0 ; .@i < getstrlen(getarg(0)) ; .@i++)
+		for (.@j = 0 ; .@j < getarraysize(.@chars$) ; .@j++)
+			if (charat(getarg(0),.@i) == .@chars$[.@j]) return 1;
+	return 0;
+}
+
+}
+//===========================================================shops funcs========================================================================
+function	script	Mes	{ 
+	.@rid = getcharid(3,getarg(0));
+	attachrid(.@rid);
+	query_sql ("SELECT `last_owner` FROM`autoshop` WHERE `last_owner` = '"+getarg(0)+"'",@owner$);
+	@n2 = query_sql ("SELECT `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(1)+"' AND `amount` != '0' AND (`identify` != '1' OR `refine` != '0' OR `attribute` = '1' OR `card1` != 0 OR `card2` != '0' OR `card3` != '0' OR `card4` != '0')",@specs,@samount,@sidentify,@srefine,@sattribute,@scard1,@scard2,@scard3,@scard4,@sprice);
+	setarray .@types , 4,5,12;
+	for (.@i = 0 ; .@i < @n2 ; .@i++) {
+		.@equip = 0;
+		for (.@j = 0 ; .@j < getarraysize(.@types) ; .@j++)	
+			if (getiteminfo(@specs[.@i],2) == .@types[.@j]) .@equip = 1;
+		if (!.@equip) {
+			deletearray @specs[.@i],1;
+			deletearray @samount[.@i],1;
+			deletearray @sidentify[.@i],1;
+			deletearray @srefine[.@i],1;
+			deletearray @sattribute[.@i],1;
+			deletearray @scard1[.@i],1;
+			deletearray @scard2[.@i],1;
+			deletearray @scard3[.@i],1;
+			deletearray @scard4[.@i],1;
+			deletearray @sprice[.@i],1;
+			.@i-- ; @n2--;
+		}
+	}
+	if (@n2 > 0) {
+		mes "       ^993300["+@owner$+"'s shop]^000000";
+		mes "Items with specificities (undisplayable) :";
+		for (@i = 0 ; @i < @n2 ; @i++) {
+			mes "^0000ff-------------------------------^000000";
+			mes"Item : ^ff6600"+(@srefine[@i]?"+"+@srefine[@i]+" ":"")+getitemname(@specs[@i])+(getiteminfo(@specs[@i],10)?"["+getiteminfo(@specs[@i],10)+"]":"")+(@sattribute[@i]?" (broken)":"")+(!@sidentify[@i]?" (unidentified)":"")+"^000000";
+			mes "Amount : ^0000ff"+@samount[@i]+"^000000";
+			mes "Price : ^ffcc00"+@sprice[@i]+"^000000";
+			if (@scard1[@i]) mes "cards :";
+			for (.@i = 1 ; .@i <= 4 ; .@i++) {
+				if (getd("@scard"+.@i+"["+@i+"]")) {
+					if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@scard"+.@i+"["+@i+"]"))+"<INFO>"+getd("@scard"+.@i+"["+@i+"]")+"</INFO></ITEMLINK>";
+					else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@i+"]"));
+				}
+			}
+		}
+	}
+	return;
+}
+
+function	script	BuyItem	{
+	.@rid = getcharid(3,getarg(0));
+	attachrid(.@rid);
+	@n = query_sql ("SELECT `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(1)+"' AND `amount` != '0' ORDER BY `dupID`",@itemid,@amount,@identify,@refine,@attribute,@card1,@card2,@card3,@card4,@price);
+if (@BuyingShopSpec == 1) {
+	for (@i = 0 ; @i < getarraysize(@bought_nameid) ; @i++) {
+		.@number = 0;
+		for (@j = 0 ; @j < @n2 ; @j++)
+			if (@bought_nameid[@i] == @itemid[@j]) { setarray .@index[.@number] , @j ; @nb = @j ; .@number++; }
+		if (@number > 1) {
+			@n3 = query_sql ("SELECT `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(1)+"' AND `amount` != '0' AND `itemid` = '"+@bought_nameid[@i]+"' AND (`identify` != '1' OR `refine` != '0' OR `attribute` = '1' OR `card1` != 0 OR `card2` != '0' OR `card3` != '0' OR `card4` != '0')",@nspecs,@nsamount,@nsidentify,@nsrefine,@nsattribute,@nscard1,@nscard2,@nscard3,@nscard4,@nsprice);
+			mes "               ^993300[item selection]^000000";
+			mes ""+@n3+" items of the same id are in the shop, please select the one you want."," ";
+			@menu$ = "";
+			for (@k = 0 ; @k < @n3 ; @k++) {
+				@menu$ = @menu$ + (@k!=0?":":"")+"Item "+(@k+1);
+				mes "^0000ff-------------------------------^000000";
+				mes "                     ^cc0066Item "+(@k+1)+" :^000000";
+				setarray .@types , 4,5,12;
+				.@equip = 0;
+				for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+					if (getiteminfo(@nspecs[@k],2) == .@types[.@i]) .@equip = 1;
+				mes"Item : ^ff6600"+(@nsrefine[@k]?"+"+@nsrefine[@k]+" ":"")+getitemname(@nspecs[@k])+(getiteminfo(@nspecs[@k],10)?"["+getiteminfo(@nspecs[@k],10)+"]":"")+((.@equip &&@nsattribute[@k])?" (broken)":"")+((.@equip && !@nsidentify[@k])?" (unidentified)":"")+"^000000";
+				mes "Unit price : ^ffcc00"+@nsprice[@k]+"^000000";
+				if (@nscard1[@k]) mes "cards :";
+				for (.@i = 1 ; .@i <= 4 ; .@i++) {
+					if (getd("@nscard"+.@i+"["+@k+"]")) {
+						if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@nscard"+.@i+"["+@k+"]"))+"<INFO>"+getd("@nscard"+.@i+"["+@k+"]")+"</INFO></ITEMLINK>";
+						else mes "~~ "+getitemname(getd("@nscard"+.@i+"["+@k+"]"));
+					}
+				}
+			}
+			@select = (select(@menu$)-1);
+			@nb = .@index[@select];
+			next;
+		}				
+		if (.@itemid == @bought_nameid[@i]) break;
+		.@itemid = @bought_nameid[@i];
+		AmountSelect:
+		mes "              ^993300[amount selection]^000000";
+		setarray .@types , 4,5,12;
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@itemid[@nb],2) == .@types[.@i]) .@equip = 1;
+		mes"Item : ^ff6600"+(@refine[@nb]?"+"+@refine[@nb]+" ":"")+getitemname(@itemid[@nb])+(getiteminfo(@itemid[@nb],10)?"["+getiteminfo(@itemid[@nb],10)+"]":"")+((.@equip &&@attribute[@nb])?" (broken)":"")+((.@equip && !@identify[@nb])?" (unidentified)":"")+"^000000";
+		mes "Quantity : ^0000ff"+@amount[@nb]+"^000000";
+		mes "Unit price : ^ffcc00"+@price[@nb]+"^000000";
+		if (@card1[@nb]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@card"+.@i+"["+@nb+"]")) {
+				if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@card"+.@i+"["+@nb+"]"))+"<INFO>"+getd("@card"+.@i+"["+@nb+"]")+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@nb+"]"));
+			}
+		}
+		mes " ";
+		mes "^ff0000Input the amount you want to buy.^000000";
+		next;
+		input @input$;
+		setarray .@numbers$ , "0","1","2","3","4","5","6","7","8","9";
+		@notnumber = 0;
+		for (.@i = 0 ; .@i < getstrlen(@input$) ; .@i++) {
+			@ok = 0;
+			for (.@j = 0 ; .@j < getarraysize(.@numbers$) ; .@j++) {
+				if (charat(@input$,.@i) == .@numbers$[.@j]) @ok = 1;
+			}
+			if (@ok == 0) @notnumber = 1;
+		}
+		if (@notnumber) { mes @input$+" is not a number sir.." ; goto AmountSelect;  }
+		if (atoi(@input$) == 0) { mes "You can't buy 0 of them.." ; goto AmountSelect; }
+		@bought_quantity[@i] = atoi(@input$);
+		mes"Item : ^ff6600"+(@refine[@nb]?"+"+@refine[@nb]+" ":"")+getitemname(@itemid[@nb])+(getiteminfo(@itemid[@nb],10)?"["+getiteminfo(@itemid[@nb],10)+"]":"")+((.@equip &&@attribute[@nb])?" (broken)":"")+((.@equip && !@identify[@nb])?" (unidentified)":"")+"^000000";
+		mes "Quantity : ^0000ff"+@amount[@nb]+"^000000";
+		mes "Unit price : ^ffcc00"+@price[@nb]+"^000000";
+		if (@card1[@nb]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@card"+.@i+"["+@nb+"]")) {
+				if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@card"+.@i+"["+@nb+"]"))+"<INFO>"+getd("@card"+.@i+"["+@nb+"]")+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@sold_card"+.@i+"["+@nb+"]"));
+			}
+		}
+		mes " ";
+		mes "Amount : "+(@bought_quantity[@i] <= @amount[@nb]?"^006600":"^ff0000")+@bought_quantity[@i]+"^000000";
+		mes "Total cost : ^ffcc00"+(@bought_quantity[@i]*@price[@nb])+"^000000";
+		next;
+		if (select("Buy:Change amount") == 2) goto AmountSelect;
+		.@check = query_sql ("SELECT `dupID` FROM`autoshop_items` WHERE `autoshopID_ext`='"+getarg(1)+"' AND `amount` >= '"+@bought_quantity[@i]+"' AND `itemid` = '"+@itemid[@nb]+"' AND `identify` = '"+@identify[@nb]+"' AND `refine` = '"+@refine[@nb]+"' AND `attribute` = '"+@attribute[@nb]+"' AND `card1` = '"+@card1[@nb]+"' AND `card2` = '"+@card2[@nb]+"' AND `card3` = '"+@card3[@nb]+"' AND `card4` = '"+@card4[@nb]+"' AND `unit_price` = '"+@price[@nb]+"'",.@dupID);
+		if (.@check == -1) {
+			mes "              ^993300[Shop Manager]^000000","Sorry but the item was sold before you could finish your settings..","^ff0000Item skipped...^000000";
+			next;
+		}
+		else {
+			if (@bought_quantity[@i] > @amount[@nb]) { mes "You can't buy more than "+@amount[@nb]+" "+getitemname(@itemid[@nb]) ; goto AmountSelect; }
+			if (Zeny < (@bought_quantity[@i]*@price[@nb])) { mes "You don't have enough zeny!" ; goto AmountSelect; }
+			if (!checkweight(@bought_nameid[@i],@bought_quantity[@i])) { mes "You can't get "+@bought_quantity[@i]+" "+getitemname(@bought_nameid[@i])+" because your weight exceeds the limit." ; goto AmountSelect; }
+			if (.@rid != getcharid(3,@owner$)) Zeny = Zeny - @price[@nb]*@bought_quantity[@i];
+			getitem2 @itemid[@nb],@bought_quantity[@i],@identify[@nb],@refine[@nb],@attribute[@nb],@card1[@nb],@card2[@nb],@card3[@nb],@card4[@nb];
+			query_sql ("UPDATE`autoshop_items` SET `amount`='"+(@amount[@nb]-@bought_quantity[@i])+"' WHERE `autoshopID_ext`='"+getarg(1)+"' AND `itemid` = '"+@itemid[@nb]+"' AND `identify` = '"+@identify[@nb]+"' AND `refine` = '"+@refine[@nb]+"' AND `attribute` = '"+@attribute[@nb]+"' AND `card1` = '"+@card1[@nb]+"' AND `card2` = '"+@card2[@nb]+"' AND `card3` = '"+@card3[@nb]+"' AND `card4` = '"+@card4[@nb]+"' AND `unit_price` = '"+@price[@nb]+"' LIMIT 1");
+			.@price = @price[@nb] ; .@amount = @bought_quantity[@i] ; .@itemid = @bought_nameid[@i] ; .@identify = @identify[@nb] ; .@refine = @refine[@nb] ; .@card1 = @card1[@nb] ; .@card2 = @card2[@nb] ; .@card3 = @card3[@nb] ; .@card4 = @card4[@nb] ; .@price = @price[@nb];
+			if (attachrid(getcharid(3,@owner$))) {
+				query_sql ("SELECT `dupID` FROM`autoshop_items` WHERE `autoshopID_ext`='"+getarg(1)+"' AND `itemid` = '"+.@itemid+"' AND `identify` = '"+.@identify+"' AND `refine` = '"+.@refine+"' AND `attribute` = '"+.@attribute+"' AND `card1` = '"+.@card1+"' AND `card2` = '"+.@card2+"' AND `card3` = '"+.@card3+"' AND `card4` = '"+.@card4+"' AND `unit_price` = '"+.@price+"'",.@dupID);
+				for (.@i = 0 ; .@i < getarraysize(getd("$"+strcharinfo(0)+"amount")) ; .@i += 2)
+					if (.@dupID == getd("$"+strcharinfo(0)+"amount["+.@i+"]")) setarray getd("$"+strcharinfo(0)+"amount["+(.@i+1)+"]") , getd("$"+strcharinfo(0)+"amount["+(.@i+1)+"]") - .@amount;
+				if (.@rid != getcharid(3,@owner$)) {
+					Zeny = Zeny + (.@amount*.@price*(100-getvariableofnpc(.Tax,"ShopManager"))/100);
+					dispbottom "You just sold "+.@amount+" "+getitemname(.@itemid)+" and earned "+(.@amount*.@price*(100-getvariableofnpc(.Tax1,"ShopManager"))/100)+" zeny "+(getvariableofnpc(.Tax1,"ShopManager")?"("+getvariableofnpc(.Tax1,"ShopManager")+"% tax).":""); 
+				}
+				else dispbottom "You got back "+.@amount+" "+getitemname(.@itemid)+" from your shop and did not pay for it";
+			}
+		attachrid(.@rid);
+		if ((@amount[@nb] - .@amount) < 1) npcshopdelitem "Subshop"+getarg(1),@bought_nameid[@i];
+		}
+	}
+	close2;
+	if (callfunc("CheckShop",getarg(1))) callfunc "DelShop",getarg(1),1;
+}
+if (@BuyingShopSpec == 2) {
+	deletearray @newprice[0] , getarraysize(@newprice);
+	deletearray .@index[0],128;
+	for(@i = 0 ; @i < getarraysize(@bought_nameid) ; @i++ ) {
+		.@number = 0;
+		for (@j = 0 ; @j < @n2 ; @j++)
+			if (@bought_nameid[@i] == @itemid[@j]) { setarray .@index[.@number] , @j ; @nb = @j ; .@number++; }
+		if (.@number > 1) {
+			@n3 = query_sql ("SELECT `itemid` , `amount` , `identify` , `refine` , `attribute` , `card1` , `card2` , `card3` , `card4` , `unit_price` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(1)+"' AND `amount` != '0' AND `itemid` = '"+@bought_nameid[@i]+"' AND (`identify` != '1' OR `refine` != '0' OR `attribute` = '1' OR `card1` != 0 OR `card2` != '0' OR `card3` != '0' OR `card4` != '0') ORDER BY `dupID`",@nspecs,@nsamount,@nsidentify,@nsrefine,@nsattribute,@nscard1,@nscard2,@nscard3,@nscard4,@nsprice);
+			mes "               ^993300[item selection]^000000";
+			mes ""+@n3+" items of the same id are in the shop, please select the one you want."," ";
+			@menu$ = "";
+			for (@k = 0 ; @k < @n3 ; @k++) {
+				@menu$ = @menu$ + (@k!=0?":":"")+"Item "+(@k+1);
+				mes "^0000ff-------------------------------^000000";
+				mes "                     ^cc0066Item "+(@k+1)+" :^000000";
+				setarray .@types , 4,5,12;
+				.@equip = 0;
+				for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+					if (getiteminfo(@nspecs[@k],2) == .@types[.@i]) .@equip = 1;
+				mes"Item : ^ff6600"+(@nsrefine[@k]?"+"+@nsrefine[@k]+" ":"")+getitemname(@nspecs[@k])+(getiteminfo(@nspecs[@k],10)?"["+getiteminfo(@nspecs[@k],10)+"]":"")+((.@equip &&@nsattribute[@k])?" (broken)":"")+((.@equip && !@nsidentify[@k])?" (unidentified)":"")+"^000000";
+				mes "Unit price : ^ffcc00"+@nsprice[@k]+"^000000";
+				if (@nscard1[@k]) mes "cards :";
+				for (.@i = 1 ; .@i <= 4 ; .@i++) {
+					if (getd("@nscard"+.@i+"["+@k+"]")) {
+						if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@nscard"+.@i+"["+@k+"]"))+"<INFO>"+getd("@nscard"+.@i+"["+@k+"]")+"</INFO></ITEMLINK>";
+						else mes "~~ "+getitemname(getd("@nscard"+.@i+"["+@k+"]"));
+					}
+				}
+			}
+			@select = (select(@menu$)-1);
+			@nb = .@index[@select];
+			next;
+		}
+		PriceSelect3:
+		mes "        ^993300[Price selection]^000000"," ";
+		setarray .@types , 4,5,12;
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@itemid[@nb],2) == .@types[.@i]) .@equip = 1;
+		mes"Item : ^ff6600"+(@refine[@nb]?"+"+@refine[@nb]+" ":"")+getitemname(@itemid[@nb])+(getiteminfo(@itemid[@nb],10)?"["+getiteminfo(@itemid[@nb],10)+"]":"")+((.@equip &&@attribute[@nb])?" (broken)":"")+((.@equip && !@identify[@nb])?" (unidentified)":"")+"^000000";
+		mes "Unit price : ^ffcc00"+@price[@nb]+"^000000";
+		if (@card1[@nb]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@card"+.@i+"["+@nb+"]")) {
+				if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@card"+.@i+"["+@nb+"]"))+"<INFO>"+getd("@card"+.@i+"["+@nb+"]")+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@card"+.@i+"["+@nb+"]"));
+			}
+		}
+		mes " ","^ff0000Input the new price of the item.^000000";
+		input @input$;
+		setarray .@numbers$ , "0","1","2","3","4","5","6","7","8","9";
+		@notnumber = 0;
+		for (.@i = 0 ; .@i < getstrlen(@input$) ; .@i++) {
+			@ok = 0;
+			for (.@j = 0 ; .@j < getarraysize(.@numbers$) ; .@j++) {
+				if (charat(@input$,.@i) == .@numbers$[.@j]) @ok = 1;
+			}
+			if (@ok == 0) @notnumber = 1;
+		}
+		if (@notnumber) { mes @input$+" is not a number sir.." ; goto PriceSelect3;  }
+		if (atoi(@input$) == 0) {
+			mes "Are you sure you want to sell this item for free !?";
+			if (select("No:Yes") == 1) goto PriceSelect3;
+		}
+		setarray @nprice[@i] , atoi(@input$);
+		next;
+		mes "        ^993300[Price selection]^000000"," ";
+		setarray .@types , 4,5,12;
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@itemid[@nb],2) == .@types[.@i]) .@equip = 1;
+		mes"Item : ^ff6600"+(@refine[@nb]?"+"+@refine[@nb]+" ":"")+getitemname(@itemid[@nb])+(getiteminfo(@itemid[@nb],10)?"["+getiteminfo(@itemid[@nb],10)+"]":"")+((.@equip &&@attribute[@nb])?" (broken)":"")+((.@equip && !@identify[@nb])?" (unidentified)":"")+"^000000";
+		mes "Current price : ^ffcc00"+@price[@nb]+"^000000";
+		if (@card1[@nb]) mes "cards :";
+		for (.@i = 1 ; .@i <= 4 ; .@i++) {
+			if (getd("@card"+.@i+"["+@nb+"]")) {
+				if (getvariableofnpc(.ItemLink,"ShopManager")) mes "~~ "+"<ITEMLINK>"+getitemname(getd("@card"+.@i+"["+@nb+"]"))+"<INFO>"+getd("@card"+.@i+"["+@nb+"]")+"</INFO></ITEMLINK>";
+				else mes "~~ "+getitemname(getd("@card"+.@i+"["+@nb+"]"));
+			}
+		}
+		mes " ","New price : ^006600"+@nprice[@i]+"^000000";
+		if (select(((@i+1)==getarraysize(@bought_nameid)?"Recap":"Next item")+":Change price") == 2) goto PriceSelect3;
+		setarray @newprice[@i*3] , @nb , @nprice[@i] , (.@number>1?.@number:0);
+		next;
+	}
+	mes "               ^993300[Recap]^000000";
+	for(@i = 0 ; @i < getarraysize(@bought_nameid) ; @i++) {
+		.@equip = 0;
+		for (.@i = 0 ; .@i < getarraysize(.@types) ; .@i++)	
+			if (getiteminfo(@bought_nameid[@i],2) == .@types[.@i]) .@equip = 1;
+		.@cards = 0;
+		for (.@i = 1 ; .@i <= 4 ; .@i++)
+			if (getd("@sold_card"+.@i+"["+@newprice[@i*3]+"]")) .@cards++;
+		mes ""+@amount[@newprice[@i*3]]+" ^ff6600"+(@refine[@newprice[@i*3]]?"+"+@refine[@newprice[@i*3]]+" ":"")+getitemname(@itemid[@newprice[@i*3]])+(getiteminfo(@itemid[@newprice[@i*3]],10)?"["+getiteminfo(@itemid[@newprice[@i*3]],10)+"]":"")+((.@equip && @attribute[@newprice[@i*3]])?" (broken)":"")+((.@equip && !@identify[@newprice[@i*3]])?" (unidentified)":"")+(.@cards?" ("+.@cards+" card"+(.@cards>1?"s":"")+")":"")+"^000000";
+		mes "     >> ^336600"+@newprice[@i*3+1]+" zeny.^000000";
+	}
+	if (select("Apply:Quit") == 2) end;
+	deletearray @dupID , getarraysize(@dupID);
+	query_sql ("SELECT `dupID` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(1)+"'",@dupID);
+	.@notchanged = 0;
+	for (@i = 0 ; @i < getarraysize(@newprice) ; @i += 3) {
+		.@check = query_sql ("SELECT `dupID` FROM`autoshop_items` WHERE `autoshopID_ext`='"+getarg(1)+"' AND `amount` > '0' AND `itemid` = '"+@itemid[@newprice[@i]]+"' AND `identify` = '"+@identify[@newprice[@i]]+"' AND `refine` = '"+@refine[@newprice[@i]]+"' AND `attribute` = '"+@attribute[@newprice[@i]]+"' AND `card1` = '"+@card1[@newprice[@i]]+"' AND `card2` = '"+@card2[@newprice[@i]]+"' AND `card3` = '"+@card3[@newprice[@i]]+"' AND `card4` = '"+@card4[@newprice[@i]]+"' AND `unit_price` = '"+@price[@newprice[@i]]+"'",.@dupID);
+		if (.@check == -1) {
+			.@notchanged++;
+			dispbottom ""+getitemname(@itemid[@newprice[@i]])+" was sold before the price changing could be made. Item skipped..."; 
+		}
+		else {
+			query_sql ("UPDATE`autoshop_items` SET `unit_price` = '"+@newprice[@i+1]+"' WHERE `dupID` = '"+@dupID[@newprice[@i]]+"'");
+			if (@newprice[@i+2]) {
+				query_sql ("SELECT `unit_price` FROM`autoshop_items` WHERE `itemid` = '"+@bought_nameid[@i/3]+"'",@prices);
+				for (.@i = 0 ; .@i < @newprice[@i+2] ; .@i++)
+					npcshopdelitem "Subshop"+getarg(1),@bought_nameid[@i/3];
+				for (.@i = 0 ; .@i < @newprice[@i+2] ; .@i++)
+					npcshopadditem "Subshop"+getarg(1),@bought_nameid[@i/3],@prices[.@i];
+			}
+			else {
+				npcshopdelitem "Subshop"+getarg(1),@bought_nameid[@i/3];
+				npcshopadditem "Subshop"+getarg(1),@bought_nameid[@i/3],@nprice[@i/3];
+			}
+		}
+	}
+	if (!.@notchanged) dispbottom "You successfully changed the price of "+getarraysize(@bought_nameid)+" items";
+	else dispbottom "You successfully changed the price of "+(getarraysize(@bought_nameid)-.@notchanged)+" item"+(.@notchanged>1?"s":"")+" ("+.@notchanged+" could not be changed in time)";
+}
+return;
+}
+
+function	script	CheckShop	{
+	if (query_sql ("SELECT `itemid` FROM`autoshop_items` WHERE `autoshopID_ext` = '"+getarg(0)+"' AND `amount` > '0'",.@dup) == -1) return 1;
+	return 0;
+}
+
+function	script	DelShop	{
+	@n = query_sql("SELECT `itemid`,`amount` FROM`autoshop_items` WHERE `autoshopID_ext`= '"+getarg(0)+"'",@itemid,@amount);
+	query_sql ("SELECT `last_owner` FROM`autoshop` WHERE `shopID`= '"+getarg(0)+"'",.@owner$);
+	if (attachrid(getcharid(3,.@owner$))) {
+		if (getarg(1) == 1) dispbottom "You sold every items in your shop and so it has been erased.";
+		if (getarg(1) == 2) {
+			for(@i = 0 ; @i < @n ; @i++) getitem @itemid[@i],@amount[@i];
+			dispbottom "Your shop lasted "+(ShopMode==2?ShopDuration:getvariableofnpc(.TimeDelay,"ShopManager"))+" hours and so has been erased.";
+		}
+		else {
+			for(@i = 0 ; @i < @n ; @i++) getitem @itemid[@i],@amount[@i];
+			if (getarg(1) != 1) dispbottom "Your shop has been erased.";
+		}
+		query_sql ("DELETE FROM`autoshop` WHERE `shopID`='"+getarg(0)+"'");
+		query_sql ("DELETE FROM`autoshop_items` WHERE `autoshopID_ext`='"+getarg(0)+"'");
+		deletearray getd("$"+strcharinfo(0)+"amount[0]") , getarraysize(getd("$"+strcharinfo(0)+"amount"));
+	}
+	else query_sql ("UPDATE`autoshop` SET `enable` = '0'");
+	delwaitingroom "Shop#"+getarg(0);
+	donpcevent "Shop#"+getarg(0)+"::OnInit";
+	return;
+}
+
+function	script	ShopTest	{
+	debugmes "hello";
+	return;
+}
+
+function	script	MakeShop	{
+	if (!attachrid(getarg(0))) { debugmes "Error" ; end; }
+	if (getvariableofnpc(.Mode,"ShopManager")-2 < 0) { dispbottom "This item can't be used in this mode." ; dispbottom "Contact your administrator for more informations.." ; end;}
+	ShopMode = 2;
+	ShopDuration = getarg(1);
+	ShopItem = getarg(2);
+	set getvariableofnpc(.playertoattach,"ShopManager") , getarg(0);
+	doevent "ShopManager::OnShop2";
+	end;
+}
+
+-	shop	SellingShop	-1,512:-1
+-	shop	Subshop0	-1,512:-1
+-	shop	Subshop1	-1,512:-1
+-	shop	Subshop2	-1,512:-1
+-	shop	Subshop3	-1,512:-1
+-	shop	Subshop4	-1,512:-1
+-	shop	Subshop5	-1,512:-1
+-	shop	Subshop6	-1,512:-1
+-	shop	Subshop7	-1,512:-1
+-	shop	Subshop8	-1,512:-1
+-	shop	Subshop9	-1,512:-1
+-	shop	Subshop10	-1,512:-1
+-	shop	Subshop11	-1,512:-1
+-	shop	Subshop12	-1,512:-1
+-	shop	Subshop13	-1,512:-1
+-	shop	Subshop14	-1,512:-1
+-	shop	Subshop15	-1,512:-1
+-	shop	Subshop16	-1,512:-1
+-	shop	Subshop17	-1,512:-1
+-	shop	Subshop18	-1,512:-1
+-	shop	Subshop19	-1,512:-1
+-	shop	Subshop20	-1,512:-1
+-	shop	Subshop21	-1,512:-1
+-	shop	Subshop22	-1,512:-1
+-	shop	Subshop23	-1,512:-1
+-	shop	Subshop24	-1,512:-1
+-	shop	Subshop25	-1,512:-1
+-	shop	Subshop26	-1,512:-1
+-	shop	Subshop27	-1,512:-1
+-	shop	Subshop28	-1,512:-1
+-	shop	Subshop29	-1,512:-1
+-	shop	Subshop30	-1,512:-1
+-	shop	Subshop31	-1,512:-1
+-	shop	Subshop32	-1,512:-1
+-	shop	Subshop33	-1,512:-1
+-	shop	Subshop34	-1,512:-1
+-	shop	Subshop35	-1,512:-1
+-	shop	Subshop36	-1,512:-1
+-	shop	Subshop37	-1,512:-1
+-	shop	Subshop38	-1,512:-1
+-	shop	Subshop39	-1,512:-1
+-	shop	Subshop40	-1,512:-1
+-	shop	Subshop41	-1,512:-1
+-	shop	Subshop42	-1,512:-1
+-	shop	Subshop43	-1,512:-1
+-	shop	Subshop44	-1,512:-1
+-	shop	Subshop45	-1,512:-1
+-	shop	Subshop46	-1,512:-1
+-	shop	Subshop47	-1,512:-1
+-	shop	Subshop48	-1,512:-1
+-	shop	Subshop49	-1,512:-1
+-	shop	Subshop50	-1,512:-1
+-	shop	Subshop51	-1,512:-1
+-	shop	Subshop52	-1,512:-1
+-	shop	Subshop53	-1,512:-1
+-	shop	Subshop54	-1,512:-1
+-	shop	Subshop55	-1,512:-1
+-	shop	Subshop56	-1,512:-1
+-	shop	Subshop57	-1,512:-1
+-	shop	Subshop58	-1,512:-1
+-	shop	Subshop59	-1,512:-1
+-	shop	Subshop60	-1,512:-1
+-	shop	Subshop61	-1,512:-1
+-	shop	Subshop62	-1,512:-1
+-	shop	Subshop63	-1,512:-1
+-	shop	Subshop64	-1,512:-1
+-	shop	Subshop65	-1,512:-1
+-	shop	Subshop66	-1,512:-1
+-	shop	Subshop67	-1,512:-1
+-	shop	Subshop68	-1,512:-1
+-	shop	Subshop69	-1,512:-1
+-	shop	Subshop70	-1,512:-1
+-	shop	Subshop71	-1,512:-1
+-	shop	Subshop72	-1,512:-1
+-	shop	Subshop73	-1,512:-1
+-	shop	Subshop74	-1,512:-1
+-	shop	Subshop75	-1,512:-1
+-	shop	Subshop76	-1,512:-1
+-	shop	Subshop77	-1,512:-1
+-	shop	Subshop78	-1,512:-1
+-	shop	Subshop79	-1,512:-1
+-	shop	Subshop80	-1,512:-1
+-	shop	Subshop81	-1,512:-1
+-	shop	Subshop82	-1,512:-1
+-	shop	Subshop83	-1,512:-1
+-	shop	Subshop84	-1,512:-1
+-	shop	Subshop85	-1,512:-1
+-	shop	Subshop86	-1,512:-1
+-	shop	Subshop87	-1,512:-1
+-	shop	Subshop88	-1,512:-1
+-	shop	Subshop89	-1,512:-1
+-	shop	Subshop90	-1,512:-1
+-	shop	Subshop91	-1,512:-1
+-	shop	Subshop92	-1,512:-1
+-	shop	Subshop93	-1,512:-1
+-	shop	Subshop94	-1,512:-1
+-	shop	Subshop95	-1,512:-1
+-	shop	Subshop96	-1,512:-1
+-	shop	Subshop97	-1,512:-1
+-	shop	Subshop98	-1,512:-1
+-	shop	Subshop99	-1,512:-1
+-	shop	Subshop100	-1,512:-1
+
+//=============================================================Shops==============================================================
+sec_pri,14,66,4	script	Shop#0	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,66,4	script	Shop#1	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,66,4	script	Shop#2	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,66,4	script	Shop#3	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,66,4	script	Shop#4	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,66,4	script	Shop#5	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,66,4	script	Shop#6	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,66,4	script	Shop#7	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,66,4	script	Shop#8	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,66,4	script	Shop#9	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,66,4	script	Shop#10	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,67,4	script	Shop#11	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,67,4	script	Shop#12	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,67,4	script	Shop#13	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,67,4	script	Shop#14	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,67,4	script	Shop#15	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,67,4	script	Shop#16	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,67,4	script	Shop#17	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,67,4	script	Shop#18	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,67,4	script	Shop#19	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,67,4	script	Shop#20	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,68,4	script	Shop#21	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,68,4	script	Shop#22	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,68,4	script	Shop#23	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,68,4	script	Shop#24	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,68,4	script	Shop#25	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,68,4	script	Shop#26	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,68,4	script	Shop#27	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,68,4	script	Shop#28	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,68,4	script	Shop#29	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,68,4	script	Shop#30	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,69,4	script	Shop#31	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,69,4	script	Shop#32	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,69,4	script	Shop#33	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,69,4	script	Shop#34	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,69,4	script	Shop#35	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,69,4	script	Shop#36	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,69,4	script	Shop#37	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,69,4	script	Shop#38	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,69,4	script	Shop#39	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,69,4	script	Shop#40	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,70,4	script	Shop#41	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,70,4	script	Shop#42	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,70,4	script	Shop#43	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,70,4	script	Shop#44	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,70,4	script	Shop#45	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,70,4	script	Shop#46	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,70,4	script	Shop#47	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,70,4	script	Shop#48	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,70,4	script	Shop#49	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,70,4	script	Shop#50	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,71,4	script	Shop#51	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,71,4	script	Shop#52	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,71,4	script	Shop#53	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,71,4	script	Shop#54	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,71,4	script	Shop#55	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,71,4	script	Shop#56	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,71,4	script	Shop#57	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,71,4	script	Shop#58	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,71,4	script	Shop#59	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,71,4	script	Shop#60	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,72,4	script	Shop#61	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,72,4	script	Shop#62	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,72,4	script	Shop#63	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,72,4	script	Shop#64	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,72,4	script	Shop#65	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,72,4	script	Shop#66	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,72,4	script	Shop#67	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,72,4	script	Shop#68	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,72,4	script	Shop#69	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,72,4	script	Shop#70	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,73,4	script	Shop#71	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,73,4	script	Shop#72	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,73,4	script	Shop#73	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,73,4	script	Shop#74	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,73,4	script	Shop#75	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,73,4	script	Shop#76	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,73,4	script	Shop#77	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,73,4	script	Shop#78	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,73,4	script	Shop#79	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,73,4	script	Shop#80	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,74,4	script	Shop#81	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,74,4	script	Shop#82	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,74,4	script	Shop#83	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,74,4	script	Shop#84	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,74,4	script	Shop#85	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,74,4	script	Shop#86	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,74,4	script	Shop#87	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,74,4	script	Shop#88	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,74,4	script	Shop#89	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,74,4	script	Shop#90	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,14,75,4	script	Shop#91	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,15,75,4	script	Shop#92	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,16,75,4	script	Shop#93	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,17,75,4	script	Shop#94	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,18,75,4	script	Shop#95	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,19,75,4	script	Shop#96	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,20,75,4	script	Shop#97	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,21,75,4	script	Shop#98	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,22,75,4	script	Shop#99	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+sec_pri,23,75,4	script	Shop#100	464,{callfunc "Mes",strcharinfo(0),strnpcinfo(2);@BuyingShopSpec = 1;callshop "Subshop"+strnpcinfo(2),1;end;OnBuyItem:callfunc "BuyItem",strcharinfo(0),strnpcinfo(2);end;OnInit:npcshopattach "Subshop"+strnpcinfo(2);disablenpc strnpcinfo(3);end;OnEnable:enablenpc strnpcinfo(3);query_sql("SELECT `last_name`,`last_map`,`last_x`,`last_y` FROM`autoshop` WHERE `shopID` = '"+strnpcinfo(2)+"'",.@name$,.@map$,.@x,.@y);unitwarp getnpcid(0) , .@map$ , .@x , .@y;waitingroom .@name$,0;end;}
+
