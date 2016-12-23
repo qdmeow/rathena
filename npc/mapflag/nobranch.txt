@@ -21,6 +21,9 @@
 
 // Mall ========================
 quiz_02	mapflag	nobranch
+pay_dun04	mapflag	nobranch
+um_dun01	mapflag	nobranch
+xmas_fild01	mapflag	nobranch
 
 // Cities ======================
 ayo_in01	mapflag	nobranch
