@@ -3613,6 +3613,9 @@ static int battle_calc_attack_skill_ratio(struct Damage wd, struct block_list *s
 		case PA_SHIELDCHAIN:
 			skillratio += 30 * skill_lv;
 			break;
+		case HW_MAGICCRASHER:
+			skillratio += 1000 * skill_lv;
+			break;
 		case WS_CARTTERMINATION:
 			i = 10 * (16 - skill_lv);
 			if (i < 1) i = 1;
