@@ -166,7 +166,7 @@ OnInit:
 
 
 // NPC Lists
-dewata,193,190,1	script	Adv. Stylist#main	878,{
+dewata,193,190,5	script	Adv. Stylist#main	878,{
 	doevent "Stylist::OnTalk";
 }
 
