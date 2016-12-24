@@ -133,3 +133,5 @@
 50069,Small_Trading_Ticket,Small Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),8,50069;},{},{}
 50070,Medium_Trading_Ticket,Medium Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),12,50070;},{},{}
 50071,Large_Trading_Ticket,Large Trading Ticket,2,10,,10,,,,,0xFFFFFFFF,63,2,,,,,,{callfunc "MakeShop",getcharid(3,strcharinfo(0)),24,50071;},{},{}
+50072,Speed_Up_Potion_Box100,Speed Potion 100 Box,18,20,,10,,,,,0xFFFFFFFF,63,2,,,,,,{ getitem 12016,100; },{},{}
+50073,C_Rojak_Santa_Hat,Costume Rojak Santa Hat,4,0,,0,,,,0,0xFFFFFFFF,63,2,1024,,,1,20,{},{},{}
