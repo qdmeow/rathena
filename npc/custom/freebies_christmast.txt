@@ -1,0 +1,20 @@
+dewata,189,194,5	script	Christmast	718,{
+	if( !#FreebiesChristmast ){
+		set #FreebiesChristmast,1;
+		mes "Merry Christmast.. ho.. ho.hoo...";
+		mes "Here your free gift from Rojak Santa.. ho... ho...ho...";
+		getitem 50072,1;			//speedbox 100
+		getitem 50073,1;		//Rojak Santa Hat
+
+	}else{
+		mes "You're already got the gift..ho..ho...ho.."
+		mes "Santa still need to give to another players.. ho..";
+		mes "Rojak Kapten will angry at me if I give you more T_T";
+		close;
+	}
+close;
+
+OnInit:
+	waitingroom "Christmast Gift Here!!!",0;
+end;
+}
