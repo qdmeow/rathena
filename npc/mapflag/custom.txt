@@ -28,6 +28,19 @@ guild_vs3	mapflag	novending
 guild_vs3	mapflag	nobranch
 guild_vs3	mapflag	nocommand	4
 
+//desert map event pvp -- don enable pvp
+desert	mapflag	partylock
+desert	mapflag	guildlock
+desert	mapflag	nogo
+desert	mapflag	noteleport
+desert	mapflag	noreturn
+desert	mapflag	nosave
+desert	mapflag	nomemo
+desert	mapflag	nopenalty
+desert	mapflag	novending
+desert	mapflag	nobranch
+desert	mapflag	nocommand	4
+
 //enable weather
 dewata	mapflag	leaves
 dali03	mapflag	clouds
@@ -38,3 +51,35 @@ guild_vs3	mapflag	restricted	9
 
 // Enable autotrade at prontera only
 prontera	mapflag	autotrade
+ghosthunter	mapflag	autotrade
+
+//disable command on event map
+quiz_01	mapflag	nocommand	4
+desert	mapflag	nocommand	4
+maze	mapflag	nocommand	4
+poring_c01	mapflag	nocommand	4
+quiz_02	mapflag	nocommand	4
+
+//disable skill on 
+quiz_01	mapflag	noskill	4
+maze	mapflag	noskill	4
+poring_c01	mapflag	noskill	4
+quiz_02	mapflag	noskill	4
+
+//disable vending
+quiz_01	mapflag	novending
+maze	mapflag	novending
+poring_c01	mapflag	novending
+quiz_02	mapflag	novending
+
+//disable branch
+quiz_01	mapflag	nobranch
+maze	mapflag	nobranch
+poring_c01	mapflag	nobranch
+quiz_02	mapflag	nobranch
+
+//disable teleport
+quiz_01	mapflag	noteleport	4
+maze	mapflag	noteleport	4
+poring_c01	mapflag	noteleport	4
+quiz_02	mapflag	noteleport	4
