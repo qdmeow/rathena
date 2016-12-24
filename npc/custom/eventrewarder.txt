@@ -72,6 +72,7 @@ L_Main:
 	mes " ";
 	if (getgroupid() > @min_gm_lvl) {
 		mes "Hello GM "+ strcharinfo(0) +".";
+		mes "Your ID Level is "+getgroupid()+".";
 		mes " ";
 		mes "What would you like today?";
 		switch(select("Give Prize","Player Menu","Nothing")) {
@@ -442,3 +443,5 @@ if (@curSecond <= 9) {
 return @timestamp$;
 
 }
+
+dewata,210,192,5	duplicate(Rewards)	Rewards#1	878
