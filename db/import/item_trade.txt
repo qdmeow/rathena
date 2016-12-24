@@ -70,3 +70,5 @@
 50066,1,100	// Pink_Valkyrie_Helm
 50067,1,100	// White_Valkyrie_Helm
 50068,1,100	// Wings_of_Condemnation
+50072,475,100	// Speed_Up_Potion_Box100
+50073,475,100	// C_Rojak_Santa_Hat
