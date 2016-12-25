@@ -1151,7 +1151,7 @@
 12128	//Imperial_Cooking_Kits
 12129	//Fantastic_Cooking_Kits
 12130	//Cookie_Bag
-12132	//Red_Bag
+12132  // Red_Bag
 12144	//Sphere_Case_Wind
 12145	//Sphere_Case_Darkness
 12146	//Sphere_Case_Poison
