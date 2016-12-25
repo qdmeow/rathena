@@ -60,7 +60,7 @@ function	ShopSettings	{
 			break;
 		Case 3:
 			// Currency [ Event Coins ]
-			set @Currency$,"50008";
+			set @Currency$,"50058";
 			// Item ID Lists
 			setarray @ItemLists[0],50028;
 			// Item Price
