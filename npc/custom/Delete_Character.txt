@@ -40,55 +40,106 @@
 -	script	DeleteChar	-1,{
 
 OnDeleteCharacter:
-mes "Are you sure you want to ^0000FFDELETE^000000 this character? All experience, items, zeny, and progress will be gone forever! WARNING: If you recently placed items in storage to keep you must wait until the server saves that information (~60 seconds) or you will loose those items forever! If your 100% sure type in your account password.";
-input .@MyInput$;
-query_sql ("SELECT COUNT(user_pass) FROM `login` WHERE `user_pass`='"+escape_sql(.@MyInput$)+"'",.@PWCheck);
-if(.@PWCheck) { set DCCheck,1; } else { next; mes "Your password does not match. Your character will not be deleted."; close; }
-atcommand "@kick "+strcharinfo(0)+"";
-end;
+	mes "Are you sure you want to ^0000FFDELETE^000000 this character? All experience, items, zeny, and progress will be gone forever! WARNING: If you recently placed items in storage to keep you must wait until the server saves that information (~60 seconds) or you will loose those items forever! If your 100% sure type in your account password.";
+	input .@MyInput$;
+	query_sql ("SELECT COUNT(user_pass) FROM `login` WHERE `user_pass`='"+escape_sql(.@MyInput$)+"'",.@PWCheck);
+	if(.@PWCheck) {
+		set DCCheck,1;
+	} else {
+		next;
+		mes "Your password does not match. Your character will not be deleted.";
+		close;
+	}
+	mes "Storing all your items!!";
+	atcommand "@storeall "+strcharinfo(0)+"";
+	next;
+	mes "Done stored all your leftover items";
+	next;
+	mes "You still need to wait for 5 mins.";
+	next;
+	mes "This to ensure all item can be save correctly";
+	next;
+	mes "^ff0000Please do not do anything during this period!!^000000";
+	next;
+	mes "So are you still want to delete your character?";
+	mes "Last chance and for confirmation of character deletion!";
+	switch(select("Yes:No")) {
+		case 1:
+			next;
+			mes "Timer of char deletion have starting!!";
+			mes "Character will auto disconnect in 5 mins!!";
+			addtimer 360000, strnpcinfo(3)+"::On6mins";										/*mostly server will autosave to db in 5min, make extra 6 mins for safety reasons*/
+			break;
+		case 2:
+			mes "Haha~ alright~";
+			mes "Please come back if you suddenly want to delete your char back";
+			mes "Bye~";
+			break;
+	}
+	close;
+	end;
+
+On6mins:
+	dispbottom "[Char Delete]: Deleting Your Id NOW!! :)";
+	sleep2 1000;
+	dispbottom "[Char Delete]: in 5s";
+	sleep2 1000;
+	dispbottom "[Char Delete]: in 4s";
+	sleep2 1000;
+	dispbottom "[Char Delete]: in 3s";
+	sleep2 1000;
+	dispbottom "[Char Delete]: in 2s";
+	sleep2 1000;
+	dispbottom "[Char Delete]: in 1s";
+	sleep2 1000;
+	dispbottom "[Char Delete]: Bye~~~";
+	atcommand "@kick "+strcharinfo(0)+"";
+	end;
 
 OnPCLogoutEvent:
-if(playerattached()==0) { end; }
-if(DCCheck!=1) { end; } else { set DCCheck,0; }
-set .@char_id,getcharid(0);
-query_sql("DELETE FROM `atcommandlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `bonus_script` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `branchlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `buyingstore_items` WHERE `buyingstore_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `buyingstores` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `cashlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `cp_charprefs` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `cp_choko_rename_log` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `elemental` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `emprank` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `friends` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `guild` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `guild_member` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `homunculus` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `hotkey` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `memo` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `mercenary` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `mercenary_owner` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `mvplog` WHERE `kill_char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `mvprank` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `npclog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `party` WHERE `leader_char`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `pet` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `picklog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `pvprank` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `quest` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `sc_data` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `skill` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `skillcooldown` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `vendings` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `zenylog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `inventory` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `cart_inventory` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `global_reg_value` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-query_sql("DELETE FROM `char` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
-end;
+	if(playerattached()==0) {
+		end;
+	}
+	if(DCCheck!=1) {
+		end;
+	} else {
+		set DCCheck,0;
+	}
+	set .@char_id,getcharid(0);
+	query_sql("DELETE FROM `atcommandlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `bonus_script` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `branchlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `buyingstore_items` WHERE `buyingstore_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `buyingstores` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `cashlog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `cp_charprefs` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `elemental` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `friends` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `guild` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `guild_member` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `homunculus` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `hotkey` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `memo` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `mercenary` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `mercenary_owner` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `mvplog` WHERE `kill_char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `npclog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `party` WHERE `leader_char`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `pet` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `picklog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `pvp_rank` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `quest` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `sc_data` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `skill` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `skillcooldown` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `vendings` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `zenylog` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `inventory` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `cart_inventory` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	query_sql("DELETE FROM `char` WHERE `char_id`='"+escape_sql(.@char_id)+"'");
+	end;
 
 OnInit:
-bindatcmd("deletecharacter",strnpcinfo(0)+"::OnDeleteCharacter");
-end;
+	bindatcmd("deletecharacter",strnpcinfo(0)+"::OnDeleteCharacter");
+	end;
 }
