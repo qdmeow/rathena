@@ -40,6 +40,29 @@
 -	script	DeleteChar	-1,{
 
 OnDeleteCharacter:
+	if (DCCheck == 1) {
+		mes "Youre in deletion progress!!";
+		mes "Please wait for 5 mins or more!!";
+		mes "or you want to cancel deletion progress?";
+		next;
+		mes "choose ^0000FFYES^000000 to cancel character delete";
+		mes "choose ^0000FFNO^000000 to cancel character delete";
+		switch(select("Yes:No")) {
+			case 1:
+				next;
+				mes "Thats really close!, I almost clean up your character~";
+				mes "All good now ^_^ ";
+				mes "Bye~";
+				set DCCheck,0;
+				break;
+			case 2:
+				next;
+				mes "Haha~ alright~";
+				mes "Just wait for 5 minutes, and your character will gone~";
+				break;
+		}
+		close;
+	}
 	mes "Are you sure you want to ^0000FFDELETE^000000 this character? All experience, items, zeny, and progress will be gone forever! WARNING: If you recently placed items in storage to keep you must wait until the server saves that information (~60 seconds) or you will loose those items forever! If your 100% sure type in your account password.";
 	input .@MyInput$;
 	query_sql ("SELECT COUNT(user_pass) FROM `login` WHERE `user_pass`='"+escape_sql(.@MyInput$)+"'",.@PWCheck);
@@ -71,9 +94,11 @@ OnDeleteCharacter:
 			addtimer 360000, strnpcinfo(3)+"::On6mins";										/*mostly server will autosave to db in 5min, make extra 6 mins for safety reasons*/
 			break;
 		case 2:
+			next;
 			mes "Haha~ alright~";
 			mes "Please come back if you suddenly want to delete your char back";
 			mes "Bye~";
+			set DCCheck,0;
 			break;
 	}
 	close;
