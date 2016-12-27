@@ -72,7 +72,7 @@ mjolnir_02,188,192,10,10	monster	Blue Plant	1079,2,360000,180000,1
 //==================================================
 mjolnir_03,0,0,0,0	monster	Mantis	1139,30,0,0,0
 mjolnir_03,0,0,0,0	monster	Creamy	1018,10,0,0,0
-mjolnir_03,0,0,0,0	monster	Petite	1156,70,0,0,0
+mjolnir_03,0,0,0,0	monster	Petite	1156,150,0,0,0
 mjolnir_03,0,0,0,0	monster	Poporing	1031,10,0,0,0
 mjolnir_03,0,0,0,0	monster	Flora	1118,10,0,0,0
 mjolnir_03,0,0,0,0	monster	Argos	1100,20,0,0,0
