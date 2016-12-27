@@ -3,14 +3,15 @@
 //===== By: ================================================== 
 //= MasterOfMuppets
 //===== Current Version: ===================================== 
-//= 1.0
+//= 1.1
 //===== Compatible With: ===================================== 
 //= rAthena Project
 //===== Description: ========================================= 
 //= [Custom Implementation]
-//= Defeat the monster waves before they reach the other side.
+//= Defeat the monster waves before they reach the finish line.
 //===== Additional Comments: ================================= 
 //= 1.0 First version. [MasterOfMuppets]
+//= 1.1 Added Wave Mode Sky and fixed a potential exploit in Wave Mode Forest. [MasterOfMuppets]
 //============================================================ 
 
 prontera,146,75,4	script	Wave Mode Rep	831,{
@@ -149,6 +150,14 @@ prontera,146,75,4	script	Wave Mode Rep	831,{
 					close;
 				case 0:
 					npctalk strcharinfo(0)+" of the party "+getpartyname(getcharid(1))+" is entering Wave Mode Sky.";
+					if(.@mapname$ == "prontera")
+						set wmode_warp,0;
+					else if(.@mapname$ == "payon")
+						set wmode_warp,1;
+					else if((.@mapname$ == "morocc"))
+						set wmode_warp,2;
+					else
+						set wmode_warp,3;
 					end;
 				}
 			
@@ -181,9 +190,22 @@ prontera,146,75,4	script	Wave Mode Rep	831,{
 		break;
 		
 	case 4:
-		mes "[Belka]";
-		mes "The ^6B9C00<Wave Mode-Sky>^000000 memorial";
-		mes "dungeon is not implemented yet.";
+		switch (instance_create("Wave Mode Sky")) {
+		case -3:
+			dispbottom "Memorial Dungeon, '<Wave Mode-Sky>' is already in progress.",0xFFFFFF;
+			close;
+			break;
+		case -4:
+		case -2:
+		case -1:
+			mes "[Belka]";
+			mes "Something went wrong. Couldn't create the instance ^6B9C00<Wave Mode-Sky>^000000.";
+			close;
+		}
+		mes "[Belka]";		
+		mes "Party name: "+strcharinfo(1);
+		mes "Party leader: "+strcharinfo(0);
+		mes "Memorial Dungeon ^6B9C00<Wave Mode-Sky>^000000 created.";
 		close;
 		break;
 		
@@ -208,7 +230,6 @@ OnInstanceInit:
 	end;
 
 OnTouch:
-	debugmes "Char name: "+strcharinfo(0)+"wmode_warp = "+wmode_warp;
 	switch(wmode_warp)
 	{
 		case 0:
@@ -236,7 +257,7 @@ OnTouch:
 
 }
 
-//For debugging purposes, let's you set the wave number so that the upcoming spawns change.
+//For debugging purposes, lets you set the wave number so that the upcoming spawns change.
 /*
 1@def01,43,70,1	script	SetWaveNum#WaveForest	831,{
 
@@ -250,7 +271,7 @@ OnTouch:
 }
 */
 
-1@def01,50,60,1	script	WaveModeForestWalkTo#0	-1,1,1,{
+1@def01,50,60,1	script	WaveModeForestWalkTo#0	-1,5,5,{
 
 OnTouchNPC:
 	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#1"));
@@ -258,7 +279,7 @@ OnTouchNPC:
 
 }
 
-1@def01,50,40,1	script	WaveModeForestWalkTo#1	-1,1,1,{
+1@def01,50,54,1	script	WaveModeForestWalkTo#1	-1,5,5,{
 
 OnTouchNPC:
 	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#2"));
@@ -266,7 +287,39 @@ OnTouchNPC:
 
 }
 
-1@def01,50,23,1	script	WaveModeForestWalkTo#2	-1,1,1,{
+1@def01,50,48,1	script	WaveModeForestWalkTo#2	-1,5,5,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#3"));
+	end;
+
+}
+
+1@def01,50,42,1	script	WaveModeForestWalkTo#3	-1,5,5,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#4"));
+	end;
+
+}
+
+1@def01,50,35,1	script	WaveModeForestWalkTo#4	-1,5,5,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#5"));
+	end;
+
+}
+
+1@def01,50,29,1	script	WaveModeForestWalkTo#5	-1,5,5,{
+
+OnTouchNPC:
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeForestWalkTo#6"));
+	end;
+
+}
+
+1@def01,50,23,1	script	WaveModeForestWalkTo#6	-1,6,1,{
 
 OnTouchNPC:
 	//misceffect 185; //Doesn't work
@@ -291,7 +344,7 @@ OnTouchNPC:
 
 }
 
-1@def01,46,64,1	script	WaveModeForestInit	-1,1,1,{
+1@def01,43,76,1	script	WaveModeForestInit	-1,1,1,{
 
 OnTouch:
 	enablenpc instance_npcname("WaveModeForestCountDown");
@@ -1022,6 +1075,602 @@ OnTimer20000:
 			initnpctimer; //Reset the timer.
 			end;
 			
+OnFail:
+	stopnpctimer;
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}
+
+1@def02,31,39,1	script	WaveModeSkyExit	WARPNPC,2,2,{
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnTouch:
+	switch(wmode_warp)
+	{
+		case 0:
+			warp "prontera",150,80;
+			end;
+			break;
+		case 1:
+			warp "payon",195,109;
+			end;
+			break;
+		case 2:
+			warp "morocc",166,102;
+			end;
+			break;
+		case 3:
+			warp "moc_para01",33,17;
+			end;
+			break;
+		default:
+			debugmes "Something went wrong, line 230 WaveMode.txt";
+			warp "prontera",150,80;
+			end;
+			break;
+	}
+
+}
+
+//For debugging purposes, lets you set the wave number so that the upcoming spawns change.
+/*
+1@def02,36,38,1	script	SetWaveNum#WaveSky	831,{
+
+	input .@wnum;
+	if(.@wnum < 0)
+		end;
+	
+	set 'WaveNum,.@wnum;
+	end;
+
+}
+*/
+//For debugging purposes, lets you flush the 'GIDArray so that it doesn't cause errors when reloading the instance with @reloadscript
+/*
+1@def02,33,38,1	script	FlushArray#WaveSky	831,{
+
+	deletearray 'GIDArray[0],getarraysize('GIDArray);
+	end;
+
+}
+*/
+
+1@def02,48,67,1	script	WaveModeSkyWalkTo#00	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+	end;
+
+}
+
+
+1@def02,37,66,1	script	WaveModeSkyWalkTo#0	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#1"));
+	end;
+
+}
+
+1@def02,30,64,1	script	WaveModeSkyWalkTo#1	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#2"));
+	end;
+
+}
+
+1@def02,30,52,1	script	WaveModeSkyWalkTo#2	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#3"));
+	end;
+
+}
+
+1@def02,40,51,1	script	WaveModeSkyWalkTo#3	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+	unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#4"));
+	end;
+
+}
+
+1@def02,50,50,1	script	WaveModeSkyWalkTo#4	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+		unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#5"));
+	//else if(.@target == 0 && .@ai == 1)
+		//unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#3"));
+	end;
+
+}
+
+1@def02,50,36,1	script	WaveModeSkyWalkTo#5	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+		unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#6"));
+	//else if(.@target == 0 && .@ai == 1)
+		//unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#4"));
+	end;
+
+}
+
+1@def02,42,35,1	script	WaveModeSkyWalkTo#6	-1,2,2,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@target,.@unitdata[49];
+	set .@ai,.@unitdata[10];
+	if(.@target == 0 && .@ai != 1)
+		unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#7"));
+	//else if(.@target == 0 && .@ai == 1)
+		//unitwalkto 0,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#5"));
+	end;
+
+}
+
+1@def02,32,35,1	script	WaveModeSkyWalkTo#7	-1,2,5,{
+
+OnTouchNPC:
+	getunitdata(.@id,.@unitdata);
+	set .@ai,.@unitdata[10];
+	//if(.@ai == 1)
+		//end; //Don't kill mercenaries
+	//misceffect 185; //Doesn't work
+	for(set .@ii,0; .@ii < getarraysize('GIDArray); ++.@ii)
+	{
+		if('GIDArray[.@ii] == getattachedrid())
+		{
+			deletearray 'GIDArray[.@ii],1;
+			break;
+		}
+	}
+	unitkill 0;
+	'MonsterBreach++;
+	if('MonsterBreach != 1)
+		mapannounce instance_mapname("1@def02"),'MonsterBreach+" monsters have escaped.",bc_map;	
+	else
+		mapannounce instance_mapname("1@def02"),"1 monster has escaped.",bc_map;
+		
+	if('MonsterBreach >= 20)
+	{
+		enablenpc instance_npcname("WaveModeSkyExit");
+		donpcevent instance_npcname("WaveModeSkySystem")+"::OnFail";
+		//disablenpc instance_npcname("WaveModeSkyMerc");
+		killmonsterall instance_mapname("1@def02");
+		mapannounce instance_mapname("1@def02"),"You have failed the <Wave Mode - Sky> challenge.",bc_map;
+		sleep 3000;
+		mapannounce instance_mapname("1@def02"),"<Wave Mode - Sky> service has closed. You will return to the place you entered if you use the warp to the south.",bc_map;
+		sleep 2000;
+		killmonsterall instance_mapname("1@def02");
+		disablenpc instance_npcname(strnpcinfo(0));
+	}
+	end;
+
+}
+
+1@def02,29,35,1	script	WaveModeSkyInit	-1,1,1,{
+
+OnTouch:
+	enablenpc instance_npcname("WaveModeSkyCountDown");
+	donpcevent instance_npcname("WaveModeSkyCountDown")+"::OnStartTimer";
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}
+
+1@def02,1,1,1	script	WaveModeSkyCountDown	-1,{
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnStartTimer:
+	initnpctimer;
+	end;
+
+OnTimer500:
+	mapannounce instance_mapname("1@def02"),"We would like to thank all loyal customers of the Cool Event Corporation.",bc_map;
+	end;
+
+OnTimer5500:
+	mapannounce instance_mapname("1@def02"),"<Wave Mode - Sky> Prevent the monsters from reaching the bottom of the stairs.",bc_map;
+	end;
+	
+OnTimer10500:
+	mapannounce instance_mapname("1@def02"),"If 20 monsters reach the other side, the game is over.",bc_map;
+	end;
+	
+OnTimer15500:
+	mapannounce instance_mapname("1@def02"),"Okay, here they come.",bc_map;
+	end;
+	
+OnTimer17500:
+	mapannounce instance_mapname("1@def02"),"3",bc_map;
+	end;
+	
+OnTimer18500:
+	mapannounce instance_mapname("1@def02"),"2",bc_map;
+	end;
+	
+OnTimer19500:
+	mapannounce instance_mapname("1@def02"),"1",bc_map;
+	enablenpc instance_npcname("WaveModeSkySystem");
+	donpcevent instance_npcname("WaveModeSkySystem")+"::OnStartTimer";
+	//enablenpc instance_npcname("WaveModeSkyMerc");
+	//donpcevent instance_npcname("WaveModeSkyMerc")+"::OnStartTimer";
+	stopnpctimer;
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+}
+
+//Mercenaries disabled because they break the pathfinding of the invaders :(
+/*1@def02,1,1,1	script	WaveModeSkyMerc	-1,{
+
+OnInstanceInit:
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnStartTimer:
+	for(set .@i,0; .@i < 3; .@i++)
+	{
+		set 'GID,bg_monster(0,instance_mapname("1@def02"),37,35,"Mercenary",3086,instance_npcname("WaveModeSkyMerc")+"::OnMercenaryDead");
+		unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#6"));
+		setunitdata 'GID,UMOB_AI,1;
+	}
+	initnpctimer;
+	end;
+	
+OnMercenaryDead:
+	'MercDead++;
+	end;
+
+//Spawn a new mercenary every 30 seconds if they die
+OnTimer30000:
+	if('MercDead)
+	{
+		set 'GID,bg_monster(0,instance_mapname("1@def02"),37,35,"Mercenary",3086,instance_npcname("WaveModeSkyMerc")+"::OnMercenaryDead");
+		unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#6"));
+		setunitdata 'GID,UMOB_AI,1;
+		'MercDead--;
+	}
+	initnpctimer;
+	end;
+
+}*/
+
+1@def02,1,1,1	script	WaveModeSkySystem	-1,{
+
+OnInstanceInit:
+	set 'WaveNum,1; //Number of waves completed
+	set 'MonsterBreach,0; //Number of monsters that breached the defense
+	set 'GID,0; //GID of monster units to make them walk over the bridge
+	set 'MercDead,0; //Amount of mercenaries that have died.
+	disablenpc instance_npcname(strnpcinfo(0));
+	end;
+
+OnStartTimer:
+	initnpctimer;
+	end;
+
+OnTimer1000:
+	if('WaveNum % 5 == 0)
+	{
+		set .@num,'WaveNum/5;
+		if(.@num>5)
+			set .@num,5;
+		if(.@num != 1)
+			mapannounce instance_mapname("1@def02"),.@num+" treasure boxes appeared!",bc_map;
+		else
+			mapannounce instance_mapname("1@def02"),"1 treasure box has appeared!",bc_map;
+	}
+	else
+		mapannounce instance_mapname("1@def02"),"-- Wave " + 'WaveNum + " --",bc_map;
+	switch('WaveNum % 10)
+	{
+		case 1:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Angeling",3076,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 2:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Deviling",3077,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 3:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"False Angel",3078,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 4:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Cornus",3079,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 5:
+			set .@num,'WaveNum/5;
+			if(.@num>5)
+				set .@num,5;
+			for(set .@i,0; .@i < .@num; ++.@i)
+			{
+				set .@rnd,rand(0,5);
+				switch(.@rnd)
+				{
+					case 0:
+						areamonster instance_mapname("1@def02"),38,64,42,68,"Treasure",3075,1;
+						break;
+					case 1:
+						areamonster instance_mapname("1@def02"),28,62,32,67,"Treasure",3075,1;
+						break;
+					case 2:
+						areamonster instance_mapname("1@def02"),27,50,32,57,"Treasure",3075,1;
+						break;
+					case 3:
+						areamonster instance_mapname("1@def02"),35,49,53,52,"Treasure",3075,1;
+						break;
+					case 4:
+						areamonster instance_mapname("1@def02"),48,34,52,42,"Treasure",3075,1;
+						break;
+					case 5:
+						areamonster instance_mapname("1@def02"),37,33,45,37,"Treasure",3075,1;
+						break;	
+				}
+			}
+			break;
+		case 6:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Mistress of Shelter",3081,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 7:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Skeggiold",3082,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 8:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Skeggiold",3083,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 9:
+			for(set .@i,0; .@i < 20; ++.@i)
+			{
+				set 'GID,bg_monster(0,instance_mapname("1@def02"),48,66,"Rudo",3084,instance_npcname("WaveModeSkySystem")+"::OnMyMobDead");
+				setunitdata 'GID,UMOB_MODE,0x42000E5;
+				unitwalkto 'GID,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				setarray 'GIDArray[getarraysize('GIDArray)],'GID;
+				sleep rand(150,500);
+			}
+			break;
+		case 0:
+			set .@num,'WaveNum/5;
+			if(.@num>5)
+				set .@num,5;
+			for(set .@i,0; .@i < .@num; ++.@i)
+			{
+				set .@rnd,rand(0,5);
+				switch(.@rnd)
+				{
+					case 0:
+						areamonster instance_mapname("1@def02"),38,64,42,68,"Treasure",3075,1;
+						break;
+					case 1:
+						areamonster instance_mapname("1@def02"),28,62,32,67,"Treasure",3075,1;
+						break;
+					case 2:
+						areamonster instance_mapname("1@def02"),27,50,32,57,"Treasure",3075,1;
+						break;
+					case 3:
+						areamonster instance_mapname("1@def02"),35,49,53,52,"Treasure",3075,1;
+						break;
+					case 4:
+						areamonster instance_mapname("1@def02"),48,34,52,42,"Treasure",3075,1;
+						break;
+					case 5:
+						areamonster instance_mapname("1@def02"),37,33,45,37,"Treasure",3075,1;
+						break;	
+				}
+			}
+			break;
+		default:
+			mapannounce instance_mapname("1@def02"),"Something went wrong",bc_map;
+			end;
+			break;
+	}
+	'WaveNum++;
+	end;
+
+OnTimer500:
+OnTimer2500:
+OnTimer4500:
+OnTimer6500:
+OnTimer8500:
+OnTimer10500:
+OnTimer12500:
+OnTimer14500:
+OnTimer16500:
+OnTimer18500:
+	goto LMakeMobWalk;
+	end;
+
+OnTimer16000:
+			mapannounce instance_mapname("1@def02"),"Next wave will begin soon. Get ready.",bc_map;
+			end;
+
+OnTimer18000:
+			mapannounce instance_mapname("1@def02"),"3",bc_map;
+			end;
+
+OnTimer19000:
+			mapannounce instance_mapname("1@def02"),"2",bc_map;
+			end;
+
+OnTimer20000:
+			mapannounce instance_mapname("1@def02"),"1",bc_map;
+			initnpctimer; //Reset the timer.
+			end;
+
+LMakeMobWalk:
+	for(set .@i,0; .@i < getarraysize('GIDArray); ++.@i)
+	{
+		set .@r,rand(0,10);
+		set .@id,'GIDArray[.@i];
+
+		//Calculate closest dummy npc to walk to
+		getunitdata(.@id,.@unitdata);
+		set .@x,.@unitdata[6];
+		set .@y,.@unitdata[7];
+		set .@target,.@unitdata[49];
+		if(!.@r)
+		{
+			setunitdata .@id,UMOB_MODE,0x42000E1; //Make the monster lose interest and start walking away by a small chance
+			unitstopattack .@id; //Reset aggro
+		}
+		if(.@target == 0) //Make sure the monster isn't attacking or going to attack someone
+		{
+			if(.@y > 64)
+			{
+				if(.@x > 50)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#00"));
+				else if(.@x > 40)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#1"));
+			}
+			else if(.@y > 55)
+			{
+				if(.@y > 61 && .@x > 40)
+				{
+					if(.@x > 50)
+						unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#00"));
+					else if(.@x > 39)
+						unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#0"));
+					else
+						unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#1"));
+				}
+				else if(.@x < 26 || .@x > 33)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#1"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#2"));
+			}
+			else if(.@y > 52)
+			{
+				if(.@x < 32)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#2"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#3"));
+			}
+			else if(.@y > 50)
+			{
+				if(.@x > 44)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#3"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#4"));
+			}
+			else if(.@y > 46)
+			{
+				if(.@x < 49)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#4"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#5"));
+			}
+			else
+			{
+				if(.@y > 40)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#5"));
+				else if(.@x > 44)
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#6"));
+				else
+					unitwalkto .@id,getnpcid(0,instance_npcname("WaveModeSkyWalkTo#7"));
+			}
+		}
+	}
+end;
+
+OnMyMobDead:
+	if(playerattached())
+	{
+		for(set .@ii,0; .@ii < getarraysize('GIDArray); ++.@ii)
+		{
+			if('GIDArray[.@ii] == killedgid)
+			{
+				deletearray 'GIDArray[.@ii],1;
+				break;
+			}
+		}
+	}
+	end;
+
 OnFail:
 	stopnpctimer;
 	disablenpc instance_npcname(strnpcinfo(0));
