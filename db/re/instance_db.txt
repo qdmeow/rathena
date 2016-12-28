@@ -22,4 +22,3 @@
 15,Nightmarish Jitterbug,3300,300,1@jtb,16,18
 16,Ghost Palace,3600,300,1@spa,198,188
 17,Wave Mode Forest,3600,300,1@def01,46,64
-18,Wave Mode Sky,3600,300,1@def02,29,35
