@@ -14,7 +14,7 @@ OnInit:
 }
 
 dali03,64,112,4	script	Exit Special Area	10029,{
-warp	"celestiaj"	,75,77;
+warp	"dewata"	,199,178;
 end;
 
 OnInit:
