@@ -44,4 +44,4 @@ xmas,0,0,0,0	monster	Antonio	1247,200,300000,300000,0
 xmas_fild01,0,0,0,0	monster	Antonio	1247,200,300000,300000,0
 xmas_dun01,0,0,0,0	monster	Antonio	1247,200,300000,300000,0
 xmas_dun02,0,0,0,0	monster	Antonio	1247,200,300000,300000,0
-xmas_dun02,0,0,0,0	monster	Santa Poring	1062,10,600000,300000,0
+xmas_dun02,0,0,0,0	monster	Santa Poring	1067,10,600000,300000,0
