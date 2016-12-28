@@ -47,7 +47,7 @@ dali03,50,117,6	script	Limited Offer	100,{
 	
 OnInit:
 	setarray .TradeID[0], 50059,5381,5384,5390,19148,9058,20231,4324,4318; //items id
-	setarray .TradeCount[0], 5,10,5,5,5,5,5,2,2; //items sales quantity
+	setarray .TradeCount[0], 4,2,2,3,0,0,0,0,0; //items sales quantity
 	setarray .TradeItemsReq[0], 50028,12132,12132,12132,12132,12132,12132,12132,12132; // required item
 	setarray .TradeItemsAmm[0], 50,100,500,700,500,100,500,1000,1000; // amount of ^ items
 	end;
