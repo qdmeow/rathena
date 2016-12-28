@@ -48,8 +48,8 @@ dewata,181,182,4	script	Wise Old Woman#eAcustom	78,{
 			close;
 		}
 		set .@cardcount,getequipcardcnt(.@part);
-		
-		if (!checkweight(1202,(.@cardcount+1))) { 
+
+		if (!checkweight(1202,(.@cardcount+1))) {
 			mes "^3355FFJust a minute!";
 			mes "I can't offer any of my";
 			mes "services to you because";
@@ -75,3 +75,6 @@ dewata,181,182,4	script	Wise Old Woman#eAcustom	78,{
 		close;
 	}
 }
+
+// -- NPC DUPLICATES --
+celestiaj,60,83,5	duplicate(Wise Old Woman#eAcustom)	Wise Old Woman#eAcustom#maintown1	78

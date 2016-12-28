@@ -22,3 +22,6 @@ OnInit:
 	waitingroom "[ Ranking MVP ]",0;
 	end;
 }
+
+// -- NPC DUPLICATES --
+celestiaj,165,139,5	duplicate(Ranking MvP)	Ranking MvP#maintown1	857

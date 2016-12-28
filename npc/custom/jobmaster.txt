@@ -4,7 +4,7 @@
 //= Euphy
 //===== Current Version: =====================================
 //= 1.4
-//===== Compatible With: ===================================== 
+//===== Compatible With: =====================================
 //= rAthena Project
 //===== Description: =========================================
 //= A fully functional job changer.
@@ -304,3 +304,6 @@ OnInit:
 	.Platinum = 1;				// Get platinum skills automatically? (1: yes / 0: no)
 	end;
 }
+
+// -- NPC DUPLICATES --
+celestiaj,74,73,5	duplicate(Job Master)	Job Master#maintown1	123

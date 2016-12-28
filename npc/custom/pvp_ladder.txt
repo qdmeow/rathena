@@ -31,7 +31,7 @@ OnPvpLadder:
 			((.Options&16)?"PvP Shops:":":")+
 			((.Options&1 || .Options&2 || .Options&8)?"Personal Stats:":":")+
 			((getgmlevel() >= 99)?"Reset PVP Stats":""));
-	switch(.@i){ 
+	switch(.@i){
 		case 2:
 			if(.Options&256){
 				if(.Option&128){	query_sql("SELECT char_id, CAST(`value` AS SIGNED) FROM `char_reg_num` WHERE `key` = 'm_kda' ORDER BY CAST(`value` AS SIGNED) DESC LIMIT 10",.@cid,.@value);
@@ -183,7 +183,7 @@ OnPvpLadder:
 							for(.@i = 0; .@i<.@size; .@i++) { // Deletes kills of online players
 								if(attachrid(.@aid[.@i])){
 									m_gvg_kcount = 0;
-									m_gvg_kda = 0;	
+									m_gvg_kda = 0;
 									m_gvg_dcount = 0;
 								}
 							}
@@ -227,7 +227,7 @@ OnPvpLadder:
 							for(.@i = 0; .@i<.@size; .@i++) { // Deletes kills of online players
 								if(attachrid(.@aid[.@i])){
 									gvg_kcount = 0;
-									gvg_kda = 0;	
+									gvg_kda = 0;
 									gvg_dcount = 0;
 								}
 							}
@@ -340,7 +340,7 @@ OnHour00:
 			}
 			announce "[GVG Ranking]: Rewards have been mailed to the top 10 in PvP~!",bc_blue|bc_all;
 			announce "[GVG Ranking]: Relog to refresh mail.",bc_blue|bc_all;
-		}	
+		}
 		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'm_pkcount'");
 		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'm_kda'");
 		query_sql("DELETE FROM `char_reg_num` WHERE `key` = 'm_dthcount'");
@@ -357,7 +357,7 @@ OnHour00:
 				m_kda = 0;
 				m_dthcount = 0;
 				m_gvg_kcount = 0;
-				m_gvg_kda = 0;	
+				m_gvg_kda = 0;
 				m_gvg_dcount = 0;
 			}
 		}
@@ -451,14 +451,14 @@ OnInit:
 
 //===== Dont Touch - Menu & Mapflag Generation =============
 	for(.@i = 0; .@i < getarraysize(.MapName$); .@i++){
-		.MapList$[.@i] = "["+ ((.MapMode[.@i]&2)?"^EE3333Nightmare ":"") + 
-			((.MapMode[.@i]&4)?"Party ":"") + 
-			((.MapMode[.@i]&1)?"GvG":"PvP") +"^000000] "+ 
-			((.MapMode[.@i] >= 8)?"No ":"") + 
-			((.MapMode[.@i]&8)?"Ygg ":"") + 
-			((.MapMode[.@i]&16)?"3rds ":"") + 
-			((.MapMode[.@i]&32)?"Trans ":"") + 
-			((.MapMode[.@i]&64)?.MapName$[.@i]:"") + 
+		.MapList$[.@i] = "["+ ((.MapMode[.@i]&2)?"^EE3333Nightmare ":"") +
+			((.MapMode[.@i]&4)?"Party ":"") +
+			((.MapMode[.@i]&1)?"GvG":"PvP") +"^000000] "+
+			((.MapMode[.@i] >= 8)?"No ":"") +
+			((.MapMode[.@i]&8)?"Ygg ":"") +
+			((.MapMode[.@i]&16)?"3rds ":"") +
+			((.MapMode[.@i]&32)?"Trans ":"") +
+			((.MapMode[.@i]&64)?.MapName$[.@i]:"") +
 			((.MaxPlayers[.@i])?"["+getmapusers(.MapName$[.@i])+"/"+.MaxPlayers[.@i]+"]":"");
 		for ( .@f = 0; .@f < .@size; .@f++ )
 			setmapflag .MapName$[.@i], .mapflag[.@f];
@@ -481,3 +481,6 @@ OnInit:
 end;
 }
 -	pointshop	PvP_C_Shop	-1,#PvpPoints,501:1,502:2
+
+// -- NPC DUPLICATES --
+celestiaj,38,89,5	duplicate(Ladder)	Ladder#maintown1	837

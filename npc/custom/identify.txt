@@ -15,3 +15,6 @@ dewata,183,176,5	script	Identifier	831,{
 	message strcharinfo(0),"Identified "+.@Total[0]+" items"+((.@Total[1])?" for "+.@Total[1]+" Zeny":"")+".";
 	end;
 }
+
+// --NPC DUPLICATES--
+celestiaj,60,77,5	duplicate(Identifier)	Identifier#maintown1	831

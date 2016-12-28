@@ -24,24 +24,24 @@ function Get_Menu; function Save_Build; function Load_Build;
 		message strcharinfo(0),"You must be level "+.@MaxLevel+" to use this.";
 		end;
 	}
-	
+
 	switch(select("Save Build...:Load Build...:Rename Build...")) {
 		case 1:
 			if (.@Save)
 				message strcharinfo(0),"It costs "+.@Save+" Zeny to save a build.";
 				set .@Build, Get_Menu(.@BuildCount);
-				
+
 			if (Zeny<.@Save) {
 				message strcharinfo(0),"Not enough Zeny.";
 				end;
 			}
-			
+
 			if (getd("Build_"+.@Build+"$")!="") {
 				message strcharinfo(0),"Overwrite previous build #"+.@Build+"?";
 				if(select("Save new build:Cancel")==2)
 				end;
 			}
-			
+
 			Save_Build(.@Build);
 			message strcharinfo(0),"Type a name for your build.";
 			input getd("Build_"+.@Build+"n$");
@@ -52,36 +52,36 @@ function Get_Menu; function Save_Build; function Load_Build;
 		case 2:
 			if (.@Load) message strcharinfo(0),"It costs "+.@Load+" Zeny to load a build.";
 			set .@Build, Get_Menu(.@BuildCount);
-			
+
 			if (getd("Build_"+.@Build+"$")=="") {
 				message strcharinfo(0),"No build info found.";
 				end;
 			}
-			
+
 			if (Zeny<.@Load) {
 				message strcharinfo(0),"Not enough Zeny.";
 				end;
 			}
-			
+
 			Load_Build(getd("Build_"+.@Build+"$"));
 			message strcharinfo(0),"Build #"+.@Build+" loaded.";
 			set Zeny, Zeny-.@Load;
 			end;
-			
+
 		case 3:
 			if (.@Rename) message strcharinfo(0),"It costs "+.@Rename+" Zeny to rename a build.";
 			set .@Build, Get_Menu(.@BuildCount);
-			
+
 			if (getd("Build_"+.@Build+"$")=="") {
 				message strcharinfo(0),"No build info found.";
 				end;
 			}
-			
+
 			if (Zeny<.@Rename) {
 				message strcharinfo(0),"Not enough Zeny.";
 				end;
 			}
-			
+
 			message strcharinfo(0),"Type a new name for Build #"+.@Build+" ("+getd("Build_"+.@Build+"n$")+").";
 			input getd("Build_"+.@Build+"n$");
 			message strcharinfo(0),"Build #"+.@Build+" renamed.";
@@ -95,7 +95,7 @@ function Get_Menu; function Save_Build; function Load_Build;
 			set .@menu$, .@menu$+"Slot "+.@i+" ("+((getd("Build_"+.@i+"n$")=="")?"^777777empty":"^0055FF"+getd("Build_"+.@i+"n$"))+"^000000):";
 		return select(.@menu$);
 	}
-	
+
 	function Save_Build {
 		set .@s$,"";
 		for(set .@i,13; .@i<19; set .@i,.@i+1)
@@ -113,3 +113,6 @@ function Get_Menu; function Save_Build; function Load_Build;
 		return;
 	}
 }
+
+// -- NPC DUPLICATES --
+celestiaj,70,71,5	duplicate(Build Manager)	Build Manager#maintown1	930

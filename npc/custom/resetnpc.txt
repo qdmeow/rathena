@@ -52,3 +52,6 @@ dewata,206,188,4	script	Reset Girl	124,{
 	if(.@Reset[3]) set reset_limit,reset_limit + 1;
 	close;
 }
+
+// -- NPC DUPLICATES --
+celestiaj,81,68,5	duplicate(Reset Girl)	Reset Girl#maintown1	124

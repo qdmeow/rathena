@@ -1,7 +1,7 @@
 //===== eAthena Script ================================================================================================================
 //= Super Broadcaster
 //===== Created By: ===================================================================================================================
-//= GorthexTiger (www.eathena.ws) 
+//= GorthexTiger (www.eathena.ws)
 //= If you're going to use my script, you can make modifications
 //= But credits and the fact that I created it must remain intact.
 //===== Current Version: ==============================================================================================================
@@ -18,7 +18,7 @@
 //= Players Must Meet A Level Requirement To Use Broadcaster (In Configuration Settings Below)
 //= Collects The Last Name Of The Player Who Used It Last To Allow For Easy Punishment For Misuse Via PM
 //= (Punishment Is Automatic When Dictated By a GM: Bans for 15 Minutes, With Public Announcement W/ Their Name To Discourage Abuse)
-//= GM's Can Enable & Disable: Broadcasting & Logs, 
+//= GM's Can Enable & Disable: Broadcasting & Logs,
 //===== Always Check For Updates! =====================================================================================================
 //= http://www.eathena.ws/board/index.php?showtopic=231474
 //===== Comments: =====================================================================================================================
@@ -34,14 +34,14 @@ if (getgmlevel() >= .gmlevel){
 		mes .npc$;
 		mes "Hello, GM "+strcharinfo(0)+", what can I help you with today?";
 		switch(select("Enable/Disable Broadcasting:Enable/Disable Logging:Ban Last User:Player Menu")){
-	
+
 			case 1:
 			next;
 			mes .npc$;
 			mes "Broadcasting is "+( (!.enable)?"^FF0000Disabled^000000":"^00FF00Enabled^000000");
 			mes "Turn it "+( (!.enable)?"^00FF00On^000000":"^FF0000Off^000000")+"?";
 			if (select("Yes:No")==2) {
-				next; 
+				next;
 				continue;
 				}
 			if(!.enable) set .enable,1;
@@ -58,7 +58,7 @@ if (getgmlevel() >= .gmlevel){
 			mes "Broadcasting logs are "+( (!.log)?"^FF0000Disabled^000000":"^00FF00Enabled^000000");
 			mes "Turn them "+( (!.log)?"^00FF00On^000000":"^FF0000Off^000000")+"?";
 			if (select("Yes:No")==2) {
-				next; 
+				next;
 				continue;
 				}
 			if(!.log) set .log,1;
@@ -70,7 +70,7 @@ if (getgmlevel() >= .gmlevel){
 			continue;
 
 			case 3:
-			next;	
+			next;
 			mes .npc$;
 			mes "Last Broadcast User: ^FF0000"+.lastname$+"^000000.";
 			next;
@@ -150,7 +150,7 @@ while(1){
 	mes "Broadcasting isn't free and does have a cost.";
 	mes "How would you like to pay for your broadcast?";
 	switch(select("With Zeny:With Points:With Items:")){
-		
+
 		case 1:
 		next;
 		if(.limitation != 1 && .limitation != 0 ){
@@ -171,7 +171,7 @@ while(1){
 			}
 		set zeny, zeny - .costz;
 		break;
-		
+
 		case 2:
 		next;
 		if(.limitation != 2 && .limitation != 0 ){
@@ -221,7 +221,7 @@ while(1){
 
 	break;
 	}//End of While
-	
+
 while(1){
 	next;
 	mes .npc$;
@@ -231,7 +231,7 @@ while(1){
 	case 1: callsub L_merch,0;
 	case 2: callsub L_merch,1;
 	case 3: callsub L_merch,2;
-	
+
 	case 4:
 	while(1){
 		next;
@@ -258,7 +258,7 @@ while(1){
 		mes "Ok, your broadcast has been completed.";
 		close2;
 		initnpctimer;
-		npctalk "Service will be available in 3 minutes.";     
+		npctalk "Service will be available in 3 minutes.";
 		end;
 		}
 
@@ -284,7 +284,7 @@ while(1){
 		mes "Ok, your broadcast has been completed.";
 		close2;
 		initnpctimer;
-		npctalk "Service will be available in 3 minutes.";     
+		npctalk "Service will be available in 3 minutes.";
 		end;
 		}
 
@@ -346,7 +346,7 @@ while(1){
 		mes "Ok, your broadcast has been completed.";
 		close2;
 		initnpctimer;
-		npctalk "Service will be available in 3 minutes.";     
+		npctalk "Service will be available in 3 minutes.";
 		end;
 		}
 
@@ -376,7 +376,7 @@ while(1){
 		mes "Ok, your broadcast has been completed.";
 		close2;
 		initnpctimer;
-		npctalk "Service will be available in 3 minutes.";     
+		npctalk "Service will be available in 3 minutes.";
 		end;
 		}//End of While()
 
@@ -385,17 +385,17 @@ while(1){
 }// End of Switch() While
 
 OnTimer60000:
-npctalk "Service will be available in 2 minutes.";    
+npctalk "Service will be available in 2 minutes.";
 end;
 
 OnTimer120000:
-npctalk "Service will be available in 1 minute.";    
+npctalk "Service will be available in 1 minute.";
 end;
 
 OnTimer180000:
-npctalk "Broadcasting Service Is Now Available.";  
+npctalk "Broadcasting Service Is Now Available.";
 set .timedelay,0;
-stopnpctimer; 
+stopnpctimer;
 end;
 
 L_color:
@@ -436,10 +436,10 @@ while(1){
 	close2;
 	initnpctimer;
 	npctalk "Service will be available in 3 minutes.";
-	break;    
+	break;
 	}
 end;
-	
+
 OnInit:
 //===== Configuration Settings ========================================================================================================
 //
@@ -452,10 +452,10 @@ set .costiamount,1;		    // Amount of Items Specified By .costi In Order To Use 
 set .gmlevel,99;                    // Minimum GM Level To Reach GM Menu & Use OnWhisperGlobal: Label
 set .timedelay,0;  		    // Creates The 3 Minute Delay Between Broadcasts. When set to '0', players are able to broadcast
 				    // If set to '1', the broadcaster thinks it has a delay to go through
-set .enable,1;     		    // Check To See If Broadcasting is Enabled. 1 == Enabled || 0 == Disabled (Enabled By Default)		
+set .enable,1;     		    // Check To See If Broadcasting is Enabled. 1 == Enabled || 0 == Disabled (Enabled By Default)
 set .log, 0;	   		    // Enables Logs of Broadcasts, 0 == Disabled, 1 == Enabled (Off By Default)
-set .limitation,0;		    // Limitation Setting for limiting how many payment options are available: 
-				    // 0 = all payment options available, 1 = only zeny, 2 = only cash points, 4 = only items 
+set .limitation,0;		    // Limitation Setting for limiting how many payment options are available:
+				    // 0 = all payment options available, 1 = only zeny, 2 = only cash points, 4 = only items
 set .warning,0;			    // if set to '1', displays a General Abuse Message before broasting (Disabled by Default)
 set .color$,"";			    // Clears the color menu (DO NOT MESS WITH THIS)
 setarray .typearray$[0],"Sell","Buy","Trade","Selling","Buying","Trading";
@@ -468,5 +468,8 @@ setarray .colorarray$[0],	    // Array That Store's Colors That Can Be Used For 
 "FF7F50";	//Orange
 for(set .i,0; .i < getarraysize(.colorarray$); set .i, .i + 1){
 	set .color$, .color$ + "^" + ""+.colorarray$[.i]+"" + "This Color" + "^000000:";
-	}		     
+	}
 }
+
+// -- NPC DUPLICATES --
+celestiaj,56,73,6	duplicate(Broadcaster)	Broadcaster#1	935

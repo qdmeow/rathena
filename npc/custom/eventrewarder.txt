@@ -1,12 +1,12 @@
-//===== eAthena Script ======================================= 
+//===== eAthena Script =======================================
 //= Itemizer
-//===== By: ================================================== 
+//===== By: ==================================================
 //= Latheesan (Modified by Pancake for rAthena)
-//===== Current Version: ===================================== 
+//===== Current Version: =====================================
 //= 1.5.1
-//===== Compatible With: ===================================== 
-//= Any SQL eAthena Version 
-//===== Description: ========================================= 
+//===== Compatible With: =====================================
+//= Any SQL eAthena Version
+//===== Description: =========================================
 //= To prevent GM Corruption, you can disable all item related
 //= commands and use this NPC to distribute Items and/or KCP.
 //===== Additional Comments: =================================
@@ -23,9 +23,9 @@
 //
 // THIS SCRIPT IS USING GETGROUPID, YOU MUST BE USING AN SVN THAT HAS GROUP_ID AND NOT GM LEVEL.
 //
-//===== SQL Table ============================================ 
+//===== SQL Table ============================================
 //= Execute This Query On Your Ragnarok Database Prior To Use.
-//= 
+//=
 //CREATE TABLE IF NOT EXISTS `itemizer` (
 //  `id` int(11) unsigned NOT NULL auto_increment,
 //  `item_id` int(11) NOT NULL,
@@ -53,7 +53,7 @@ set @npc$,"^008000[ Rewards ]^000000"; // NPC Name
 set @dummy_kcp_id,123;		// Dummy Item ID Used To Identify If Collection Item == KCP
 set @check_weight,1;		// 1 == Yes | 0 == No (Check If Player Is Over Weight)
 set @min_gm_lvl,2;			// Minimum GM Level Required To "Make Item" (Not used in this version)
-set @min_eventgm_lvl,4;		// Minimum Group ID Required To "Give Item" and "Give KCP" <- 
+set @min_eventgm_lvl,4;		// Minimum Group ID Required To "Give Item" and "Give KCP" <-
 set @min_item_amount,1;		// Minimum Item Amount <- !!
 set @max_item_amount,100;		// Maximum Item Amount <- !!
 set @min_kcp_amount,0;		// Minimum KCP Amount
@@ -64,7 +64,7 @@ set @ep_item_id,50058;		//event ticket id <- If you have a different event ticke
 setarray @announce_loc$,	// Possible Announce Locations
 			"bc_all",
 			"bc_map",
-			"bc_area"; 
+			"bc_area";
 
 // Main Script
 L_Main:
@@ -444,4 +444,6 @@ return @timestamp$;
 
 }
 
+// -- NPC DUPLICATES --
 dewata,210,192,5	duplicate(Rewards)	Rewards#1	878
+celestiaj,53,73,5	duplicate(Rewards)	Rewards#maintown1	878

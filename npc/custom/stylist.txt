@@ -51,25 +51,25 @@ OnTalk:
 		}else{
 			setlook .look_type[@style],.@style_number;
 		}
-		
+
 		.@next = .@style_number + 1;
 		.@prev = .@style_number - 1;
 		if( .@next > .max_style[@style] ) .@next = .min_style[@style];
 		if( .@prev < .min_style[@style] ) .@prev = .max_style[@style];
-		
+
 		@select = prompt( (( .@backward )?"Backward":"Forward" )+" - [ ^777777"+(( .@backward )? .@prev:.@next )+"th Style^000000 ]",
 					(( !.@backward )?"Backward":"Forward" )+" - [ ^777777"+(( !.@backward )? .@prev:.@next )+"th Style^000000 ]",
 					"Jump to a Style",
 					( .@removed )?"":"^0055FFOkay, I want this "+.menu_name$[@style]+"^000000" );
-					
+
 		if( @select == 2 ) .@backward = !.@backward;
-		
+
 		switch( @select ){
-			Case 1:	
+			Case 1:
 			Case 2:
 				.@style_number = (( .@backward )? .@prev:.@next );
 				break;
-			Case 3:	
+			Case 3:
 				message strcharinfo(0),"Available Style : "+.min_style[@style]+" ~ "+.max_style[@style]+".";
 				input .@style_number,.min_style[@style],.max_style[@style];
 				break;
@@ -112,32 +112,32 @@ OnPCLogoutEvent:
 	if( @select )
 		setlook .look_type[@style],@style_value;
 	end;
-	
+
 OnInit:
 	// NPC Mode ( Bitmask )
 	//	1 - Enable Hairstyle
 	//	2 - Enable Hair Color
 	//	4 - Enable Cloth Color
 	.npc_mode = 7;
-	
+
 	// Menu Name
 	setarray .menu_name$,
 		"Hair Style",
 		"Hair Color",
 		"Cloth Color";
-	
+
 	// Payment Currency + Cost
 	// Can be ITEM ID or Any Variable.
 	setarray .currency$,
 		"Zeny",	//	Hairstyle - Ex. need Zeny
 		"Zeny",	//	Hair Color - Ex. need Zeny
 		"Zeny";	//	Cloth Color - Ex. need Zeny
-		
+
 	setarray .cost,
 		10000,	//	Hairstyle ( 10,000 Zeny )
 		10000,	//	Hair Color ( 10,000 Zeny )
 		10000;	//	Cloth Color ( 10,000 Zeny )
-		
+
 	// Blacklisted Style for each style and each gender.
 	// --- Female ---
 	.blacklist_hairstyle_0$ = "2,4,6";
@@ -170,4 +170,6 @@ dewata,193,190,5	script	Adv. Stylist#main	878,{
 	doevent "Stylist::OnTalk";
 }
 
+// -- NPC DUPLICATES --
 prontera,115,181,5	duplicate(Adv. Stylist#main)	Adv. Stylist#1	878
+celestiaj,81,71,5	duplicate(Adv. Stylist#main)	Adv. Stylist#maintown1	878

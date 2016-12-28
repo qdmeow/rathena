@@ -23,18 +23,18 @@
 //============================================================
 
 -	script	gbreeder	726,{
-	
+
 	mes	"^FF0000Universal Rental NPC^000000";
 	mes	"Greetings " + strcharinfo(0) + "!";
 	mes	"How may I help you today?";
 	next;
-	
+
 	switch(select("Rental Services:Cancel"))
 	{
 		case 1:
 			mes	"^FF0000Universal Rental NPC^000000";
 			mes	"Please select from the items below:";
-			
+
 			switch(select("PecoPeco:Cart:Falcon:Wolf Flute:Dragon:Gryphon:Mado"))
 			{
 				case 1: // Pecopeco
@@ -134,4 +134,5 @@
 //===== Duplicates: ==========================================
 prontera, 143, 179, 5	duplicate(gbreeder)	Universal Rental NPC#1	726
 dewata, 183, 180, 5	duplicate(gbreeder)	Universal Rental NPC#2	726
+celestiaj, 60, 80, 5	duplicate(gbreeder)	Universal Rental NPC#maintown1	726
 //============================================================

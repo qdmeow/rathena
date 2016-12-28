@@ -14,7 +14,7 @@ OnInit:
 }
 
 dali03,64,112,4	script	Exit Special Area	10029,{
-warp	"dewata"	,199,178;
+warp	"celestiaj"	,75,77;
 end;
 
 OnInit:
@@ -32,4 +32,5 @@ OnInit:
 	end;
 }
 
-
+// -- NPC DUPLICATES --
+celestiaj,83,83,5	duplicate(Special Area)	Special Area#maintown1	10029

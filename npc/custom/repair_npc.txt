@@ -9,5 +9,7 @@
     end;
 }
 
+// -- NPC DUPLICATES --
 prontera,172,182,1	duplicate(Repairman)	Repairman#prt	46
 dewata,185,176,5	duplicate(Repairman)	Repairman#dew	46
+cejestiaj,60,74,5	duplicate(Repairman)	Repairman#maintown1	46

@@ -15,6 +15,8 @@ dewata,202,190,2	script	Seed Warper	58,{
 	end;
 
 OnInit:
-	waitingroom	"YGGSeed Farming Area",0;
+	waitingroom	"YGG Seed Farming Area",0;
 	end;
 }
+// -- NPC DUPLICATES --
+celestiaj,86,83,5	duplicate(Seed Warper)	Seed Warper#maintown1	58

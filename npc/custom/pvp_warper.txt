@@ -1,6 +1,6 @@
 /*
 |	------------------------------------
-|		- Simple PVP Warper - 
+|		- Simple PVP Warper -
 |			 [Legend]
 |	------------------------------------
 |		  current version: 1.0
@@ -32,7 +32,7 @@ dewata,193,172,4	script	PVP Warper	4_M_ROKI2,{
 			end;
 		end;
 	}
-	
+
 end;
 
 OnInit:
@@ -40,10 +40,10 @@ OnInit:
 // -------- PVP maps ------------
 	.pkmap_1$ = "arena_4";
 	.pkmap_2$ = "guild_vs3";
-	
+
 // -------- NPC NAME ------------
 	.npcname$ = "[PVP Warper]";
-	
+
 // --- restricted item array ----
 	setarray .Ritems[0], 501, 502, 503, 504, 505;
 	.Rsize = getarraysize( .Ritems ); // DO NOT TOUCH THIS
@@ -84,3 +84,4 @@ veins,219,127,4	duplicate(PVP Warper)	PVP Warper#20	4_M_ROKI2
 yuno,163,170,4	duplicate(PVP Warper)	PVP Warper#21	4_M_ROKI2
 umbala,106,159,3	duplicate(PVP Warper)	PVP Warper#22	4_M_ROKI2
 poring_c02,139,81,4	duplicate(PVP Warper)	PVP Warper#23	4_M_ROKI2
+celestiaj,38,92,5	duplicate(PVP Warper)	PVP Warper#maintown1	4_M_ROKI2

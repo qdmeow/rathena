@@ -1,3 +1,4 @@
+// After talking to Freebies, they should warp to town automatically
 dewata,99,182,5	script	Freebies	718,{
 	if( !#Freebies ){
 		set #Freebies,1;
@@ -11,12 +12,21 @@ dewata,99,182,5	script	Freebies	718,{
 		getitem2 50004,1,1,5,0,0,0,0,0; //rojak shoe
 		getitem2 50005,1,1,5,0,0,0,0,0; //rojak suit
 		getitem2 50006,1,1,5,0,0,0,0,0; //rojak shield
+		close;
+		warp celestiaj,75,77;
+		end;
 	}else{
 		mes "You have claim the Reward already.";
+		close;
+		warp celestiaj,75,77;
+		end;
 	}
-close;
+end;
 
 OnInit:
 	waitingroom "Freebies for Newbies here!",0;
 end;
 }
+
+// -- NPC DUPLICATES --
+celestiaj,42,141,5	duplicate(Freebies)	Freebies#maintown1	718

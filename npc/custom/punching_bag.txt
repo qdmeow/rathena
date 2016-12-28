@@ -14,9 +14,12 @@
 //==================================================================
 dewata,199,170,0	script	PunchingBag#0	844,{
 	end;
-	
+
 OnMyMobDead:
 OnInit:
+//= Punching Bag shouldn't be teleporting.
+	setmapflag( "celestiaj",mf_monster_noteleport );
+	setmapflag( "dewata",mf_monster_noteleport );
 	getunitdata(getnpcid(0), .@d);
 	monster strnpcinfo(4),.@d[UNPC_X],.@d[UNPC_Y],"Punching Bag",2411,1,strnpcinfo(0)+"::OnMyMobDead";
 	.@dupid = atoi(strnpcinfo(2));
@@ -25,7 +28,7 @@ OnInit:
 	setunitdata .gid[.@dupid],UMOB_MODE,.@d[UMOB_MODE]|0x4000000|0x0200000; // Set MD_STATUS_IMMUNE (0x4000000) because EDP/burn/%MHP based status can skew the DPS counter so much.
 	initnpctimer;
 	end;
-	
+
 OnTimer5000:
 	.@dupid = atoi(strnpcinfo(2));
 	if(unitexists(.gid[.@dupid])){
@@ -40,6 +43,8 @@ OnTimer5000:
 	initnpctimer;
 }
 
+// -- NPC DUPLICATES --
+celestiaj,85,77,0	duplicate(PunchingBag#0)	PunchingBag#maintown1	844
 //prontera,216,79,0	duplicate(PunchingBag#0)	PunchingBag#1	844
 //prontera,224,70,0	duplicate(PunchingBag#0)	PunchingBag#2	844
 //prontera,216,58,0	duplicate(PunchingBag#0)	PunchingBag#3	844

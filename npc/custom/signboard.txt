@@ -7,3 +7,16 @@ OnInit:
 }
 
 dewata,205,146,5	duplicate(Vendor Sign Board)	Vendor Sign Board#2	858
+
+
+//Itemmall Signboard
+celestiaj,72,90,5	script	Itemmall Signboard	858,{
+	end;
+
+OnInit:
+	waitingroom	"Item Mall!",0;
+	end;
+}
+
+//PVP Signboard
+//MVP Signboard

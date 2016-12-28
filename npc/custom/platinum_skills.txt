@@ -119,3 +119,6 @@ dewata,209,168,4	script	Platinum Skill NPC	94,{
 	mes "There you go!";
 	close;
 }
+
+// -- NPC DUPLICATES --
+celestiaj,77,73,5	duplicate(Platinum Skill NPC)	Platinum Skill NPC#maintown1	94

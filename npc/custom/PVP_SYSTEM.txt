@@ -52,7 +52,7 @@ OnInit:
 	set .NMColor$, "0x0099FF"; //Nemesis Broadcast Color | e.g. Xazax is owning Cookies
 	set .PBColor$, "0xFF0000"; //Payback Broadcast Color | e.g. Makizushi just have a payback againts lilcooldude69
 	set .FDColor$, "0xFF00CC"; //Feeder Broadcast Color | e.g. Cookies is feeding Z3R0
-	 
+
 	//--Warning: Critical Setting | Killing Streaks and Multiple Kills Announcer
 	setarray .KSDotA$[0], "First Blood","none","is on a Killing Spree", "is Dominating", "has a Mega-Kill", "is Unstoppable", "is Wicked Sick", "has a M-m-m-m....Monster Kill", "is Godlike", "is Beyond Godlike";
 	setarray .KSHoN$[0], "Blood Lust","none","is a Serial Killer", "is an Ultimate Warrior", "is Legendary", "is on an Onslaught!", "is Savage Sick", "is Dominating", "has a Bloodbath", "is Immortal"; //Took out #9. Champion of Newearth
@@ -68,7 +68,7 @@ OnInit:
 	set $icaServerType, 1; //Are you using TXT or SQL? (0:TXT|1:SQL)
 	set $icaGMLevel, 90; //GM levels above or equal this level will be ignored by the system
 	setarray $icaPvPMap$[0], "All"; //List all pvp maps here (Index 0:"All" to enable all maps)
-	 
+
 	//PvP Ladder
 	set $icaTop, 10; //What is the length of the list?
 	set $icaReset, 2; //Allow players to reset their PvP statistics? (0:Disable|1:Zeny|2:Cashpoint|3:Skull|4:Item)
@@ -83,7 +83,7 @@ OnInit:
 	set $icaAnnouncerSkullFee, 1000; //How much skull you want to charge to buy an announcer?
 	set $icaAnnouncerItemFee, 7227; //What item you want to charge to buy an announcer? (7227=TCG change this to the one you want)
 	set $icaAnnouncerItemAmountFee, 1000; //What item you want to charge to buy an announcer?
-	 
+
 	//Reward Setting (Every Kill)
 	set $icaMaxZeny, 1000000000; //What is the max zeny of the server?
 	set $icaZeny, 0; //Earn zeny each kill? (0:Disable)
@@ -91,13 +91,13 @@ OnInit:
 	set $icaSkull, 0; //Collect player's skull each kill? (0:Disable|1:Enable)
 	setarray $icaItemID[0], 0; //Get items each kill? (0:Disable)
 	setarray $icaAmount[0], 0; //How many items per kill?
-	 
+
 	//Penalty Setting
 	set $icaFeed, 10; //How many kills before feeding is called? (10:Recommended)
 	set $icaPenalty, 0; //What is the penalty for the feedee? (0:Disable|1:Kill Rollback|2:Server Kick|3:Server Block)
 	set $icaKick, 1; //Who to kick? (0:Feedee|1:Feeder|2:Both)
 	set $icaRollback, 10; //How many times should the kill count rollback when feeding is called? (10:Recommended)
-	 
+
 	//Announcer Setting
 	set $icaBroadcast, 1; //Where do you want to broadcast? (0:bc_map|1:bc_all)
 	set $icaStreak, 1; //Show number of killing streak in broadcast? e.g. Ghost is Beyond Godlike(8)
@@ -107,7 +107,7 @@ OnInit:
 	set $icaFeeder, 1; //Show number of feed in broadcast? e.g. Cookies is feeding `KeiKun(10)
 	set $icaRandomKillWord, 1; //Randomize the kill words? e.g. Arcenciel "Kill Word" jTynne (0:Disable|Default:"pwned")
 	setarray $icaKillWord$[0], "pwned", "killed", "disintegrated", "neutralized"; //Enable above setting for this to work
-	 
+
 
 
 	//--Warning: Fail Safe | Do Not Touch
@@ -179,7 +179,7 @@ OnPCKillEvent:
 			}
 			else if (.@i== 127){
 				break;
-			}	
+			}
 		}
 
 		for(set .@i, 0; .@i <= 127; set .@i, .@i + 1){
@@ -205,7 +205,7 @@ OnPCKillEvent:
 				break;
 			}
 		}
-			
+
 		for(set .@i, 0; .@i <= 127; set .@i, .@i + 1){
 			if ((rid2name(killedrid)==@killed$[.@i])&&(@mcountss[.@i]<=$icaFeed)){
 					if($icaZeny && ((Zeny + $icaZeny) < $icaMaxZeny)){ set Zeny, Zeny + $icaZeny; }
@@ -221,7 +221,7 @@ OnPCKillEvent:
 		if (@killers$[0]=="none"){
 		}
 		else{
-			for(set .@i, 0; .@i <= 127; set .@i, .@i + 1){	
+			for(set .@i, 0; .@i <= 127; set .@i, .@i + 1){
 				if ((rid2name(killedrid)==@killers$[.@i])&&(@mcounts[.@i]>=$icapaybackperiod))
 				{
 					announce strcharinfo(0)+" just have a payback againts "+@killers$[.@i]+" ",bc_blue|bc_all;
@@ -244,7 +244,7 @@ OnPCKillEvent:
 					set @contains,1;
 					break;
 				}
-			}		
+			}
 			if(!@contains){
 				getmapxy .map$,.@x,.@y,0;
 				set @pvppoint,rand(1,3);
@@ -295,7 +295,7 @@ OnPCKillEvent:
 								sleep2 500;
 						switch(#streak)
 						{
-						
+
 							case 1:
 								if(#Announcer == 0){ announce strcharinfo(0)+" "+.KSDotA$[#streak - 1]+" "+(($icaStreak)?"("+(#streak)+")":"")+" in "+strcharinfo(3)+" after killing "+rid2name(killedrid), (($icaBroadcast)?bc_all:bc_map), .KSColor$; }
 								if(#Announcer > 1){ announce strcharinfo(0)+" "+.KSHoN$[#streak - 1]+" "+(($icaStreak)?"("+(#streak)+")":"")+" in "+strcharinfo(3)+" after killing "+rid2name(killedrid), (($icaBroadcast)?bc_all:bc_map), .KSColor$; }
@@ -355,10 +355,10 @@ OnPCKillEvent:
 						}
 										set #streak,#streak+1;
 										dispbottom "Your Current Streak: "+#streak$+"("+(#streak-1)+")";
-										for(set .@i, 0; .@i <= 127; set .@i, .@i + 1)	
+										for(set .@i, 0; .@i <= 127; set .@i, .@i + 1)
 										{
 										if((@mcountss[.@i] > 3) && (@mcountss[.@i] < $icaFeed))
-										{	
+										{
 										sleep2 500;
 										announce strcharinfo(0)+" is owning "+@killed$[.@i]+" "+(($icaNemesis)?"("+@mcountss[.@i]+")":"")+"", (($icaBroadcast)?bc_all:bc_map), .NMColor$;
 										if(#Announcer > 0){ soundeffect #Announcer+"_Nemesis.wav",0; } else { soundeffect "1_Nemesis.wav", 0;}
@@ -421,10 +421,10 @@ if(getgmlevel() >= $icaGMLevel){ end; }
 			else if (.@i==127){break;}
 
 		}
-		
+
 		//Show the list of killers and their streak against you
 		//for(set .@i, 0; .@i <= 127; set .@i, .@i + 1){
-		//	
+		//
 		//if (@killers$[.@i]=="none"){
 		//	break;
 		//}
@@ -432,8 +432,8 @@ if(getgmlevel() >= $icaGMLevel){ end; }
 		//	if (@mcounts[.@i]>=$icapaybackperiod) {dispbottom "Come ON! give him a payback!";}
 		//}
 	end;
-	
-OnPCLoginEvent:		
+
+OnPCLoginEvent:
 	if(getgmlevel() >= $icaGMLevel){
 		end;
 	}
@@ -503,14 +503,14 @@ OnRecordStreak:
 	if(#streak > 2){
 		set KillingStreak, KillingStreak + 1;
 		switch(#streak-1){
-			case 0:	case 1:	case 2: break; 
-			case 3: set KillingSpree, KillingSpree + 1; break; 
+			case 0:	case 1:	case 2: break;
+			case 3: set KillingSpree, KillingSpree + 1; break;
 			case 4: set Dominating, Dominating + 1; break;
-			case 5: set MegaKill, MegaKill + 1; break; 
-			case 6: set Unstoppable, Unstoppable + 1; break; 
+			case 5: set MegaKill, MegaKill + 1; break;
+			case 6: set Unstoppable, Unstoppable + 1; break;
 			case 7: set WickedSick, WickedSick + 1; break;
-			case 8: set MonsterKill, MonsterKill + 1; break; 
-			case 9: set Godlike, Godlike + 1; break; 
+			case 8: set MonsterKill, MonsterKill + 1; break;
+			case 9: set Godlike, Godlike + 1; break;
 			case 10: set BeyondGodlike, BeyondGodlike + 1; break;
 			default: break;
 		}
@@ -519,11 +519,11 @@ OnRecordStreak:
 		set MultiKill, MultiKill + 1;
 		switch(#multikillCTR)
 		{
-			case 0:	case 1: break; 
-			case 2: set DoubleKill, DoubleKill + 1; break; 
+			case 0:	case 1: break;
+			case 2: set DoubleKill, DoubleKill + 1; break;
 			case 3: set TripleKill, TripleKill + 1; break;
 			case 4: set UltraKill, UltraKill + 1; break;
-			case 5: set Rampage, Rampage + 1; break; 
+			case 5: set Rampage, Rampage + 1; break;
 			case 6: set Ownage, Ownage + 1; break;
 			default: break;
 		}
@@ -583,7 +583,7 @@ dewata,193,168,3	script	PvP Ladder[Loki]	467,{
 		mes $icaPenalty+" =What is the penalty for the feedee? (0:Disable|1:Kill Rollback|2:Server Kick|3:Server Block)";
 		mes $icaKick+" =Who to kick? (0:Feedee|1:Feeder|2:Both)";
 		mes $icaRollback+" =How many times should the kill count rollback when feeding is called? (10:Recommended)";
-		next; 
+		next;
 		mes "Announcer Setting";
 		mes $icaBroadcast+" =Where do you want to broadcast? (0:bc_map|1:bc_all)";
 		mes $icaStreak+" =Show number of killing streak in broadcast? e.g. Ghost is Beyond Godlike(8)";
@@ -599,7 +599,7 @@ L_mainmenu:
 		case 1:
 L_option1:
 		switch(select("Toggle PvP System:TXT or SQL:Min Gm lvl Involved:Back")){
-			case 1: 
+			case 1:
 L_again:
 				mes "Toggle PvP System (0:Disable|1:Enable)";
 				set @option,0;
@@ -615,7 +615,7 @@ L_again:
 				goto L_option1;
 				end;
 				break;
-			case 2: 
+			case 2:
 L_again1:
 				mes "Are you using TXT or SQL? (0:TXT|1:SQL)";
 				set @option,0;
@@ -631,7 +631,7 @@ L_again1:
 				goto L_option1;
 				end;
 				break;
-			case 3: 
+			case 3:
 L_again2:
 				mes "GM levels above or equal this level will be ignored by the system input from 0 to 99 only";
 				set @option,0;
@@ -647,17 +647,17 @@ L_again2:
 				goto L_option1;
 				end;
 				break;
-			case 4: 
-				goto L_mainmenu; 
-				end; 
+			case 4:
+				goto L_mainmenu;
+				end;
 				break;
 			} // end of System Settings
-		
+
 		case 2:
 L_option2:
 		switch(select("Max List:Stat Reset Option:Stat Reset Zeny Fee:Stat Reset Cash Fee:Stat Reset Skull Fee:Stat Reset  Item Fee:Stat Reset Item Fee Amount:Announcer Fee Option:Announcer Zeny Fee:Announcer Cash Fee:Announcer Skull Fee:Announcer Item Fee:Announcer Item Fee Amount:Back")){
 		//PvP Ladder
-			case 1: 
+			case 1:
 L_2again:
 				mes "What is the length of the list (minimum of 10)";
 				set @option,0;
@@ -670,8 +670,8 @@ L_2again:
 				goto L_option2;
 				end;
 				break;
-			
-			case 2: 
+
+			case 2:
 L_2again1:
 				mes "Allow players to reset their PvP statistics? (0:Disable|1:Zeny|2:Cashpoint|3:Skull|4:Item)";
 				set @option,0;
@@ -698,7 +698,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-			
+
 			case 4:
 				L_2again3:
 				mes "How much cash you want to charge to reset their pvp stat? (minimum of 1000)";
@@ -712,7 +712,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-			
+
 			case 5:
 				L_2again4:
 				mes "How much skull you want to charge to reset their pvp stat? (minimum of 1000)";
@@ -726,7 +726,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-				
+
 			case 6:
 				L_2again5:
 				mes "What item you want to charge to reset their pvp stat? (7227 is the default=TCG change this to the one you want)";
@@ -740,7 +740,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-				
+
 			case 7:
 				L_2again6:
 				mes "how much "+getitemname($icaResetItemFee)+" to charge to reset their pvp stat?";
@@ -754,7 +754,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-			
+
 			case 8:
 
 				L_2again7:
@@ -769,7 +769,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-			
+
 			case 9:
 				L_2again8:
 				mes "How much zeny you want to charge to buy an announcer? (minimum of 1000)";
@@ -783,7 +783,7 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-				
+
 			case 10:
 				L_2again9:
 				mes "How much cash you want to charge to buy an announcer? (minimum of 1000)";
@@ -836,16 +836,16 @@ L_2again1:
 				goto L_option2;
 				end;
 				break;
-			case 14: 
-				goto L_mainmenu; 
-				end; 
+			case 14:
+				goto L_mainmenu;
+				end;
 				break;
 			} // end of PvP Ladder Settings
 		case 3:
 		L_option3:
 		switch(select("What is the max zeny of the server?:Earn zeny each kill?:How much #CASHPOINT every kill?:Collect player's skull each kill?:Back")){
 		//Reward Setting (Every Kill)
-		case 1: 
+		case 1:
 			L_3again:
 			mes "What is the max zeny of the server? (minimum of 1000000000, nax of 2000000000)";
 			set @option,0;
@@ -858,8 +858,8 @@ L_2again1:
 			goto L_option3;
 			end;
 			break;
-		
-		case 2: 
+
+		case 2:
 			L_3again1:
 			mes "Earn zeny each kill? (0:Disable)";
 			set @option,0;
@@ -872,8 +872,8 @@ L_2again1:
 			goto L_option3;
 			end;
 			break;
-		
-		case 3: 
+
+		case 3:
 			L_3again2:
 			mes "Earn zeny each kill? (0:Disable)";
 			set @option,0;
@@ -886,8 +886,8 @@ L_2again1:
 			goto L_option3;
 			end;
 			break;
-		
-		case 4: 
+
+		case 4:
 			L_3again3:
 			mes "Collect player's skull each kill? (0:Disable|1:Enable)";
 			set @option,0;
@@ -900,20 +900,20 @@ L_2again1:
 			goto L_option3;
 			end;
 			break;
-		
-		case 5: 
-			goto L_mainmenu; 
-			end; 
+
+		case 5:
+			goto L_mainmenu;
+			end;
 			break;
 
 		} // end of reward settings
-		
-		
+
+
 		case 4:
 		L_option4:
 		switch(select("How many kills before feeding is called? (10 is Recommended):What is the penalty for the feedee?:Who to kick?:How many times should the kill count rollback when feeding is called?:Back")){
 		//penalty settings
-		case 1: 
+		case 1:
 			L_4again:
 			mes "How many kills before feeding is called? (10:Recommended and minimum is 5)";
 			set @option,0;
@@ -927,7 +927,7 @@ L_2again1:
 			end;
 			break;
 
-		case 2: 
+		case 2:
 			L_4again1:
 			mes "What is the penalty for the feedee? (0:Disable|1:Kill Rollback|2:Server Kick|3:Server Block)";
 			set @option,0;
@@ -940,8 +940,8 @@ L_2again1:
 			goto L_option4;
 			end;
 			break;
-		
-		case 3: 
+
+		case 3:
 			L_4again2:
 			mes "Who to kick? (0:Feedee|1:Feeder|2:Both)";
 			set @option,0;
@@ -954,8 +954,8 @@ L_2again1:
 			goto L_option4;
 			end;
 			break;
-		
-		case 4: 
+
+		case 4:
 			L_4again3:
 			mes "How many times should the kill count rollback when feeding is called? recommended("+$icaFeed+") same as the feed limit";
 			set @option,0;
@@ -968,17 +968,17 @@ L_2again1:
 			goto L_option4;
 			end;
 			break;
-		
-		case 5: 
-			goto L_mainmenu; 
-			end; 
+
+		case 5:
+			goto L_mainmenu;
+			end;
 			break;
 		}
 		case 5:
 		L_option5:
 		switch(select("Where do you want to broadcast?:Show number of killing streak in broadcast?:Show number of multiple kill in broadcast?:Show number of nemesis in broadcast?:Show number of feed in broadcast?:Randomize the kill words?:Payback Period limit?:Back")){
 		//Announcer Setting
-		case 1: 
+		case 1:
 			L_5again:
 			mes "Where do you want to broadcast? (0:bc_map|1:bc_all)";
 			set @option,0;
@@ -991,8 +991,8 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		case 2: 
+
+		case 2:
 			L_5again1:
 			mes "Show number of killing streak in broadcast?(0:Disable|1:Enable) e.g. Ghost is Beyond Godlike(8)";
 			set @option,0;
@@ -1005,8 +1005,8 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		case 3: 
+
+		case 3:
 			L_5again2:
 			mes "Show number of multiple kill in broadcast?(0:Disable|1:Enable) e.g. Makizushi just got an Ownage(5)";
 			set @option,0;
@@ -1019,9 +1019,9 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		
-		case 4: 
+
+
+		case 4:
 			L_5again3:
 			mes "Show number of nemesis in broadcast?(0:Disable|1:Enable) e.g. Epoque is owning Jguy(9)";
 			set @option,0;
@@ -1034,8 +1034,8 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		case 5: 
+
+		case 5:
 			L_5again4:
 			mes "Show number of feed in broadcast?(0:Disable|1:Enable) e.g. Cookies is feeding `KeiKun(10)";
 			set @option,0;
@@ -1048,8 +1048,8 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-		
-		case 6: 
+
+		case 6:
 			L_5again5:
 			mes "Randomize the kill words?(0:Disable|1:Enable) e.g. Arcenciel Kill Word jTynne (0:Disable|Default:pwned)";
 			set @option,0;
@@ -1062,8 +1062,8 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		case 7: 
+
+		case 7:
 			L_5again6:
 			mes "Pay Back Period after some owns you (minimum of 5)? e.g. Player a killed you 5 times then you gave him a payback";
 			set @option,0;
@@ -1076,10 +1076,10 @@ L_2again1:
 			goto L_option5;
 			end;
 			break;
-			
-		case 8: 
-			goto L_mainmenu; 
-			end; 
+
+		case 8:
+			goto L_mainmenu;
+			end;
 			break;
 		}
 		case 6:
@@ -1092,7 +1092,7 @@ L_2again1:
 			set $icaServerType, 1; //Are you using TXT or SQL? (0:TXT|1:SQL)
 			set $icaGMLevel, 90; //GM levels above or equal this level will be ignored by the system
 			setarray $icaPvPMap$[0], "All"; //List all pvp maps here (Index 0:"All" to enable all maps)
-			 
+
 			//PvP Ladder
 			set $icaTop, 10; //What is the length of the list?
 			set $icaReset, 2; //Allow players to reset their PvP statistics? (0:Disable|1:Zeny|2:Cashpoint|3:Skull|4:Item)
@@ -1107,7 +1107,7 @@ L_2again1:
 			set $icaAnnouncerSkullFee, 1000; //How much skull you want to charge to buy an announcer?
 			set $icaAnnouncerItemFee, 7227; //What item you want to charge to buy an announcer? (7227=TCG change this to the one you want)
 			set $icaAnnouncerItemAmountFee, 1000; //What item you want to charge to buy an announcer?
-			 
+
 			//Reward Setting (Every Kill)
 			set $icaMaxZeny, 1000000000; //What is the max zeny of the server?
 			set $icaZeny, 0; //Earn zeny each kill? (0:Disable)
@@ -1115,13 +1115,13 @@ L_2again1:
 			set $icaSkull, 0; //Collect player's skull each kill? (0:Disable|1:Enable)
 			setarray $icaItemID[0], 0; //Get items each kill? (0:Disable)
 			setarray $icaAmount[0], 0; //How many items per kill?
-			 
+
 			//Penalty Setting
 			set $icaFeed, 10; //How many kills before feeding is called? (10:Recommended)
 			set $icaPenalty, 0; //What is the penalty for the feedee? (0:Disable|1:Kill Rollback|2:Server Kick|3:Server Block)
 			set $icaKick, 0; //Who to kick? (0:Feedee|1:Feeder|2:Both)
 			set $icaRollback, 10; //How many times should the kill count rollback when feeding is called? (10:Recommended)
-			 
+
 			//Announcer Setting
 			set $icaBroadcast, 0; //Where do you want to broadcast? (0:bc_all|1:bc_map)
 			set $icaStreak, 1; //Show number of killing streak in broadcast? e.g. Ghost is Beyond Godlike(8)
@@ -1145,7 +1145,7 @@ L_2again1:
 			goto L_mainmenu;
 			end;
 			break;
-			
+
 		case 9:
 		query_sql "TRUNCATE TABLE `pvp_rank`";
 		query_sql "UPDATE `global_reg_value` set `value`='0' WHERE `str`='Kill' OR `str`='Death' OR `str`='KillingStreak' OR `str`='MultiKill' OR `str`='NemesisKill' OR `str`='FeedCount' OR `str`='KillingSpree' OR `str`='Dominating' OR `str`='MegaKill' OR `str`='Unstoppable' OR `str`='WickedSick' OR `str`='MonsterKill' OR `str`='Godlike' OR `str`='BeyondGodlike' OR `str`='DoubleKill' OR `str`='TripleKill' OR `str`='UltraKill' OR `str`='Rampage' OR `str`='Ownage'";
@@ -1167,7 +1167,7 @@ L_2again1:
 	mes "[Loki]"; mes "Hi! "+ strcharinfo(0) +" What can I do for you today?";
 	switch(select("Player Ranking:PvP Statistic:Announcer Setting")){
 	case 1: //Player Ranking
-		next; 
+		next;
 		if($icaServerType==1){
 			mes "[Top "+$icaTop+" PvP Players]";
 			mes "^0000FFKill^000000 | ^FF0000Death^000000 | ^FF22FFKDR^000000 | ^00FF00SK^000000 | ^666666MK^000000";
@@ -1176,8 +1176,8 @@ L_2again1:
 				mes .@i+1+". "+.@char$[.@i]+" ^0000FF"+.@kill[.@i]+"^000000 ^FF0000"+.@death[.@i]+"^000000 ^FF22FF"+.@kdr$[.@i]+"^000000 ^00FF00"+.@sk[.@i]+"^000000 ^666666"+.@multikillCTR[.@i]+"^000000 ";
 			}
 			close;
-		} else { 
-			mes "Top "+$icaTop+" ranking is not yet implemented for this server type."; 
+		} else {
+			mes "Top "+$icaTop+" ranking is not yet implemented for this server type.";
 		}
 		break;
 	case 2: //PvP Statistic
@@ -1262,7 +1262,7 @@ L_2again1:
 		break;
 	close;
 	case 3: //Announcer Setting
-		next; 
+		next;
 		mes "[Loki]"; mes "What kind of announcer you want to use?"+$icaAnnouncerFeeOption;
 				if($icaAnnouncerFeeOption == 0){ mes "^FF0000Buy Announcer Option has been disabled^000000"; next; close; }
 				if($icaAnnouncerFeeOption == 1){ mes "^FF0000Buy Announcer Fee:^000000 "+$icaAnnouncerZenyFee+" Zeny"; }
@@ -1295,16 +1295,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #Hon, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #Hon, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #Hon, 1;
 						break;
 					default: break;
@@ -1333,16 +1333,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #MsPudding, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #MsPudding, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #MsPudding, 1;
 						break;
 					default: break;
@@ -1352,8 +1352,8 @@ L_2again1:
 				soundeffect "2_Startgame.wav", 0;
 				set #Announcer, 2;
 				announce "[Loki] Ms. Pudding announcer has been configured to your account.",bc_self,0xFF0000;
-				close;	
-				break;	
+				close;
+				break;
 			case 4: //Flamboyant
 				if(#Announcer == 3){ goto L_Announce; }
 				if(!#Flamboyant){
@@ -1371,16 +1371,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #Flamboyant, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #Flamboyant, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #Flamboyant, 1;
 						break;
 					default: break;
@@ -1390,8 +1390,8 @@ L_2again1:
 				soundeffect "3_Victory.wav", 0;
 				set #Announcer, 3;
 				announce "[Loki] Flamboyant announcer has been configured to your account.",bc_self,0xFF0000;
-				close;	
-				break;		
+				close;
+				break;
 			case 5: //English
 				if(#Announcer == 4){ goto L_Announce; }
 				if(!#English){
@@ -1409,16 +1409,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #English, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #English, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #English, 1;
 						break;
 					default: break;
@@ -1447,16 +1447,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #BallsofSteel, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #BallsofSteel, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #BallsofSteel, 1;
 						break;
 					default: break;
@@ -1485,16 +1485,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #BreakyCPK, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #BreakyCPK, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #BreakyCPK, 1;
 						break;
 					default: break;
@@ -1523,16 +1523,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #PIMP, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #PIMP, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #PIMP, 1;
 						break;
 					default: break;
@@ -1561,16 +1561,16 @@ L_2again1:
 						break;
 					case 2:
 						if(#CASHPOINTS < $icaAnnouncerCashFee){ next; mes "[Loki]"; mes "You don't have enough Kill Point."; close; }
-						set #CASHPOINTS, #CASHPOINTS - $icaCashFee; 
+						set #CASHPOINTS, #CASHPOINTS - $icaCashFee;
 						set #SEDUCTIVE, 1;
 						break;
 					case 3:
 						if(countitem(7420) < $icaAnnouncerSkullFee){ next; mes "[Loki]"; mes "You don't have enough Skull."; close; }
-						delitem 7420, $icaSkullFee; 
+						delitem 7420, $icaSkullFee;
 						set #SEDUCTIVE, 1;
 						break;
 					case 4: if(countitem($icaAnnouncerItemFee) < $icaAnnouncerItemAmountFee){ next; mes "[Loki]"; mes "You don't have enough "+getitemname($icaAnnouncerItemFee)+"."; close; }
-						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee; 
+						delitem $icaAnnouncerItemFee, $icaAnnouncerItemAmountFee;
 						set #SEDUCTIVE, 1;
 						break;
 					default: break;
@@ -1587,11 +1587,11 @@ L_2again1:
 	end;
 	 }
 	close;
- 
+
 OnPvPReset:
 	set Kill, 0;
 	set Death, 0;
-	set KillingStreak, 0; 
+	set KillingStreak, 0;
 	set MultiKill, 0;
 	set KillingSpree, 0;
 	set Dominating, 0;
@@ -1629,7 +1629,7 @@ function	script	KDR_Calculator	{
 		}
 	}
 	if(getarg(0) < getarg(1)){
-		if(getarg(0)){ 
+		if(getarg(0)){
 			set .@i, (getarg(0)*10)/getarg(1);
 			set .@j, ((getarg(0)*10)%getarg(1))*10/getarg(1);
 		return "0."+.@i +.@j;
@@ -1638,3 +1638,6 @@ function	script	KDR_Calculator	{
 		}
 	}
 }
+
+// -- NPC DUPLICATES --
+celestiaj,38,89,5	duplicate(PvP Ladder[Loki])	PvP Ladder[Loki]#maintown1	467

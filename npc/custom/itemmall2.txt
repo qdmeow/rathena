@@ -101,3 +101,9 @@ OnInit:
 	waitingroom	"Exit to maintown",0;
 	end;
 }
+
+// Portal to ItemMall
+// Define a warp point
+// <from map name>,<fromX>,<fromY>,<facing>%TAB%warp%TAB%<warp name>%TAB%<spanx>,<spany>,<to map name>,<toX>,<toY>
+
+celestiaj,71,91,0	warp	itemmallwarp1	1,1,quiz_02,337,74
