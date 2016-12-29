@@ -662,7 +662,7 @@
 1364,Great_Axe,Great Axe,5,20,,1800,187,,1,0,0x000444A2,7,2,34,4,44,1,7,{ bonus2 bAddSkillBlow,"MC_MAMMONITE",5; bonus2 bAddEff,Eff_Stun,1500; },{},{}
 1365,Sabbath,Sabbath,5,20,,2300,120,,1,0,0x000444A2,7,2,34,4,44,1,7,{},{},{}
 1366,Right_Epsilon,Light Epsilon,5,20,,2300,180,,1,0,0x000444A2,7,2,34,4,44,1,7,{ bonus bAtkEle,Ele_Holy; skill "AL_HEAL",3; bonus2 bAddRace,RC_Demon,3; },{},{}
-1367,Slaughter,Slaughter,5,20,,2500,120,,1,0,0x000444A2,7,2,34,4,44,1,7,{ bonus bAtkEle,Ele_Earth; bonus bIgnoreDefRace,RC_Brute; bonus2 bComaRace,RC_Brute,40; },{},{}
+1367,Slaughter,Slaughter,5,20,,2500,120,,1,0,0x000444A2,7,2,34,4,44,1,7,{},{},{}
 1368,Tomahawk,Tomahawk,5,20,,2500,165,,1,0,0x000444A2,7,2,34,4,44,1,7,{ bonus bAtkEle,Ele_Wind; skill "ITM_TOMAHAWK",1; },{},{}
 1369,Guillotine,Guillotine,5,20,,3000,215,,1,0,0x000444A2,7,2,34,4,44,1,7,{ bonus2 bComaRace,RC_DemiHuman,30; bonus2 bComaRace,RC_Player,30; bonus2 bSPDrainValueRace,RC_DemiHuman,2; bonus2 bSPDrainValueRace,RC_Player,2; bonus2 bSPGainRace,RC_DemiHuman,20; bonus2 bSPGainRace,RC_Player,20; },{},{}
 1370,Doom_Slayer,Doom Slayer,5,20,,6000,10,,1,0,0x000444A2,7,2,34,4,80,1,7,{ bonus bAspdRate,-40; bonus bUseSPrate,100; if(readparam(bStr)>=95){ bonus bBaseAtk,340; bonus2 bAddEff,Eff_Stun,3000; bonus bBreakArmorRate,500; } },{},{}
