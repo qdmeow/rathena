@@ -6552,7 +6552,7 @@
 18500,Cheer_Scarf6,Cheer Scarf6,4,0,,0,,0,,0,0xFFFFFFFF,7,2,1,,1,0,369,{},{},{}
 18501,Cheer_Scarf8,Cheer Scarf8,4,0,,0,,0,,0,0xFFFFFFFF,7,2,1,,1,0,369,{},{},{}
 18502,Cheer_Scarf10,Cheer Scarf10,4,0,,0,,0,,0,0xFFFFFFFF,7,2,1,,1,0,369,{},{},{}
-18503,Majestic_Devil,Small Devil Horns,4,20,,100,,2,,0,0xFFFFFFFF,7,2,512,,1,0,562,{ bonus bAtkRate,5; bonus bMatkRate,5; bonus bMaxHPRate,10; bonus bMaxSPRate,10; },{},{}
+18503,Majestic_Devil,Small Devil Horns,4,20,,100,,2,,0,0xFFFFFFFF,7,2,512,,1,0,562,{ bonus bAtkRate,0; bonus bMatkRate,0; bonus bMaxHPRate,0; bonus bMaxSPRate,0; },{},{}
 18505,Umbala_Spirit,Umbala Spirit,4,0,,200,,1,,1,0xFFFFFFFF,7,2,1,,30,0,675,{ bonus bVit,1; },{},{}
 18506,Hattah_Black,Hattah Black,4,12000,,4000,,2,,1,0xFFFFFFFF,7,2,769,,1,1,676,{},{},{}
 18507,Elven_Ears_,Elven Ears,4,20,,100,,0,,1,0xFFFFFFFE,7,2,512,,70,0,177,{},{},{}
