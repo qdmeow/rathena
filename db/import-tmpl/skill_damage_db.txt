@@ -36,3 +36,4 @@
 // AB_ADORAMUS,1,6,50,0,10,15 // In PVP and GVG, players deal +50% damage to other players, +0% to mobs, +10% to bosses, and +15% to other with Adoramus.
 
 AL_HOLYLIGHT,1,7,25,25,25 // In PVP/GVG and normal maps, players deal +25% damage to other players, +25% to mobs and +25% to bosses with Holy Light.
+NJ_ISSEN,1,7,25,25,25 // In PVP/GVG and normal maps, players deal +25% damage to other players, +25% to mobs and +25% to bosses with Final Strike.
