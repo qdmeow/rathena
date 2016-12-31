@@ -87,8 +87,8 @@
 40022,Two_Handed_Axe_of_Uber,Two Handed Axe of Uber,5,50000000,,1500,200,,1,4,0x000444A2,63,2,34,4,160,1,7,{ bonus bAtk,15; bonus bStr,4; bonus bDex,4; bonus bVit,3; skill "ITM_TOMAHAWK",1; },{},{}
 40023,Violin_of_Uber,Violin of Uber,5,50000000,,10,100,,1,4,0x00080000,63,1,2,4,160,1,13,{ bonus bAgi,4; bonus bDex,4; bonus bFlee,15; },{},{}
 40024,Wire_of_Uber,Wire of Uber,5,50000000,,10,100,,2,4,0x00080000,63,0,2,4,160,1,14,{ bonus bAgi,4; bonus bDex,4; bonus bFlee,15; },{},{}
-40025,Revolver_of_Uber,Revolver of Uber,5,50000000,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{ bonus bDex,10; },{},{}
-40026,Huuma_Shuriken_of_Uber,Huuma Shuriken of Uber,5,50000000,,10,200,,1,4,0x22000000,63,2,34,4,160,1,22,{ bonus bAgi,5; bonus bVit,10; },{},{}
+40025,Revolver_of_Uber,Revolver of Uber,5,50000000,,10,200,,7,4,0x41000000,63,2,34,4,160,1,17,{ bonus bDex,10; bonus bMaxHPrate,30; bonus bDef,-50; bonus bMdef,-50; },{},{}
+40026,Huuma_Shuriken_of_Uber,Huuma Shuriken of Uber,5,50000000,,10,200,,1,4,0x22000000,63,2,34,4,160,1,22,{ bonus bAgi,5; bonus bVit,10; bonus bMaxHPrate,70; bonus bDef,-50; bonus bMdef,-50; },{},{}
 40027,Book_of_Uber,Book of Uber,5,50000000,,10,100,,1,4,0x00410100,63,2,2,4,160,1,15,{ bonus bMatkRate,10; bonus bInt,4; bonus bVit,4; bonus bStr,4; bonus bAtkspd,5; },{},{}
 40028,Rojak_Skateboard,Rojak Skateboard,4,10,,10,,,,,0xFFFFFFFF,63,2,1,,,1,1545,{ bonus bSpeedRate,35; },{},{}
 40029,Red_Cat_Ears_Beret,Red Cat Ears Beret,4,10,,,,,,4,0xFFFFFFFF,63,2,256,,,1,1546,{ bonus bAllStats,3; },{},{}
